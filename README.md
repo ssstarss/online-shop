@@ -28,4 +28,58 @@ This project is developed as part of the RSSchool JavaScript Frontend Course. Fo
 - [Sviatlana Vilchynskaya](https://github.com/sviatlana-vilchynskaya)
 - [Angelina Baranova](https://github.com/gerlinda137)
 
+## Installation
+
+To run the project locally, follow these steps:
+
+1. Clone this repository to your local machine.
+2. Navigate to the project directory.
+3. Run `npm install` to install all necessary dependencies.
+4. Start the development server by running `npm run serve`.
+
+# Available Scripts
+
+In the project directory, you can run the following scripts:
+
+```
+npm run lint
+```
+
+Runs ESLint to check for code style and potential errors in TypeScript files.
+
+```
+npm run lint:fix
+```
+
+Runs ESLint with the `--fix` option to automatically fix linting errors in TypeScript files.
+
+```
+npm run format
+```
+
+Runs Prettier to format TypeScript and CSS files according to the configured rules.
+
+```
+npm test
+```
+
+Runs Jest to execute tests and verify the functionality of the project.
+
+```
+npm run build
+```
+
+Runs Webpack to build the project for production deployment.
+
+```
+npm run serve
+```
+
+Runs Webpack Dev Server to serve the project in development mode. Opens the project in the default web browser.
+
+```
+npm run watch
+```
+
+Runs Webpack in watch mode to automatically rebuild the project whenever changes are detected.
 
