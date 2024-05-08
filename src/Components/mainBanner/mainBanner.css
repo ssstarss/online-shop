@@ -1,0 +1,60 @@
+.mainBanner {
+  display: flex;
+  align-items: center;
+  width: 84%;
+  margin: auto;
+  background: linear-gradient(#f5f5f5, 50%, white);
+  padding: 40px;
+}
+.mainBannerWelcome {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 16px;
+  color: #3d3d3d;
+}
+.mainBannerSlogan {
+  font-size: 70px;
+  font-weight: 900;
+  line-height: 70px;
+  color: #3d3d3d;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  font-family: 'Cera Pro Black';
+}
+
+.sloganGreen {
+  color: #46a358;
+}
+
+.mainBannerInfo {
+  width: 57%;
+}
+
+.mainBannerImgWrapper {
+  width: 43%;
+  height: 518px;
+}
+.mainBannerImgBig {
+  width: 100%;
+  height: 100%;
+  background-image: url('plantForMainBanner.png');
+  background-repeat: no-repeat;
+}
+
+.mainBannerDescription {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 16px;
+  letter-spacing: 10%;
+  color: #3d3d3d;
+}
+
+.mainBannerButton {
+  margin-top: 40px;
+  width: 140px;
+  height: 40px;
+  color: white;
+  background-color: #46a358;
+  border: 1px solid #46a358;
+  border-radius: 6px;
+}

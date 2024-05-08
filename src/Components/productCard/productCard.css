@@ -1,0 +1,15 @@
+.productsList {
+  width: 840px;
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 45px;
+}
+.productCardWrapper {
+  width: 250px;
+  height: 350px;
+}
+
+.productImg {
+  width: 250px;
+  height: 250px;
+}

@@ -1,0 +1,13 @@
+.MainPageCatalogue {
+  display: flex;
+  width: 84%;
+  height: 1244px;
+}
+.leftSideWrapper {
+  width: 20%;
+}
+
+.rightSideWrapper {
+  width: 80%;
+}
+
