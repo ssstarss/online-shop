@@ -1,8 +1,10 @@
 import { Component } from '../baseComponent';
 import { IProduct } from '../../interfaces/interfaces';
 import './productCard.css';
+
 export default class ProductCard extends Component<HTMLElement> {
   product: IProduct;
+
   constructor(product: IProduct) {
     super({
       tag: 'div',
@@ -30,10 +32,9 @@ export default class ProductCard extends Component<HTMLElement> {
     const productPrice = new Component({
       tag: 'div',
       className: 'productPrice',
-      txt:
-        (
-          this.product.masterData.current.masterVariant.prices[0].value.centAmount / 100
-        ).toString() + '$',
+      txt: `${(
+        this.product.masterData.current.masterVariant.prices[0].value.centAmount / 100
+      ).toString()}$`,
     });
     this.add(productPrice);
   }
