@@ -1,0 +1,20 @@
+.registrationForm {
+  display: flex;
+  flex-direction: column;
+  font-family: 'Cera Pro';
+}
+
+.registrationFormText {
+  font-size: 13px;
+  margin-top: 0px;
+  margin-bottom: 14px;
+}
+
+.inputField {
+  width: 300px;
+  height: 40px;
+  border: 1px solid #eaeaea;
+  border-radius: 5px;
+  margin-bottom: 16px;
+  padding-left: 14px;
+}
