@@ -32,6 +32,23 @@
   box-sizing: border-box;
 }
 
+:root {
+  --bg: #fff;
+  --base-txt: #3d3d3d;
+  --on-accent-txt: #fff;
+  --accent-color: #46a358;
+  --input-border: #eaeaea;
+  --placeholder-txt: #a5a5a5;
+}
+
 html {
   font-family: 'CeraPro', sans-serif;
+  background-color: var(--bg);
+  color: var(--base-txt);
+}
+
+.container {
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
 }
