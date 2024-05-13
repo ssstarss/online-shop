@@ -3,6 +3,11 @@ export interface BaseComponentParams {
   id?: string;
   classNames: Array<string>;
   text?: string;
+  type?: string;
+  required?: boolean;
+  placeholder?: string;
+  pattern?: string;
+  value?: string;
   callback?: () => void;
 }
 
@@ -33,7 +38,13 @@ export class BaseComponent {
     this.setCssClasses(params.classNames);
     this.setTextContent(params.text);
     if (params.callback) this.element.onclick = params.callback;
-    // if (params.callback) this.setCallback(params.callback);
+    if (params.tag === 'input') {
+      if (params.type) (this.element as HTMLInputElement).type = params.type;
+      if (params.required) (this.element as HTMLInputElement).required = params.required;
+      if (params.placeholder) (this.element as HTMLInputElement).placeholder = params.placeholder;
+      if (params.pattern) (this.element as HTMLInputElement).pattern = params.pattern;
+      if (params.value) (this.element as HTMLInputElement).value = params.value;
+    }
   }
 
   setCssClasses(cssClasses = ['']) {
@@ -43,10 +54,4 @@ export class BaseComponent {
   setTextContent(text = '') {
     this.element.textContent = text;
   }
-
-  /* setCallback(callback) {
-    if (typeof callback === 'function') {
-      this.element.addEventListener('click', (event) => callback(event));
-    }
-  } */
 }
