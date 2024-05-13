@@ -1,14 +1,19 @@
 const createElement = <K extends keyof HTMLElementTagNameMap>(
   tag: K,
-  className: string,
+  className: string | string[],
   type?: string,
   placeholder?: string,
   required?: boolean,
-  disabled?: boolean
+  disabled?: boolean,
+  href?: string,
+  target?: string
 ): HTMLElementTagNameMap[K] => {
   const element = document.createElement(tag);
-  element.className = className;
-
+  if (Array.isArray(className)) {
+    element.className = className.join(' ');
+  } else {
+    element.className = className;
+  }
   switch (tag) {
     case 'input':
       if (type) {
@@ -27,6 +32,14 @@ const createElement = <K extends keyof HTMLElementTagNameMap>(
       }
       if (disabled) {
         (element as HTMLButtonElement).disabled = true;
+      }
+      break;
+    case 'a':
+      if (href) {
+        (element as HTMLAnchorElement).href = href;
+      }
+      if (target) {
+        (element as HTMLAnchorElement).target = target;
       }
       break;
     default:
