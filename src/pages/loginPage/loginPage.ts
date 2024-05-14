@@ -1,6 +1,7 @@
+import './_loginPage.scss';
 import createElement from '../../helpers/createElement';
 import { createEmailInput, createPasswordInput } from '../../components/inputs/inputs';
-import './_loginPage.scss';
+import { generateSubmitBtn } from '../../components/btns/btns';
 
 const loginPage = createElement('section', 'login');
 const loginContainer = createElement('div', 'login__container');
@@ -29,11 +30,9 @@ const emailInput = createEmailInput(
   'almamun_uxui@outlook.com'
 ) as HTMLInputElement;
 
-// emailInput.addEventListener('keypress', () => {
-//   validateEmail(emailInput);
-// });
-
 const passwordInput = createPasswordInput(['login__input', 'login__input--password'], '********');
+
+const loginBtn = generateSubmitBtn('login-btn', 'Login');
 
 loginPage.append(loginContainer);
 loginContainer.append(loginHeader);
@@ -41,6 +40,6 @@ loginHeader.append(loginLink);
 loginHeader.append(registerLink);
 loginContainer.append(loginForm);
 loginForm.append(loginFormTitle);
-loginForm.append(emailInput, passwordInput);
+loginForm.append(emailInput, passwordInput, loginBtn);
 
 export default loginPage;
