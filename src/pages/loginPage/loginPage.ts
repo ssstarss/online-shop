@@ -24,15 +24,14 @@ registerLink.textContent = 'Register';
 const loginForm = createElement('form', 'login__form');
 const loginFormTitle = createElement('h1', 'login__form-title');
 loginFormTitle.textContent = 'Enter your username and password to login.';
-
+const loginBtn = generateSubmitBtn('login-btn', 'Login');
 const emailInput = createEmailInput(
   ['login__input', 'login__input--login'],
-  'almamun_uxui@outlook.com'
+  'almamun_uxui@outlook.com',
+  loginBtn
 ) as HTMLInputElement;
 
 const passwordInput = createPasswordInput(['login__input', 'login__input--password'], '********');
-
-const loginBtn = generateSubmitBtn('login-btn', 'Login');
 
 loginPage.append(loginContainer);
 loginContainer.append(loginHeader);

@@ -15,11 +15,15 @@ function togglePasswordVisibility(passwordInput: HTMLInputElement, toggleBtn: HT
   }
 }
 
-export function createEmailInput(inputClassName: string | string[], placeholder: string) {
+export function createEmailInput(
+  inputClassName: string | string[],
+  placeholder: string,
+  submitBtn: HTMLButtonElement
+) {
   const inputContainer = createElement('div', 'input-container');
   const emailInput = createElement('input', inputClassName, 'email', placeholder, true);
   const errorMessage = createElement('p', ['error-message', 'error-message--hidden']);
-  emailInput.addEventListener('keyup', () => validateEmail(emailInput, errorMessage));
+  emailInput.addEventListener('keyup', () => validateEmail(emailInput, errorMessage, submitBtn));
   errorMessage.textContent = 'Lorem Ipsum';
   inputContainer.append(emailInput);
   inputContainer.append(errorMessage);

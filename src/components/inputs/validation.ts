@@ -1,7 +1,12 @@
-export function validateEmail(input: HTMLInputElement, errorTxt: HTMLParagraphElement) {
+export function validateEmail(
+  input: HTMLInputElement,
+  errorTxt: HTMLParagraphElement,
+  submitBtn: HTMLButtonElement
+) {
   const regex = /^\S+@\S+\.\S+$/;
   const inputValue = input.value;
   const errorMessage = errorTxt;
+  const submitButton = submitBtn;
 
   function isValidEmail(email: string) {
     return regex.test(email);
@@ -11,11 +16,13 @@ export function validateEmail(input: HTMLInputElement, errorTxt: HTMLParagraphEl
   if (validationResult) {
     input.classList.remove('login__input--error');
     errorMessage.classList.add('error-message--hidden');
+    submitButton.removeAttribute('disabled');
     return true;
   }
   errorMessage.classList.remove('error-message--hidden');
   input.classList.add('login__input--error');
   errorMessage.textContent = `Valid email: no whitespace, includes '@' and valid domain name.`;
+  submitButton.setAttribute('disabled', '');
   return false;
 }
 
