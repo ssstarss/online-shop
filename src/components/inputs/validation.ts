@@ -26,7 +26,11 @@ export function validateEmail(
   return false;
 }
 
-export function validatePassword(input: HTMLInputElement, errorTxt: HTMLParagraphElement) {
+export function validatePassword(
+  input: HTMLInputElement,
+  errorTxt: HTMLParagraphElement,
+  submitBtn: HTMLButtonElement
+) {
   const inputValue = input.value;
 
   function isPasswordLengthValid(value: string) {
@@ -59,30 +63,39 @@ export function validatePassword(input: HTMLInputElement, errorTxt: HTMLParagrap
   ): boolean {
     const passwordValue = value;
     const errorMessage = errorTxtMessage;
+    const submitButton = submitBtn;
+
     if (!isPasswordLengthValid(passwordValue)) {
       errorMessage.textContent = `Password must be at least 8 characters long.`;
+      submitButton.setAttribute('disabled', '');
       return false;
     }
     if (!containsUppercase(passwordValue)) {
       errorMessage.textContent = `Password must contain at least one uppercase letter (A-Z).`;
+      submitButton.setAttribute('disabled', '');
       return false;
     }
     if (!containsLowercase(passwordValue)) {
       errorMessage.textContent = `Password must contain at least one lowercase letter (a-z).`;
+      submitButton.setAttribute('disabled', '');
       return false;
     }
     if (!containsDigit(passwordValue)) {
       errorMessage.textContent = `Password must contain at least one digit (0-9).`;
+      submitButton.setAttribute('disabled', '');
       return false;
     }
     if (!containsSpecialCharacter(passwordValue)) {
       errorMessage.textContent = `Password must contain at least one special character (e.g., !@#$%^&*).`;
+      submitButton.setAttribute('disabled', '');
       return false;
     }
     if (!hasNoLeadingOrTrailingWhitespace(passwordValue)) {
       errorMessage.textContent = `Password must not contain leading or trailing whitespace.`;
+      submitButton.setAttribute('disabled', '');
       return false;
     }
+    submitButton.removeAttribute('disabled');
     return true;
   };
   if (validationResult(inputValue, errorTxt)) {

@@ -21,7 +21,7 @@ export function createEmailInput(
   submitBtn: HTMLButtonElement
 ) {
   const inputContainer = createElement('div', 'input-container');
-  const emailInput = createElement('input', inputClassName, 'email', placeholder, true);
+  const emailInput = createElement('input', inputClassName, 'email', placeholder);
   const errorMessage = createElement('p', ['error-message', 'error-message--hidden']);
   emailInput.addEventListener('keyup', () => validateEmail(emailInput, errorMessage, submitBtn));
   errorMessage.textContent = 'Lorem Ipsum';
@@ -31,16 +31,22 @@ export function createEmailInput(
   return inputContainer;
 }
 
-export function createPasswordInput(inputClassName: string | string[], placeholder: string) {
+export function createPasswordInput(
+  inputClassName: string | string[],
+  placeholder: string,
+  submitBtn: HTMLButtonElement
+) {
   const inputContainer = createElement('div', 'input-container');
   const passwordWrapper = createElement('div', 'password-wrapper');
-  const passwordInput = createElement('input', inputClassName, 'password', placeholder, true);
+  const passwordInput = createElement('input', inputClassName, 'password', placeholder);
   const showPswrdToggle = createElement('button', 'toggle-password-btn', 'button');
   showPswrdToggle.addEventListener('click', () => {
     togglePasswordVisibility(passwordInput, showPswrdToggle);
   });
   const errorMessage = createElement('p', ['error-message', 'error-message--hidden']);
-  passwordInput.addEventListener('keyup', () => validatePassword(passwordInput, errorMessage));
+  passwordInput.addEventListener('keyup', () =>
+    validatePassword(passwordInput, errorMessage, submitBtn)
+  );
   errorMessage.textContent = 'Lorem Ipsum';
   inputContainer.append(passwordWrapper);
   passwordWrapper.append(passwordInput, showPswrdToggle);
