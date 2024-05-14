@@ -1,7 +1,9 @@
-import mainPage from '../pages/mainPage/mainPage';
+import mainContainer from '../Components/mainContainer/mainContainer';
+import { navigate } from '../utils/router';
 
 const App = () => {
-  document.body.append(mainPage);
+  navigate(window.location.pathname);
+  document.body.append(mainContainer);
 };
 
 document.addEventListener('DOMContentLoaded', App);
