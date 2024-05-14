@@ -46,6 +46,10 @@ html {
   font-family: 'CeraPro', sans-serif;
   background-color: var(--bg);
   color: var(--base-txt);
+  height: 100%;
+}
+body {
+  height: 100%;
 }
 
 .container {
@@ -65,7 +69,14 @@ a:hover {
   transition: 0.5s;
 }
 
-input[type='password'] {
-  font-family: inherit;
-  letter-spacing: 5px;
+button {
+  cursor: pointer;
+  background-color: transparent;
+  border: none;
+  transition: 0.5s;
+}
+
+button:hover {
+  opacity: 0.7;
+  transition: 0.5s;
 }
