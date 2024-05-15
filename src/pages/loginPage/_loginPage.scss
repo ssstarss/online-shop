@@ -1,0 +1,49 @@
+.login {
+  height: 100%;
+
+  &__container {
+    max-width: 300px;
+    width: 100%;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__header {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 50px 0;
+    margin-bottom: 3px;
+  }
+
+  &__link {
+    font-size: 20px;
+    font-weight: 500;
+    color: inherit;
+    padding: 0 12px;
+    position: relative;
+  }
+
+  &__link.login__link--active {
+    color: var(--accent-color);
+  }
+
+  &__link:not(:last-child)::after {
+    content: '';
+    width: 1px;
+    height: 1rem;
+    background-color: var(--base-txt);
+    position: absolute;
+    right: 0;
+    top: 0;
+    transform: translate(0, 30%);
+  }
+
+  &__form-title {
+    margin: 0;
+    font-weight: 400;
+    font-size: 13px;
+    margin-bottom: 14px;
+  }
+}

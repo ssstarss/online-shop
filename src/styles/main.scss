@@ -1,1 +1,82 @@
 @import 'normalize.css';
+
+@font-face {
+  font-family: 'CeraPro';
+  src: url('../fonts/CeraPro-Bold.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'CeraPro';
+  src: url('../fonts/CeraPro-Medium.woff') format('woff');
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'CeraPro';
+  src: url('../fonts/CeraPro-Regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'CeraPro';
+  src: url('../fonts/CeraPro-Light.woff') format('woff');
+  font-weight: 300;
+  font-style: normal;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --bg: #fff;
+  --base-txt: #3d3d3d;
+  --on-accent-txt: #fff;
+  --accent-color: #46a358;
+  --input-border: #eaeaea;
+  --placeholder-txt: #a5a5a5;
+  --error: #f03800;
+}
+
+html {
+  font-family: 'CeraPro', sans-serif;
+  background-color: var(--bg);
+  color: var(--base-txt);
+  height: 100%;
+}
+body {
+  height: 100%;
+}
+
+.container {
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+  transition: 0.5s;
+}
+
+a:hover {
+  opacity: 0.7;
+  transition: 0.5s;
+}
+
+button {
+  cursor: pointer;
+  background-color: transparent;
+  border: none;
+  transition: 0.5s;
+}
+
+button:hover {
+  opacity: 0.7;
+  transition: 0.5s;
+}
