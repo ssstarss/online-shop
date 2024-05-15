@@ -1,3 +1,12 @@
+import {
+  isPasswordLengthValid,
+  containsUppercase,
+  containsLowercase,
+  containsDigit,
+  containsSpecialCharacter,
+  hasNoLeadingOrTrailingWhitespace,
+} from '../../helpers/validationRegexFuncs';
+
 export function validateEmail(
   input: HTMLInputElement,
   errorTxt: HTMLParagraphElement,
@@ -32,30 +41,6 @@ export function validatePassword(
   submitBtn: HTMLButtonElement
 ) {
   const inputValue = input.value;
-
-  function isPasswordLengthValid(value: string) {
-    return value.length >= 8;
-  }
-
-  function containsUppercase(value: string) {
-    return /[A-Z]/.test(value);
-  }
-
-  function containsLowercase(value: string) {
-    return /[a-z]/.test(value);
-  }
-
-  function containsDigit(value: string) {
-    return /\d/.test(value);
-  }
-
-  function containsSpecialCharacter(value: string) {
-    return /[!@#$%^&*]/.test(value);
-  }
-
-  function hasNoLeadingOrTrailingWhitespace(value: string) {
-    return /^\S(.*\S)?$/.test(value);
-  }
 
   const validationResult = function fireAllChecks(
     value: string,
