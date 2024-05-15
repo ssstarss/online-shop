@@ -3,28 +3,31 @@ import createElement from '../../helpers/createElement';
 import { createEmailInput, createPasswordInput } from '../../components/inputs/inputs';
 import generateSubmitBtn from '../../components/btns/btns';
 
-const loginPage = createElement('section', 'login');
-const loginContainer = createElement('div', 'login__container');
-const loginHeader = createElement('header', 'login__header');
+const loginPage = createElement({ tag: 'section', className: 'login' });
+const loginContainer = createElement({ tag: 'div', className: 'login__container' });
+const loginHeader = createElement({ tag: 'header', className: 'login__header' });
 
-const loginLink = createElement(
-  'a',
-  ['login__link', 'login__link--active'],
-  '',
-  '',
-  undefined,
-  undefined,
-  '/login'
-);
-loginLink.textContent = 'Login';
+const loginLink = createElement({
+  tag: 'a',
+  className: ['login__link', 'login__link--active'],
+  href: '/login',
+  textContent: 'Login',
+});
 
-const registerLink = createElement('a', 'login__link', '', '', undefined, undefined, '/register');
-registerLink.textContent = 'Register';
+const registerLink = createElement({
+  tag: 'a',
+  className: 'login__link',
+  href: '/register',
+  textContent: 'Register',
+});
 
-const loginForm = createElement('form', 'login__form');
-const loginFormTitle = createElement('h1', 'login__form-title');
-loginFormTitle.textContent = 'Enter your username and password to login.';
-const loginBtn = generateSubmitBtn('login-btn', 'Login');
+const loginForm = createElement({ tag: 'form', className: 'login__form' });
+const loginFormTitle = createElement({
+  tag: 'h1',
+  className: 'login__form-title',
+  textContent: 'Enter your username and password to login.',
+});
+const loginBtn = generateSubmitBtn('login-btn', 'Login') as HTMLButtonElement;
 loginBtn.addEventListener('click', (e) => {
   e.preventDefault();
 });
