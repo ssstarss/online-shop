@@ -42,7 +42,7 @@ const passwordInput = createPasswordInput(
 
 loginPage.append(loginContainer);
 loginContainer.append(loginHeader);
-loginHeader.append(loginLink, registerLink));
+loginHeader.append(loginLink, registerLink);
 loginContainer.append(loginForm);
 loginForm.append(loginFormTitle, emailInput, passwordInput, loginBtn);
 
