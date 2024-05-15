@@ -1,45 +1,53 @@
+interface ElementParams<K extends keyof HTMLElementTagNameMap> {
+  tag: K;
+  className: string | string[];
+  type?: string;
+  placeholder?: string;
+  required?: boolean;
+  disabled?: boolean;
+  href?: string;
+  target?: string;
+  textContent?: string;
+}
+
 const createElement = <K extends keyof HTMLElementTagNameMap>(
-  tag: K,
-  className: string | string[],
-  type?: string,
-  placeholder?: string,
-  required?: boolean,
-  disabled?: boolean,
-  href?: string,
-  target?: string
+  params: ElementParams<K>
 ): HTMLElementTagNameMap[K] => {
-  const element = document.createElement(tag);
-  if (Array.isArray(className)) {
-    element.className = className.join(' ');
-  } else {
-    element.className = className;
+  const element = document.createElement(params.tag);
+  if (params.textContent) {
+    element.textContent = params.textContent;
   }
-  switch (tag) {
+  if (Array.isArray(params.className)) {
+    element.className = params.className.join(' ');
+  } else {
+    element.className = params.className;
+  }
+  switch (params.tag) {
     case 'input':
-      if (type) {
-        element.setAttribute('type', type);
+      if (params.type) {
+        element.setAttribute('type', params.type);
       }
-      if (placeholder) {
-        (element as HTMLInputElement).placeholder = placeholder;
+      if (params.placeholder) {
+        (element as HTMLInputElement).placeholder = params.placeholder;
       }
-      if (required) {
+      if (params.required) {
         (element as HTMLInputElement).required = true;
       }
       break;
     case 'button':
-      if (type) {
-        element.setAttribute('type', type);
+      if (params.type) {
+        element.setAttribute('type', params.type);
       }
-      if (disabled) {
+      if (params.disabled) {
         (element as HTMLButtonElement).disabled = true;
       }
       break;
     case 'a':
-      if (href) {
-        (element as HTMLAnchorElement).href = href;
+      if (params.href) {
+        (element as HTMLAnchorElement).href = params.href;
       }
-      if (target) {
-        (element as HTMLAnchorElement).target = target;
+      if (params.target) {
+        (element as HTMLAnchorElement).target = params.target;
       }
       break;
     default:
