@@ -42,10 +42,8 @@ const passwordInput = createPasswordInput(
 
 loginPage.append(loginContainer);
 loginContainer.append(loginHeader);
-loginHeader.append(loginLink);
-loginHeader.append(registerLink);
+loginHeader.append(loginLink, registerLink));
 loginContainer.append(loginForm);
-loginForm.append(loginFormTitle);
-loginForm.append(emailInput, passwordInput, loginBtn);
+loginForm.append(loginFormTitle, emailInput, passwordInput, loginBtn);
 
 export default loginPage;
