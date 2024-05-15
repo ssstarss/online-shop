@@ -1,9 +1,9 @@
-// import mainPage from '../pages/mainPage/mainPage';
-import loginPage from '../pages/loginPage/loginPage';
+import mainContainer from '../Components/mainContainer/mainContainer';
+import { navigate } from '../utils/router';
 
 const App = () => {
-  // document.body.append(mainPage);
-  document.body.append(loginPage);
+  navigate(window.location.pathname);
+  document.body.append(mainContainer);
 };
 
 document.addEventListener('DOMContentLoaded', App);
