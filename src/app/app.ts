@@ -1,4 +1,4 @@
-import mainContainer from '../Components/mainContainer/mainContainer';
+import mainContainer from '../components/mainContainer/mainContainer';
 import { navigate } from '../utils/router';
 
 const App = () => {
