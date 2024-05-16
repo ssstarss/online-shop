@@ -11,15 +11,25 @@
 }
 
 .inputField,
-.inputField:focus {
+.inputField:focus,
+.regFormSubmit {
   width: 300px;
   height: 40px;
   border: 1px solid #eaeaea;
   border-radius: 5px;
-  margin-bottom: 16px;
+
   padding-left: 14px;
 }
 
-.inputField:invalid {
-  border: 1px solid red;
+.errorTip {
+  opacity: 0%;
+  max-width: 300px;
+  color: #f03800;
+  font-size: 11px;
+  margin: 0;
+  padding: 5px 0;
+}
+
+.regFormSubmit {
+  background-color: #46a358;
 }

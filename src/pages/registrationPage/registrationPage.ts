@@ -1,4 +1,4 @@
-import { BaseComponent } from '../../components/baseComponent';
+import BaseComponent from '../../components/baseComponent';
 import RegistrationPageHeader from './registrationPageHeader/registrationPageHeader';
 import RegistrationForm from './registrationForm/registrationForm';
 import './registrationPage.css';

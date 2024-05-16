@@ -1,5 +1,5 @@
 import RegistrationPage from '../registrationPage/registrationPage';
-import { BaseComponent } from '../../components/baseComponent';
+import BaseComponent from '../../components/baseComponent';
 
 const mainPage = new BaseComponent({
   tag: 'div',
@@ -8,6 +8,6 @@ const mainPage = new BaseComponent({
 
 mainPage.setTextContent('MAINPAGE');
 const registrationPage = new RegistrationPage();
-mainPage.addElement(registrationPage);
+mainPage.element.append(registrationPage.element);
 
 export default mainPage;

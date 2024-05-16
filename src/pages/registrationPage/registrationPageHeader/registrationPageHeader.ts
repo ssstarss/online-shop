@@ -1,5 +1,5 @@
 import './registrationPageHeader.css';
-import { BaseComponent } from '../../../components/baseComponent';
+import BaseComponent from '../../../components/baseComponent';
 
 export default class RegistrationPageHeader extends BaseComponent {
   constructor() {
