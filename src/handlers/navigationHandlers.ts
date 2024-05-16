@@ -1,6 +1,6 @@
-// import { btn } from '../pages/registrationPage/registrationPage';
-// import { navigate } from '../utils/router';
+import { navigate } from '../utils/router';
+import { buttonHome } from '../pages/page404/page404';
 
-// btn.addEventListener('click', () => {
-//   navigate('/login');
-// });
+buttonHome.addEventListener('click', () => {
+  navigate('/');
+});
