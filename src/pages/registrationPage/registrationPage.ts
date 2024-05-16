@@ -1,8 +1,5 @@
 import createElement from '../../helpers/createElement';
 
-export const registrationPage = createElement('section', 'registration');
-export const btn = createElement('button', 'button', 'link');
-btn.textContent = 'LINK';
+const registrationPage = createElement({ tag: 'section', className: 'registration' });
 
-registrationPage.textContent = 'REGISTRATION PAGE';
-registrationPage.append(btn);
+export default registrationPage;
