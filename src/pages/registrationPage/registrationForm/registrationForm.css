@@ -1,0 +1,35 @@
+.registrationForm {
+  display: flex;
+  flex-direction: column;
+  font-family: 'Cera Pro';
+}
+
+.registrationFormText {
+  font-size: 13px;
+  margin-top: 0px;
+  margin-bottom: 14px;
+}
+
+.inputField,
+.inputField:focus,
+.regFormSubmit {
+  width: 300px;
+  height: 40px;
+  border: 1px solid #eaeaea;
+  border-radius: 5px;
+
+  padding-left: 14px;
+}
+
+.errorTip {
+  opacity: 0%;
+  max-width: 300px;
+  color: #f03800;
+  font-size: 11px;
+  margin: 0;
+  padding: 5px 0;
+}
+
+.regFormSubmit {
+  background-color: #46a358;
+}
