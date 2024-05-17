@@ -9,6 +9,7 @@ import { page404 } from '../pages/page404/page404';
 const root = '/';
 
 const router = new Navigo(root);
+const registrationPage = new RegistrationPage();
 
 router
   .on({
@@ -22,7 +23,7 @@ router
     },
     '/register': () => {
       mainContainer.innerHTML = '';
-      mainContainer.append(registrationPage);
+      mainContainer.append(registrationPage.element);
     },
   })
   .notFound(() => {

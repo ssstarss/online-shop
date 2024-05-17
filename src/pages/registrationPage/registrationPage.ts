@@ -1,5 +1,19 @@
-import createElement from '../../helpers/createElement';
+import BaseComponent from '../../components/baseComponent';
+import RegistrationPageHeader from './registrationPageHeader/registrationPageHeader';
+import RegistrationForm from './registrationForm/registrationForm';
+import './registrationPage.css';
 
-const registrationPage = createElement({ tag: 'section', className: 'registration' });
+export default class RegistrationPage extends BaseComponent {
+  constructor() {
+    super({
+      tag: 'div',
+      classNames: ['registrationPage'],
+      id: 'registrationPage',
+    });
 
-export default registrationPage;
+    const registrationPageHeader = new RegistrationPageHeader();
+    this.addElement(registrationPageHeader);
+    const registrationForm = new RegistrationForm();
+    this.addElement(registrationForm);
+  }
+}
