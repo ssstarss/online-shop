@@ -1,13 +1,14 @@
 import Navigo from 'navigo';
 
-import mainContainer from '../Components/mainContainer/mainContainer';
+import mainContainer from '../components/mainContainer/mainContainer';
 import loginPage from '../pages/loginPage/loginPage';
 import mainPage from '../pages/mainPage/mainPage';
-import { registrationPage } from '../pages/registrationPage/registrationPage';
+import RegistrationPage from '../pages/registrationPage/registrationPage';
 
 const root = '/';
 
 const router = new Navigo(root);
+const registrationPage = new RegistrationPage();
 
 router
   .on({
@@ -21,7 +22,7 @@ router
     },
     '/register': () => {
       mainContainer.innerHTML = '';
-      mainContainer.append(registrationPage);
+      mainContainer.append(registrationPage.element);
     },
   })
   .notFound(() => {
