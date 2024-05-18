@@ -2,6 +2,7 @@ import './_loginPage.scss';
 import createElement from '../../helpers/createElement';
 import { createEmailInput, createPasswordInput } from '../../components/inputs/inputs';
 import generateSubmitBtn from '../../components/btns/btns';
+import loginFunc from '../../utils/loginFunc';
 
 const loginPage = createElement({ tag: 'section', className: 'login' });
 const loginContainer = createElement({ tag: 'div', className: 'login__container' });
@@ -28,9 +29,7 @@ const loginFormTitle = createElement({
   textContent: 'Enter your username and password to login.',
 });
 const loginBtn = generateSubmitBtn('login-btn', 'Login') as HTMLButtonElement;
-loginBtn.addEventListener('click', (e) => {
-  e.preventDefault();
-});
+
 const emailInput = createEmailInput(
   ['login__input', 'login__input--login'],
   'almamun_uxui@outlook.com',
@@ -41,12 +40,19 @@ const passwordInput = createPasswordInput(
   ['login__input', 'login__input--password'],
   '********',
   loginBtn
-);
+) as HTMLInputElement;
 
 loginPage.append(loginContainer);
 loginContainer.append(loginHeader);
 loginHeader.append(loginLink, registerLink);
 loginContainer.append(loginForm);
-loginForm.append(loginFormTitle, emailInput, passwordInput, loginBtn);
+loginForm.append(loginFormTitle, emailInput, passwordInput);
+
+loginBtn.addEventListener('click', (e) => {
+  e.preventDefault();
+  loginFunc('.login__input--login', '.login__input--password');
+});
+
+loginForm.append(loginBtn);
 
 export default loginPage;

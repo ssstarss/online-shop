@@ -3,7 +3,11 @@ import {
   type AuthMiddlewareOptions,
   type HttpMiddlewareOptions,
 } from '@commercetools/sdk-client-v2';
-import { CustomerDraft, createApiBuilderFromCtpClient } from '@commercetools/platform-sdk';
+import {
+  CustomerDraft,
+  createApiBuilderFromCtpClient,
+  CustomerSignin,
+} from '@commercetools/platform-sdk';
 
 export default class Connection {
   projectKey: string;
@@ -63,16 +67,36 @@ export default class Connection {
     return result;
   }
 
+  // login(customerEmail: string, password: string) {
+  //   return this.returnCustomerByEmail(customerEmail)
+  //     .then(({ body }) => {
+  //       if (body.results.length > 0 && body.results[0].password !== password) {
+  //         return body.results[0].id;
+  //       }
+  //       return false;
+  //     })
+  //     .catch((error: Error) => {
+  //       return error;
+  //     });
+  // }
+
   login(customerEmail: string, password: string) {
-    return this.returnCustomerByEmail(customerEmail)
-      .then(({ body }) => {
-        if (body.results.length > 0 && body.results[0].password !== password) {
-          return body.results[0].id;
-        }
-        return false;
+    const customerCredentials: CustomerSignin = {
+      email: customerEmail,
+      password,
+    };
+
+    this.ctpClient
+      .execute({
+        uri: `/${this.projectKey}/login`,
+        method: 'POST',
+        body: JSON.stringify(customerCredentials),
+      })
+      .then((response: JSON) => {
+        console.log(response);
       })
       .catch((error: Error) => {
-        return error;
+        console.error(error);
       });
   }
 
