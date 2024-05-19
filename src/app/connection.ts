@@ -145,10 +145,9 @@ export default class Connection {
         body: JSON.stringify(customerCredentials),
       })
       .then((response: AuthResponse) => {
-        // console.log('success: ' + response);
-
         const { email } = response.body.customer;
         localStorage.setItem(email, email);
+        localStorage.setItem('logged', 'true');
         console.log(`user email: ${email}`);
       })
       .catch((error: Error) => {
