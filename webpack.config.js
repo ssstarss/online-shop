@@ -23,7 +23,7 @@ module.exports = {
         use: ['style-loader', 'css-loader', 'postcss-loader', 'sass-loader'],
       },
       {
-        test: /\.(png|jpg|gif|svg)$/i,
+        test: /\.(png|jpg|gif)$/i,
         type: 'asset/resource',
       },
       { test: /\.svg$/, use: 'svg-inline-loader' },
@@ -44,5 +44,6 @@ module.exports = {
     },
     port: 8080,
     historyApiFallback: true,
+    hot: true,
   },
 };
