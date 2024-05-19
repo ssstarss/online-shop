@@ -22,6 +22,10 @@ module.exports = {
         test: /\.(scss|css)$/,
         use: ['style-loader', 'css-loader', 'postcss-loader', 'sass-loader'],
       },
+      {
+        test: /\.(png|jpg|gif|svg)$/i,
+        type: 'asset/resource',
+      },
       { test: /\.svg$/, use: 'svg-inline-loader' },
     ],
   },

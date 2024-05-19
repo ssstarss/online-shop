@@ -2,8 +2,13 @@ import './registrationForm.css';
 import { CustomerDraft } from '@commercetools/platform-sdk';
 import BaseComponent from '../../../components/baseComponent';
 import Connection from '../../../app/connection';
+import PopUpMessage from './popUpMessage/popUpMessage';
+import PasswordInput from '../../../components/inputPassword/inputPassword';
+import AdressesBlock from '../../../components/adressesBLock/adressesBlock';
 
-const countriesArray = ['USA', 'Canada', 'United Kingdom'];
+type Mutable<T extends object> = {
+  -readonly [K in keyof T]: T[K];
+};
 
 export default class RegistrationForm extends BaseComponent {
   constructor() {
@@ -48,14 +53,7 @@ export default class RegistrationForm extends BaseComponent {
       tip: 'Please enter valid e-mail',
     });
 
-    const password = new BaseComponent({
-      tag: 'input',
-      classNames: ['password', 'inputField'],
-      type: 'text',
-      placeholder: 'Password',
-      pattern: /(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^ws]).{8,}/,
-      tip: 'Minimum 8 characters, at least 1 uppercase letter, 1 lowercase letter, and 1 number',
-    });
+    const password = new PasswordInput();
 
     const dateOfBirth = new BaseComponent({
       tag: 'input',
@@ -63,65 +61,20 @@ export default class RegistrationForm extends BaseComponent {
       type: 'date',
       required: true,
       placeholder: '',
-      tip: 'Please enter your birthDay',
+      tip: 'Our clients should be at least 13 years old',
     });
 
-    const adressesHeader = new BaseComponent({
-      tag: 'p',
-      classNames: ['regFormAdressesText'],
-      text: 'Enter your adress:',
-    });
+    const adressesBlock = new AdressesBlock();
+    this.addElement(adressesBlock);
 
-    const street = new BaseComponent({
-      tag: 'input',
-      classNames: ['regFormStreet', 'inputField'],
-      type: 'text',
-      placeholder: 'Street',
-      pattern: /^[A-Za-z0-9ws]{1,}$/,
-      tip: 'Please enter your street',
+    const popUpMessageCanvas = new BaseComponent({
+      tag: 'div',
+      classNames: ['popUpMessageCanvas'],
+      id: 'popUpMessageCanvas',
     });
-
-    const city = new BaseComponent({
-      tag: 'input',
-      classNames: ['regFormCity', 'inputField'],
-      type: 'text',
-      placeholder: 'City',
-      pattern: /^[A-Za-z]+$/,
-      tip: 'Please enter your city. No special characters or numbers',
-    });
-
-    const postalCode = new BaseComponent({
-      tag: 'input',
-      classNames: ['regFormPostal', 'inputField'],
-      type: 'text',
-      placeholder: 'Postal Code',
-      tip: 'Please enter correct Postal Code',
-    });
-
-    const country = new BaseComponent({
-      tag: 'input',
-      classNames: ['regFormCountry', 'inputField'],
-      type: 'text',
-      placeholder: 'Country',
-      tip: 'Please choose country',
-    });
-    (country.element as HTMLInputElement).setAttribute('list', 'countries');
-
-    const dataList = new BaseComponent({
-      tag: 'datalist',
-      classNames: ['dataList'],
-      id: 'countries',
-    });
-    country.addElement(dataList);
-
-    countriesArray.forEach((item) => {
-      const line = new BaseComponent({
-        tag: 'option',
-        classNames: ['countries'],
-      });
-      line.element.setAttribute('value', item);
-      dataList.addElement(line);
-    });
+    this.addElement(popUpMessageCanvas);
+    const popUpMessage = new PopUpMessage();
+    this.addElement(popUpMessage);
 
     const submitButton = new BaseComponent({
       tag: 'button',
@@ -131,40 +84,83 @@ export default class RegistrationForm extends BaseComponent {
       id: 'regFormSubmit',
       placeholder: '',
       callback: () => {
+        if ((adressesBlock.useSameChkBox.element as HTMLInputElement).checked) {
+          (adressesBlock.billingAdress.street.element as HTMLInputElement).value = (
+            adressesBlock.shippingAdress.street.element as HTMLInputElement
+          ).value;
+          (adressesBlock.billingAdress.city.element as HTMLInputElement).value = (
+            adressesBlock.shippingAdress.city.element as HTMLInputElement
+          ).value;
+          (adressesBlock.billingAdress.postalCode.element as HTMLInputElement).value = (
+            adressesBlock.shippingAdress.postalCode.element as HTMLInputElement
+          ).value;
+          (adressesBlock.billingAdress.country.element as HTMLInputElement).value = (
+            adressesBlock.shippingAdress.country.element as HTMLInputElement
+          ).value;
+          adressesBlock.billingAdress.street.isValid = true;
+          adressesBlock.billingAdress.city.isValid = true;
+          adressesBlock.billingAdress.postalCode.isValid = true;
+          adressesBlock.billingAdress.country.isValid = true;
+        }
+
         if (
           firstName.isValid &&
           lastName.isValid &&
           emailAdress.isValid &&
-          password.isValid &&
+          password.input.isValid &&
           dateOfBirth.isValid &&
-          street.isValid &&
-          city.isValid &&
-          postalCode.isValid &&
-          country
+          adressesBlock.shippingAdress.street.isValid &&
+          adressesBlock.shippingAdress.city.isValid &&
+          adressesBlock.shippingAdress.postalCode.isValid &&
+          adressesBlock.shippingAdress.country.isValid &&
+          adressesBlock.billingAdress.street.isValid &&
+          adressesBlock.billingAdress.city.isValid &&
+          adressesBlock.billingAdress.postalCode.isValid &&
+          adressesBlock.billingAdress.country.isValid
         ) {
-          const customer: CustomerDraft = {
+          const customer: Mutable<CustomerDraft> = {
             firstName: (firstName.element as HTMLInputElement).value,
             lastName: (lastName.element as HTMLInputElement).value,
             email: (emailAdress.element as HTMLInputElement).value,
-            password: (password.element as HTMLInputElement).value,
+            password: (password.input.element as HTMLInputElement).value,
             dateOfBirth: (dateOfBirth.element as HTMLInputElement).value,
             addresses: [
               {
                 country: 'US',
-                city: (city.element as HTMLInputElement).value,
-                streetName: (street.element as HTMLInputElement).value,
-                postalCode: (postalCode.element as HTMLInputElement).value,
+                city: (adressesBlock.shippingAdress.city.element as HTMLInputElement).value,
+                streetName: (adressesBlock.shippingAdress.street.element as HTMLInputElement).value,
+                postalCode: (adressesBlock.shippingAdress.postalCode.element as HTMLInputElement)
+                  .value,
+              },
+              {
+                country: 'US',
+                city: (adressesBlock.billingAdress.city.element as HTMLInputElement).value,
+                streetName: (adressesBlock.billingAdress.street.element as HTMLInputElement).value,
+                postalCode: (adressesBlock.billingAdress.postalCode.element as HTMLInputElement)
+                  .value,
               },
             ],
           };
+          customer.shippingAddresses = [0];
+          customer.billingAddresses = [1];
+          if ((adressesBlock.shippingAdress.setDefaultChkBox.element as HTMLInputElement).value) {
+            customer.defaultShippingAddress = 0;
+          }
+          if ((adressesBlock.billingAdress.setDefaultChkBox.element as HTMLInputElement).value) {
+            customer.defaultBillingAddress = 1;
+          }
 
-          //  Добавить выаод ошибки в случае если юзер уже есть
-          connection.newCustomer(customer).catch((error) => alert(error));
-        }
+          connection
+            .newCustomer(customer)
+            .then(() => {
+              popUpMessage.showMessage('Customer succesfully registered. Welcome to green Shop');
+              localStorage.setItem('email', customer.email);
+              if (customer.password) localStorage.setItem('password', customer.password);
+            })
+            .catch(() => popUpMessage.showMessage('User with this email already exists'));
+        } else popUpMessage.showMessage('Please fulfill all fields correctly');
       },
     });
-
-    //  (submitButton.element as HTMLInputElement).disabled = true;
 
     this.addElement(
       formHeader,
@@ -173,11 +169,7 @@ export default class RegistrationForm extends BaseComponent {
       emailAdress,
       password,
       dateOfBirth,
-      adressesHeader,
-      street,
-      city,
-      postalCode,
-      country,
+      adressesBlock,
       submitButton
     );
   }

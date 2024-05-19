@@ -29,9 +29,17 @@ type PasswordAuthMiddlewareOptions = {
 };
 
 export default class Connection {
-  projectKey: string;
+  ADMIN_CLIENT_ID = process.env.CTP_CLIENT_ID;
 
-  scopes: string[];
+  ADMIN_CLIENT_SECRET = process.env.CTP_CLIENT_SECRET;
+
+  SCOPES = process.env.CTP_SCOPES.split(' ');
+
+  AUTH_URL = process.env.CTP_AUTH_URL;
+
+  API_URL = process.env.CTP_API_URL;
+
+  projectKey = process.env.CTP_PROJECT_KEY;
 
   authMiddlewareOptions: AuthMiddlewareOptions;
 
@@ -54,18 +62,18 @@ export default class Connection {
     ];
 
     this.authMiddlewareOptions = {
-      host: 'https://auth.europe-west1.gcp.commercetools.com',
+      host: this.AUTH_URL,
       projectKey: this.projectKey,
       credentials: {
-        clientId: 'r6aJk8t2mER-SsDGxEW0VkK_',
-        clientSecret: '1RFF5OrGsPbZjYM5bsC2EJUy0c3exCy8',
+        clientId: this.ADMIN_CLIENT_ID,
+        clientSecret: this.ADMIN_CLIENT_SECRET,
       },
-      scopes: this.scopes,
+      scopes: this.SCOPES,
       fetch,
     };
 
     this.httpMiddlewareOptions = {
-      host: 'https://api.europe-west1.gcp.commercetools.com',
+      host: this.API_URL,
       fetch,
     };
 
@@ -148,5 +156,9 @@ export default class Connection {
         },
       })
       .execute();
+  }
+
+  loginByEmailPassword() {
+    this.apiRoot.me().login();
   }
 }

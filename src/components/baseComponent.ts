@@ -51,7 +51,13 @@ export default class BaseComponent {
       if (params.type) (this.element as HTMLInputElement).type = params.type;
       if (params.placeholder) (this.element as HTMLInputElement).placeholder = params.placeholder;
       if (params.value) (this.element as HTMLInputElement).value = params.value;
-      if (this.element)
+      if (this.element && params.type !== 'checkbox')
+        this.element.onkeyup = () => {
+          if (this.checkValidity()) (this.element.nextSibling as HTMLElement).style.opacity = '0%';
+          else (this.element.nextSibling as HTMLElement).style.opacity = '100%';
+        };
+
+      if (this.element && params.type === 'date')
         this.element.onchange = () => {
           if (this.checkValidity()) (this.element.nextSibling as HTMLElement).style.opacity = '0%';
           else (this.element.nextSibling as HTMLElement).style.opacity = '100%';
@@ -74,6 +80,7 @@ export default class BaseComponent {
       this.isValid = checkTextValidity((this.element as HTMLInputElement).value, this.pattern);
       return this.isValid;
     }
+
     return false;
   }
 

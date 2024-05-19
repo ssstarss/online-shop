@@ -1,4 +1,5 @@
 @import 'normalize.css';
+@import '../pages/page404/page404';
 
 @font-face {
   font-family: 'CeraPro';
@@ -49,6 +50,7 @@ html {
   color: var(--base-txt);
   height: 100%;
 }
+
 body {
   height: 100%;
   position: relative;
