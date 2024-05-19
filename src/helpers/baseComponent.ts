@@ -1,6 +1,6 @@
-import { checkDateValidity, checkTextValidity } from '../app/utils/checkValidity';
+import { checkDateValidity, checkTextValidity } from '../utils/checkValidity';
 
-import BaseComponentParams from '../app/interfaces/baseComponentParams';
+import BaseComponentParams from '../interfaces/baseComponentParams';
 
 export default class BaseComponent {
   element: HTMLElement | HTMLInputElement;
