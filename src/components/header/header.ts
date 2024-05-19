@@ -6,16 +6,19 @@ export const logoLink = createElement({ tag: 'a', className: 'logo__link' });
 logoLink.innerHTML = logoSvg;
 logoLink.title = 'Home';
 const headerLinksList = createElement({ tag: 'ul', className: 'header__links-list' });
+
 export const headerLinkHome = createElement({
   tag: 'li',
   className: 'header__list-item home-link active',
   textContent: 'Home',
 });
+
 export const headerLinkCatalog = createElement({
   tag: 'li',
   className: 'header__list-item catalog-link',
   textContent: 'Catalog',
 });
+
 export const headerLinkBlogs = createElement({
   tag: 'li',
   className: 'header__list-item blogs-link',
@@ -29,6 +32,7 @@ const searchLink = createElement({ tag: 'a', className: 'header__search' });
 searchLink.innerHTML = search;
 const basketLink = createElement({ tag: 'a', className: 'header__basket' });
 basketLink.innerHTML = basket;
+
 export const loginButton = createElement({
   tag: 'a',
   className: 'header__login button',

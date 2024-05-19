@@ -6,6 +6,7 @@ import {
   loginButton,
   logoLink,
 } from '../components/header/header';
+import navigate from '../utils/navigate';
 
 buttonHome.addEventListener('click', () => {
   navigate('/');
