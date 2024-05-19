@@ -1,5 +1,5 @@
 import createElement from '../../helpers/createElement';
 
-const mainContainer = createElement('main', 'container');
+const mainContainer = createElement({ tag: 'main', className: 'container' });
 
 export default mainContainer;
