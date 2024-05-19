@@ -3,7 +3,7 @@ import Navigo from 'navigo';
 import mainContainer from '../components/mainContainer/mainContainer';
 import loginPage from '../pages/loginPage/loginPage';
 import mainPage from '../pages/mainPage/mainPage';
-import registrationPage from '../pages/registrationPage/registrationPage';
+import RegistrationPage from '../pages/registrationPage/registrationPage';
 import { page404 } from '../pages/page404/page404';
 
 const root = '/';

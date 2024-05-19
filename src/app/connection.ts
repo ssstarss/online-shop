@@ -57,7 +57,7 @@ export default class Connection {
   constructor(login?: string, password?: string) {
     // this.tokenCache = new TokenCache();
     this.projectKey = 'rsschool-green-shop-key';
-    this.scopes = [
+    this.SCOPES = [
       'view_products:rsschool-green-shop-key view_associate_roles:rsschool-green-shop-key view_customers:rsschool-green-shop-key view_quote_requests:rsschool-green-shop-key view_connectors:rsschool-green-shop-key view_quotes:rsschool-green-shop-key view_customer_groups:rsschool-green-shop-key view_orders:rsschool-green-shop-key view_staged_quotes:rsschool-green-shop-key view_stores:rsschool-green-shop-key view_standalone_prices:rsschool-green-shop-key view_payments:rsschool-green-shop-key view_cart_discounts:rsschool-green-shop-key view_key_value_documents:rsschool-green-shop-key view_business_units:rsschool-green-shop-key view_order_edits:rsschool-green-shop-key manage_orders:rsschool-green-shop-key view_product_selections:rsschool-green-shop-key create_anonymous_token:rsschool-green-shop-key view_tax_categories:rsschool-green-shop-key manage_payments:rsschool-green-shop-key view_categories:rsschool-green-shop-key view_sessions:rsschool-green-shop-key view_messages:rsschool-green-shop-key view_project_settings:rsschool-green-shop-key manage_order_edits:rsschool-green-shop-key view_attribute_groups:rsschool-green-shop-key manage_customers:rsschool-green-shop-key view_shipping_methods:rsschool-green-shop-key view_discount_codes:rsschool-green-shop-key view_states:rsschool-green-shop-key view_import_containers:rsschool-green-shop-key view_published_products:rsschool-green-shop-key view_connectors_deployments:rsschool-green-shop-key view_shopping_lists:rsschool-green-shop-key view_audit_log:rsschool-green-shop-key view_types:rsschool-green-shop-key',
     ];
 
@@ -88,7 +88,7 @@ export default class Connection {
           password: password!,
         },
       },
-      scopes: this.scopes,
+      scopes: this.SCOPES,
       fetch,
     };
 
