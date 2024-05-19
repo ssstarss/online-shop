@@ -1,4 +1,4 @@
-export default interface AuthResponse {
+export interface AuthResponse {
   body: {
     customer: {
       id: string;
@@ -37,4 +37,10 @@ export default interface AuthResponse {
       authenticationMode: string;
     };
   };
+}
+
+export interface Error {
+  name: string;
+  message: string;
+  stack?: string;
 }

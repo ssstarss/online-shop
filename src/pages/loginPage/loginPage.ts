@@ -48,9 +48,9 @@ loginHeader.append(loginLink, registerLink);
 loginContainer.append(loginForm);
 loginForm.append(loginFormTitle, emailInput, passwordInput);
 
-loginBtn.addEventListener('click', (e) => {
+loginBtn.addEventListener('click', async (e) => {
   e.preventDefault();
-  loginFunc('.login__input--login', '.login__input--password');
+  await loginFunc('.login__input--login', '.login__input--password');
 });
 
 loginForm.append(loginBtn);

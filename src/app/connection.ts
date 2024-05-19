@@ -9,8 +9,7 @@ import {
   createApiBuilderFromCtpClient,
   CustomerSignin,
 } from '@commercetools/platform-sdk';
-import AuthResponse from './interfaces/authResponse';
-import generateErrorPopup from '../components/popups/popup';
+import { AuthResponse } from './interfaces/authResponse';
 
 type PasswordAuthMiddlewareOptions = {
   host: string;
@@ -126,36 +125,18 @@ export default class Connection {
       password,
     };
 
-    this.ctpClient2
+    return this.ctpClient2
       .execute({
         uri: `/${this.projectKey}/login`,
         method: 'POST',
         body: JSON.stringify(customerCredentials),
       })
       .then((response: AuthResponse) => {
-        const { email } = response.body.customer;
-        localStorage.setItem(email, email);
-        localStorage.setItem('logged', 'true');
+        return response;
       })
       .catch((error: Error) => {
-        // const errorTxt = JSON.stringify(error);
-        const errorTxt = `${error.name}: ${error.message}`;
-
-        generateErrorPopup(errorTxt);
+        throw error;
       });
-
-    // this.ctpClient
-    //   .execute({
-    //     uri: `/${this.projectKey}/login`,
-    //     method: 'POST',
-    //     body: JSON.stringify(customerCredentials),
-    //   })
-    //   .then((response: JSON) => {
-    //     console.log(response);
-    //   })
-    //   .catch((error: Error) => {
-    //     console.error(error);
-    //   });
   }
 
   returnCustomerByEmail(customerEmail: string) {
