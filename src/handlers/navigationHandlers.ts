@@ -1,3 +1,4 @@
+import { loginLink, registerLink } from '../components/loginHeader/loginHeader';
 import { buttonHome } from '../pages/page404/page404';
 import {
   headerLinkBlogs,
@@ -35,4 +36,14 @@ headerLinkBlogs.addEventListener('click', (event) => {
 loginButton.addEventListener('click', (event) => {
   event.preventDefault();
   navigate('/login');
+});
+
+loginLink.addEventListener('click', (event) => {
+  event.preventDefault();
+  navigate('/login');
+});
+
+registerLink.addEventListener('click', (event) => {
+  event.preventDefault();
+  navigate('/register');
 });
