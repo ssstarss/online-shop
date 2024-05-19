@@ -8,3 +8,8 @@ declare namespace NodeJS {
     CTP_SCOPES: string;
   }
 }
+
+declare module '*.svg' {
+  const content: string;
+  export default content;
+}

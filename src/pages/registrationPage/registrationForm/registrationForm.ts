@@ -1,6 +1,6 @@
 import './registrationForm.css';
 import { CustomerDraft } from '@commercetools/platform-sdk';
-import BaseComponent from '../../../components/baseComponent';
+import BaseComponent from '../../../helpers/baseComponent';
 import Connection from '../../../app/connection';
 
 const countriesArray = ['USA', 'Canada', 'United Kingdom'];
