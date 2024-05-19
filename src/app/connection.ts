@@ -10,6 +10,7 @@ import {
   CustomerSignin,
 } from '@commercetools/platform-sdk';
 import AuthResponse from './interfaces/authResponse';
+import generateErrorPopup from '../components/popups/popup';
 
 type PasswordAuthMiddlewareOptions = {
   host: string;
@@ -119,19 +120,6 @@ export default class Connection {
     return result;
   }
 
-  // login(customerEmail: string, password: string) {
-  //   return this.returnCustomerByEmail(customerEmail)
-  //     .then(({ body }) => {
-  //       if (body.results.length > 0 && body.results[0].password !== password) {
-  //         return body.results[0].id;
-  //       }
-  //       return false;
-  //     })
-  //     .catch((error: Error) => {
-  //       return error;
-  //     });
-  // }
-
   login(customerEmail: string, password: string) {
     const customerCredentials: CustomerSignin = {
       email: customerEmail,
@@ -148,10 +136,12 @@ export default class Connection {
         const { email } = response.body.customer;
         localStorage.setItem(email, email);
         localStorage.setItem('logged', 'true');
-        console.log(`user email: ${email}`);
       })
       .catch((error: Error) => {
-        console.error(error);
+        // const errorTxt = JSON.stringify(error);
+        const errorTxt = `${error.name}: ${error.message}`;
+
+        generateErrorPopup(errorTxt);
       });
 
     // this.ctpClient
