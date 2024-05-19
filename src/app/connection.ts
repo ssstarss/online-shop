@@ -86,4 +86,8 @@ export default class Connection {
       })
       .execute();
   }
+
+  loginByEmailPassword() {
+    this.apiRoot.me().login();
+  }
 }
