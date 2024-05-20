@@ -123,6 +123,7 @@
     z-index: 1000;
     transform: translateX(100%);
     transition: transform 0.3s ease-in-out;
+    display: none;
   }
   .mobile-menu.active {
     transform: translateX(0);
@@ -186,6 +187,7 @@
       transform: translateX(100%);
       &.active {
         transform: translateX(0);
+        display: block;
       }
     }
   }
