@@ -11,7 +11,7 @@ import router from './router';
 export default function initRouting() {
   router
     .on({
-      '/': renderMainPage,
+      '/main': renderMainPage,
       '/login': renderLoginPage,
       '/register': renderRegisterPage,
       '/catalog': renderCatalogPage,

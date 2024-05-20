@@ -29,17 +29,17 @@ import {
 import navigate from '../utils/navigate';
 
 buttonHome.addEventListener('click', () => {
-  navigate('/');
+  navigate('/main');
 });
 
 logoLink.addEventListener('click', (event) => {
   event.preventDefault();
-  navigate('/');
+  navigate('/main');
 });
 
 headerLinkHome.addEventListener('click', (event) => {
   event.preventDefault();
-  navigate('/');
+  navigate('/main');
 });
 
 headerLinkCatalog.addEventListener('click', (event) => {
@@ -54,11 +54,11 @@ headerLinkBlogs.addEventListener('click', (event) => {
 
 searchLink.addEventListener('click', (event) => {
   event.preventDefault();
-  navigate('/');
+  navigate('/main');
 });
 basketLink.addEventListener('click', (event) => {
   event.preventDefault();
-  navigate('/');
+  navigate('/main');
 });
 
 loginButton.addEventListener('click', (event) => {
@@ -100,7 +100,7 @@ window.addEventListener('resize', () => {
 mobileLinkHome.addEventListener('click', (event) => {
   mobileMenu.classList.toggle('active');
   event.preventDefault();
-  navigate('/');
+  navigate('/main');
 });
 
 mobileLinkCatalog.addEventListener('click', (event) => {
@@ -116,12 +116,12 @@ mobileLinkBlogs.addEventListener('click', (event) => {
 mobileSearchLink.addEventListener('click', (event) => {
   mobileMenu.classList.toggle('active');
   event.preventDefault();
-  navigate('/');
+  navigate('/main');
 });
 mobileBasketLink.addEventListener('click', (event) => {
   mobileMenu.classList.toggle('active');
   event.preventDefault();
-  navigate('/');
+  navigate('/main');
 });
 
 mobileLoginButton.addEventListener('click', (event) => {
@@ -138,7 +138,7 @@ mobileRegisterButton.addEventListener('click', (event) => {
 
 mainLink.addEventListener('click', (event) => {
   event.preventDefault();
-  navigate('/');
+  navigate('/main');
 });
 
 loginLinkMain.addEventListener('click', (event) => {
