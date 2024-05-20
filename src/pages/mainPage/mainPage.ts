@@ -3,37 +3,32 @@ import './_mainPage.scss';
 
 const mainPage = createElement({ tag: 'section', className: 'main', textContent: 'MAIN PAGE' });
 const linksList = createElement({ tag: 'div', className: 'links-list' });
-const mainLink = createElement({
+export const mainLink = createElement({
   tag: 'a',
-  href: '',
   className: 'links-list__link',
   textContent: 'Main Page',
 });
-const loginLink = createElement({
+export const loginLinkMain = createElement({
   tag: 'a',
-  href: '',
   className: 'links-list__link',
   textContent: 'Log in',
 });
-const registerLink = createElement({
+export const registerLinkMain = createElement({
   tag: 'a',
-  href: '',
   className: 'links-list__link',
   textContent: 'Register',
 });
-const catalogLink = createElement({
+export const catalogLinkMain = createElement({
   tag: 'a',
-  href: '',
   className: 'links-list__link',
   textContent: 'Catalog',
 });
-const blogsLink = createElement({
+export const blogsLinkMain = createElement({
   tag: 'a',
-  href: '',
   className: 'links-list__link',
   textContent: 'Blogs',
 });
 mainPage.append(linksList);
-linksList.append(mainLink, loginLink, registerLink, catalogLink, blogsLink);
+linksList.append(mainLink, loginLinkMain, registerLinkMain, catalogLinkMain, blogsLinkMain);
 
 export default mainPage;
