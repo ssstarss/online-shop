@@ -1,7 +1,7 @@
 import BaseComponent from '../../helpers/baseComponent';
 import countries from './countries';
 
-type CountryCode = {
+type Country = {
   country: string;
   ISO: string;
   regExp: string;
@@ -39,7 +39,7 @@ export default class Adress extends BaseComponent {
       type: 'text',
       placeholder: 'Street',
       pattern: /^([A-Za-z0-9]|.){1,}$/,
-      tip: 'Please enter your street',
+      tip: 'Please enter your street. You may use English letters, numbers, special symbols ',
     });
 
     this.city = new BaseComponent({
@@ -48,7 +48,7 @@ export default class Adress extends BaseComponent {
       type: 'text',
       placeholder: 'City',
       pattern: /^[A-Za-z]+$/,
-      tip: 'Please enter your city. No special characters or numbers',
+      tip: 'Please enter your city. English letters, no special characters or numbers',
     });
 
     this.postalCode = new BaseComponent({
@@ -68,6 +68,7 @@ export default class Adress extends BaseComponent {
     });
     this.country.element.onchange = () => {
       (this.postalCode.element as HTMLInputElement).value = '';
+      this.postalCode.isValid = false;
       const index = countries.findIndex(
         (country) => country.country === (this.country.element as HTMLInputElement).value
       );
@@ -77,7 +78,10 @@ export default class Adress extends BaseComponent {
           `Postal Code for ${countries[index].country} looks like: ${countries[index].tip}`;
         (this.country.element.nextSibling as HTMLElement).style.opacity = '0%';
       } else {
+        (this.postalCode.element.nextSibling as HTMLElement).innerHTML = `Please enter Postal Code`;
         (this.country.element.nextSibling as HTMLElement).style.opacity = '100%';
+        (this.postalCode.element as HTMLInputElement).value = '';
+        this.postalCode.isValid = false;
       }
     };
     (this.country.element as HTMLInputElement).setAttribute('list', 'countries');
@@ -89,7 +93,7 @@ export default class Adress extends BaseComponent {
     });
     this.country.addElement(dataList);
 
-    countries.forEach((item: CountryCode) => {
+    countries.forEach((item: Country) => {
       const line = new BaseComponent({
         tag: 'option',
         classNames: ['countries'],
@@ -119,8 +123,8 @@ export default class Adress extends BaseComponent {
       this.adressesHeader,
       this.street,
       this.city,
-      this.postalCode,
       this.country,
+      this.postalCode,
       setDefaultWrapper
     );
   }

@@ -5,6 +5,7 @@ import Connection from '../../../app/connection';
 import PopUpMessage from './popUpMessage/popUpMessage';
 import PasswordInput from '../../../components/inputPassword/inputPassword';
 import AdressesBlock from '../../../components/adressesBLock/adressesBlock';
+import countries from '../../../components/adressesBLock/countries';
 
 type Mutable<T extends object> = {
   -readonly [K in keyof T]: T[K];
@@ -67,6 +68,21 @@ export default class RegistrationForm extends BaseComponent {
     const adressesBlock = new AdressesBlock();
     this.addElement(adressesBlock);
 
+    const inputsForValidation = [
+      lastName,
+      emailAdress,
+      password,
+      dateOfBirth,
+      adressesBlock.shippingAdress.street,
+      adressesBlock.shippingAdress.city,
+      adressesBlock.shippingAdress.postalCode,
+      adressesBlock.shippingAdress.country,
+      adressesBlock.billingAdress.street,
+      adressesBlock.billingAdress.city,
+      adressesBlock.billingAdress.postalCode,
+      adressesBlock.billingAdress.country,
+    ];
+
     const popUpMessageCanvas = new BaseComponent({
       tag: 'div',
       classNames: ['popUpMessageCanvas'],
@@ -97,10 +113,11 @@ export default class RegistrationForm extends BaseComponent {
           (adressesBlock.billingAdress.country.element as HTMLInputElement).value = (
             adressesBlock.shippingAdress.country.element as HTMLInputElement
           ).value;
-          adressesBlock.billingAdress.street.isValid = true;
-          adressesBlock.billingAdress.city.isValid = true;
-          adressesBlock.billingAdress.postalCode.isValid = true;
-          adressesBlock.billingAdress.country.isValid = true;
+          adressesBlock.billingAdress.street.isValid = adressesBlock.shippingAdress.street.isValid;
+          adressesBlock.billingAdress.city.isValid = adressesBlock.shippingAdress.street.isValid;
+          adressesBlock.billingAdress.postalCode.isValid =
+            adressesBlock.shippingAdress.street.isValid;
+          adressesBlock.billingAdress.country.isValid = adressesBlock.shippingAdress.street.isValid;
         }
 
         if (
@@ -118,6 +135,16 @@ export default class RegistrationForm extends BaseComponent {
           adressesBlock.billingAdress.postalCode.isValid &&
           adressesBlock.billingAdress.country.isValid
         ) {
+          const billingCountryCode = countries.find(
+            (country) =>
+              country.country ===
+              (adressesBlock.billingAdress.country.element as HTMLInputElement).value
+          )?.ISO;
+          const shippingCountryCode = countries.find(
+            (country) =>
+              country.country ===
+              (adressesBlock.shippingAdress.country.element as HTMLInputElement).value
+          )?.ISO;
           const customer: Mutable<CustomerDraft> = {
             firstName: (firstName.element as HTMLInputElement).value,
             lastName: (lastName.element as HTMLInputElement).value,
@@ -126,14 +153,14 @@ export default class RegistrationForm extends BaseComponent {
             dateOfBirth: (dateOfBirth.element as HTMLInputElement).value,
             addresses: [
               {
-                country: 'US',
+                country: shippingCountryCode || '',
                 city: (adressesBlock.shippingAdress.city.element as HTMLInputElement).value,
                 streetName: (adressesBlock.shippingAdress.street.element as HTMLInputElement).value,
                 postalCode: (adressesBlock.shippingAdress.postalCode.element as HTMLInputElement)
                   .value,
               },
               {
-                country: 'US',
+                country: billingCountryCode || '',
                 city: (adressesBlock.billingAdress.city.element as HTMLInputElement).value,
                 streetName: (adressesBlock.billingAdress.street.element as HTMLInputElement).value,
                 postalCode: (adressesBlock.billingAdress.postalCode.element as HTMLInputElement)
@@ -143,10 +170,10 @@ export default class RegistrationForm extends BaseComponent {
           };
           customer.shippingAddresses = [0];
           customer.billingAddresses = [1];
-          if ((adressesBlock.shippingAdress.setDefaultChkBox.element as HTMLInputElement).value) {
+          if ((adressesBlock.shippingAdress.setDefaultChkBox.element as HTMLInputElement).checked) {
             customer.defaultShippingAddress = 0;
           }
-          if ((adressesBlock.billingAdress.setDefaultChkBox.element as HTMLInputElement).value) {
+          if ((adressesBlock.billingAdress.setDefaultChkBox.element as HTMLInputElement).checked) {
             customer.defaultBillingAddress = 1;
           }
 
@@ -158,7 +185,13 @@ export default class RegistrationForm extends BaseComponent {
               if (customer.password) localStorage.setItem('password', customer.password);
             })
             .catch(() => popUpMessage.showMessage('User with this email already exists'));
-        } else popUpMessage.showMessage('Please fulfill all fields correctly');
+        } else {
+          popUpMessage.showMessage('Please fulfill all fields correctly');
+          inputsForValidation.forEach((input) => {
+            const elem = input;
+            if (!input.isValid) (elem.element.nextSibling as HTMLElement).style.opacity = '100%';
+          });
+        }
       },
     });
 
