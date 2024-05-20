@@ -57,6 +57,18 @@ const registerText = createElement({
 });
 registerButton.append(registerText);
 
+export const logoutButton = createElement({
+  tag: 'a',
+  className: 'header__logout button',
+});
+
+const logoutText = createElement({
+  tag: 'span',
+  className: 'header__logout-text',
+  textContent: 'Logout',
+});
+logoutButton.append(logoutText);
+
 // burger
 export const burgerMenu = createElement({ tag: 'button', className: 'burger-menu' });
 const burgerMenuLine = createElement({ tag: 'span', className: 'burger-menu__line' });
@@ -105,6 +117,11 @@ export const mobileRegisterButton = createElement({
   className: 'mobile__list-item mobile__register',
   textContent: 'Register',
 });
+export const mobileLogoutButton = createElement({
+  tag: 'li',
+  className: 'mobile__list-item mobile__logout',
+  textContent: 'Logout',
+});
 
 mobileLinksList.append(
   mobileLinkHome,
@@ -113,13 +130,14 @@ mobileLinksList.append(
   mobileSearchLink,
   mobileBasketLink,
   mobileLoginButton,
-  mobileRegisterButton
+  mobileRegisterButton,
+  mobileLogoutButton
 );
 
 export const mobileMenu = createElement({ tag: 'div', className: 'mobile-menu' });
 mobileMenu.append(mobileLinksList);
 
-linkWrap.append(searchLink, basketLink, loginButton, registerButton);
+linkWrap.append(searchLink, basketLink, loginButton, registerButton, logoutButton);
 header.append(logoLink, headerLinksList, linkWrap, burgerMenu, mobileMenu);
 
 export default header;

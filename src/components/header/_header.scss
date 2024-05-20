@@ -54,7 +54,8 @@
     }
 
     .header__login,
-    .header__register {
+    .header__register,
+    .header__logout {
       display: flex;
       align-items: center;
       justify-content: center;
@@ -76,6 +77,9 @@
         width: 20px;
         height: 20px;
       }
+    }
+    .header__logout {
+      display: none;
     }
   }
   .burger-menu {
@@ -142,6 +146,10 @@
 
     .mobile__list-item:active {
       font-weight: 500;
+    }
+
+    .mobile__logout {
+      display: none;
     }
   }
 }

@@ -15,6 +15,7 @@ async function loginFunc(emailInputClass: string, passwordInputClass: string) {
     const tokenStoreStringified = JSON.stringify(tokenStore);
     localStorage.setItem(email, tokenStoreStringified);
     localStorage.setItem('logged', 'true');
+    window.dispatchEvent(new Event('storage'));
     /* navigate to main page */
     navigate('/');
     return response;

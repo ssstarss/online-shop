@@ -189,6 +189,7 @@ export default class RegistrationForm extends BaseComponent {
                 true
               );
               localStorage.setItem('logged', 'true');
+              window.dispatchEvent(new Event('storage'));
             })
             .catch(() => popUpMessage.showMessage('User with this email already exists', false));
         } else {
