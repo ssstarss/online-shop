@@ -69,6 +69,7 @@ export default class RegistrationForm extends BaseComponent {
     this.addElement(adressesBlock);
 
     const inputsForValidation = [
+      firstName,
       lastName,
       emailAdress,
       password,
