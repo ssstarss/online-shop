@@ -12,7 +12,7 @@ export function validateEmail(
   errorTxt: HTMLParagraphElement,
   submitBtn: HTMLButtonElement
 ) {
-  const regex = /^\S+@\S+\.\S+$/;
+  const regex = /^[\w]{1}[\w-.]*@[\w-]+.[a-z]{2,4}$/i;
   const inputValue = input.value;
   const errorMessage = errorTxt;
   const submitButton = submitBtn;
