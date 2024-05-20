@@ -27,7 +27,7 @@ export function createEmailInput(
   const emailInput = createElement({
     tag: 'input',
     className: inputClassName,
-    type: 'email',
+    type: 'text',
     placeholder,
     required: true,
   });
