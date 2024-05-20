@@ -59,11 +59,15 @@ loginButton.addEventListener('click', (event) => {
 
 loginLink.addEventListener('click', (event) => {
   event.preventDefault();
+  registerLink.classList.remove('login__link--active');
+  loginLink.classList.add('login__link--active');
   navigate('/login');
 });
 
 registerLink.addEventListener('click', (event) => {
   event.preventDefault();
+  loginLink.classList.remove('login__link--active');
+  registerLink.classList.add('login__link--active');
   navigate('/register');
 });
 
