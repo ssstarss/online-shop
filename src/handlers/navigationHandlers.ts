@@ -41,16 +41,25 @@ logoLink.addEventListener('click', (event) => {
 
 headerLinkHome.addEventListener('click', (event) => {
   event.preventDefault();
+  headerLinkHome.classList.add('active-header');
+  headerLinkBlogs.classList.remove('active-header');
+  headerLinkCatalog.classList.remove('active-header');
   navigate('/main');
 });
 
 headerLinkCatalog.addEventListener('click', (event) => {
   event.preventDefault();
+  headerLinkHome.classList.remove('active-header');
+  headerLinkBlogs.classList.remove('active-header');
+  headerLinkCatalog.classList.add('active-header');
   navigate('/catalog');
 });
 
 headerLinkBlogs.addEventListener('click', (event) => {
   event.preventDefault();
+  headerLinkHome.classList.remove('active-header');
+  headerLinkBlogs.classList.add('active-header');
+  headerLinkCatalog.classList.remove('active-header');
   navigate('/blogs');
 });
 
