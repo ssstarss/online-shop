@@ -159,30 +159,33 @@ export default class RegistrationForm extends BaseComponent {
                 postalCode: (adressesBlock.shippingAdress.postalCode.element as HTMLInputElement)
                   .value,
               },
-              {
-                country: billingCountryCode || '',
-                city: (adressesBlock.billingAdress.city.element as HTMLInputElement).value,
-                streetName: (adressesBlock.billingAdress.street.element as HTMLInputElement).value,
-                postalCode: (adressesBlock.billingAdress.postalCode.element as HTMLInputElement)
-                  .value,
-              },
             ],
           };
           customer.shippingAddresses = [0];
           customer.billingAddresses = [1];
+          if (!(adressesBlock.useSameChkBox.element as HTMLInputElement).checked) {
+            customer.addresses?.push({
+              country: billingCountryCode || '',
+              city: (adressesBlock.billingAdress.city.element as HTMLInputElement).value,
+              streetName: (adressesBlock.billingAdress.street.element as HTMLInputElement).value,
+              postalCode: (adressesBlock.billingAdress.postalCode.element as HTMLInputElement)
+                .value,
+            });
+            customer.billingAddresses = [1];
+          } else customer.billingAddresses = [0];
           if ((adressesBlock.shippingAdress.setDefaultChkBox.element as HTMLInputElement).checked) {
             customer.defaultShippingAddress = 0;
           }
           if ((adressesBlock.billingAdress.setDefaultChkBox.element as HTMLInputElement).checked) {
-            customer.defaultBillingAddress = 1;
+            const temp = customer.billingAddresses[0];
+            customer.defaultBillingAddress = temp;
           }
 
           connection
             .newCustomer(customer)
             .then(() => {
               popUpMessage.showMessage('Customer succesfully registered. Welcome to green Shop');
-              localStorage.setItem('email', customer.email);
-              if (customer.password) localStorage.setItem('password', customer.password);
+              localStorage.setItem('logged', 'true');
             })
             .catch(() => popUpMessage.showMessage('User with this email already exists'));
         } else {

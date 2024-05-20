@@ -1,5 +1,5 @@
 const countries = [
-  { country: 'Poland', ISO: 'Pl', regExp: '^\\d{2}-\\d{3}$', tip: '11-111' },
+  { country: 'Poland', ISO: 'PL', regExp: '^\\d{2}-\\d{3}$', tip: '11-111' },
   { country: 'France', ISO: 'FR', regExp: '^\\d{2}[ ]?\\d{3}$', tip: '11 111' },
   { country: 'Russia', ISO: 'RU', regExp: '^\\d{6}$', tip: '111111' },
   { country: 'USA', ISO: 'US', regExp: '^\\d{6}$', tip: '111111' },

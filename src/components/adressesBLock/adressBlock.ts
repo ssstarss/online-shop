@@ -39,7 +39,7 @@ export default class Adress extends BaseComponent {
       type: 'text',
       placeholder: 'Street',
       pattern: /^([A-Za-z0-9]|.){1,}$/,
-      tip: 'Please enter your street. You may use English letters, numbers, special symbols ',
+      tip: 'Please enter your street. You may use letters, numbers, special symbols ',
     });
 
     this.city = new BaseComponent({
@@ -47,8 +47,8 @@ export default class Adress extends BaseComponent {
       classNames: ['regFormCity', 'inputField'],
       type: 'text',
       placeholder: 'City',
-      pattern: /^[A-Za-z]+$/,
-      tip: 'Please enter your city. English letters, no special characters or numbers',
+      pattern: /^[A-Za-zА-Яа-я]+$/,
+      tip: 'Please enter your city. Only letters, no special characters or numbers',
     });
 
     this.postalCode = new BaseComponent({
@@ -72,7 +72,7 @@ export default class Adress extends BaseComponent {
       const index = countries.findIndex(
         (country) => country.country === (this.country.element as HTMLInputElement).value
       );
-      if (index > 0) {
+      if (index > -1) {
         this.postalCode.pattern = new RegExp(countries[index].regExp);
         (this.postalCode.element.nextSibling as HTMLElement).innerHTML =
           `Postal Code for ${countries[index].country} looks like: ${countries[index].tip}`;
