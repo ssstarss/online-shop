@@ -25,7 +25,6 @@ export function validateEmail(
   if (validationResult) {
     input.classList.remove('login__input--error');
     errorMessage.classList.add('error-message--hidden');
-    submitButton.removeAttribute('disabled');
     return true;
   }
   errorMessage.classList.remove('error-message--hidden');
@@ -80,7 +79,6 @@ export function validatePassword(
       submitButton.setAttribute('disabled', '');
       return false;
     }
-    submitButton.removeAttribute('disabled');
     return true;
   };
   if (validationResult(inputValue, errorTxt)) {
