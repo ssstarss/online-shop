@@ -9,7 +9,7 @@ import {
   createApiBuilderFromCtpClient,
   CustomerSignin,
 } from '@commercetools/platform-sdk';
-import { AuthResponse } from './interfaces/authResponse';
+import { AuthResponse } from '../interfaces/authResponse';
 
 type PasswordAuthMiddlewareOptions = {
   host: string;

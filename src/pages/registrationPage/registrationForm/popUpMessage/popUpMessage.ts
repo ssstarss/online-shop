@@ -1,4 +1,4 @@
-import BaseComponent from '../../../../components/baseComponent';
+import BaseComponent from '../../../../helpers/baseComponent';
 import './popUpMessage.css';
 
 export default class PopUpMessage extends BaseComponent {

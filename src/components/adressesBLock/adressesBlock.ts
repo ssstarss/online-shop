@@ -1,6 +1,6 @@
-import BaseComponent from '../baseComponent';
 import './adressesBlock.css';
 import Adress from './adressBlock';
+import BaseComponent from '../../helpers/baseComponent';
 
 export default class AdressesBlock extends BaseComponent {
   shippingAdress: Adress;
