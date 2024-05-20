@@ -1,6 +1,7 @@
 import Connection from '../app/connection';
 import generateErrorPopup from '../components/popups/popup';
 import { AuthResponse } from '../interfaces/authResponse';
+import navigate from './navigate';
 
 async function loginFunc(emailInputClass: string, passwordInputClass: string) {
   const emailInput = document.querySelector(emailInputClass) as HTMLInputElement;
@@ -15,6 +16,7 @@ async function loginFunc(emailInputClass: string, passwordInputClass: string) {
     localStorage.setItem(email, tokenStoreStringified);
     localStorage.setItem('logged', 'true');
     /* navigate to main page */
+    navigate('/');
     return response;
   } catch (error: unknown) {
     const errorTxt = `${(error as Error).name}: ${(error as Error).message}`;
