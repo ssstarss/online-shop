@@ -6,6 +6,7 @@ async function loginFunc(emailInputClass: string, passwordInputClass: string) {
   const emailInput = document.querySelector(emailInputClass) as HTMLInputElement;
   const passwordInput = document.querySelector(passwordInputClass) as HTMLInputElement;
   const connection = new Connection(emailInput?.value, passwordInput?.value);
+
   try {
     const response: AuthResponse = await connection.login(emailInput?.value, passwordInput?.value);
     const { email } = response.body.customer;

@@ -2,6 +2,9 @@ import createElement from '../../helpers/createElement';
 import { validateEmail, validatePassword } from './validation';
 import './_inputs.scss';
 
+let emailValidated = false;
+let passwordValidated = false;
+
 function togglePasswordVisibility(passwordInput: HTMLInputElement, toggleBtn: HTMLButtonElement) {
   const input = passwordInput;
   const passwordToggle = toggleBtn;
@@ -26,13 +29,20 @@ export function createEmailInput(
     className: inputClassName,
     type: 'email',
     placeholder,
+    required: true,
   });
+  emailInput.setAttribute('autocomplete', 'on');
   const errorMessage = createElement({
     tag: 'p',
     className: ['error-message', 'error-message--hidden'],
     textContent: 'Error message',
   });
-  emailInput.addEventListener('keyup', () => validateEmail(emailInput, errorMessage, submitBtn));
+  emailInput.addEventListener('keyup', () => {
+    emailValidated = validateEmail(emailInput, errorMessage, submitBtn);
+    if (emailValidated && passwordValidated) {
+      submitBtn.removeAttribute('disabled');
+    }
+  });
   inputContainer.append(emailInput);
   inputContainer.append(errorMessage);
 
@@ -51,7 +61,9 @@ export function createPasswordInput(
     className: inputClassName,
     type: 'password',
     placeholder,
+    required: true,
   });
+  passwordInput.setAttribute('autocomplete', 'on');
   const showPswrdToggle = createElement({
     tag: 'button',
     className: 'toggle-password-btn',
@@ -65,9 +77,12 @@ export function createPasswordInput(
     className: ['error-message', 'error-message--hidden'],
     textContent: 'Error Message',
   });
-  passwordInput.addEventListener('keyup', () =>
-    validatePassword(passwordInput, errorMessage, submitBtn)
-  );
+  passwordInput.addEventListener('keyup', () => {
+    passwordValidated = validatePassword(passwordInput, errorMessage, submitBtn);
+    if (emailValidated && passwordValidated) {
+      submitBtn.removeAttribute('disabled');
+    }
+  });
   inputContainer.append(passwordWrapper);
   passwordWrapper.append(passwordInput, showPswrdToggle);
   inputContainer.append(errorMessage);
