@@ -1,6 +1,8 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
+const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
   mode: 'production',
@@ -23,7 +25,7 @@ module.exports = {
         use: ['style-loader', 'css-loader', 'postcss-loader', 'sass-loader'],
       },
       {
-        test: /\.(png|jpg|gif|svg)$/i,
+        test: /\.(png|jpg|gif)$/i,
         type: 'asset/resource',
       },
       { test: /\.svg$/, use: 'svg-inline-loader' },
@@ -37,6 +39,10 @@ module.exports = {
       template: './src/index.html',
     }),
     new Dotenv(),
+    new FaviconsWebpackPlugin('./src/assets/images/logo.png'),
+    new CopyWebpackPlugin({
+      patterns: [{ from: './netlify.toml', to: 'netlify.toml' }],
+    }),
   ],
   devServer: {
     static: {
@@ -44,5 +50,6 @@ module.exports = {
     },
     port: 8080,
     historyApiFallback: true,
+    hot: true,
   },
 };

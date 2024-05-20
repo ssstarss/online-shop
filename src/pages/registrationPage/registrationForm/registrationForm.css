@@ -1,7 +1,6 @@
 .registrationForm {
   display: flex;
   flex-direction: column;
-  font-family: 'Cera Pro';
   border-color: #eaeaea;
 }
 

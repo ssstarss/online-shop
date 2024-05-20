@@ -1,4 +1,4 @@
-import BaseComponent from '../baseComponent';
+import BaseComponent from '../../helpers/baseComponent';
 import countries from './countries';
 
 type Country = {
