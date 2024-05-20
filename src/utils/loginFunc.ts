@@ -17,7 +17,7 @@ async function loginFunc(emailInputClass: string, passwordInputClass: string) {
     localStorage.setItem('logged', 'true');
     window.dispatchEvent(new Event('storage'));
     /* navigate to main page */
-    navigate('/');
+    navigate('/main');
     return response;
   } catch (error: unknown) {
     const errorTxt = `${(error as Error).name}: ${(error as Error).message}`;
