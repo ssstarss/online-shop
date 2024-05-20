@@ -51,6 +51,14 @@ export default class AdressesBlock extends BaseComponent {
       [].forEach.call(elements, (elem: HTMLElement) => {
         const item = elem;
         item.style.display = 'flex';
+        (this.billingAdress.street.element as HTMLInputElement).value = '';
+        (this.billingAdress.city.element as HTMLInputElement).value = '';
+        (this.billingAdress.postalCode.element as HTMLInputElement).value = '';
+        (this.billingAdress.country.element as HTMLInputElement).value = '';
+        this.billingAdress.street.isValid = false;
+        this.billingAdress.city.isValid = false;
+        this.billingAdress.postalCode.isValid = false;
+        this.shippingAdress.country.isValid = false;
       });
     }
   }

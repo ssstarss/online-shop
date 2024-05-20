@@ -28,8 +28,8 @@ export default class PopUpMessage extends BaseComponent {
       const body = document.getElementsByTagName('body');
       body[0].style.overflow = 'scroll';
       this.element.style.display = 'none';
-      const errorCanvas = document.getElementById('errorCanvas');
-      if (errorCanvas) errorCanvas.style.display = 'none';
+      const popUpMessageCanvas = document.getElementById('popUpMessageCanvas');
+      if (popUpMessageCanvas) popUpMessageCanvas.style.display = 'none';
     });
   }
 
@@ -37,8 +37,8 @@ export default class PopUpMessage extends BaseComponent {
     this.popUpMessage.setTextContent(message);
     const body = document.getElementsByTagName('body');
     body[0].style.overflow = 'hidden';
-    const errorCanvas = document.getElementById('errorCanvas');
-    if (errorCanvas) errorCanvas.style.display = 'block';
+    const popUpMessageCanvas = document.getElementById('popUpMessageCanvas');
+    if (popUpMessageCanvas) popUpMessageCanvas.style.display = 'block';
     this.element.style.display = 'flex';
   }
 
