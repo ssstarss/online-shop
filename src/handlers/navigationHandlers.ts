@@ -186,6 +186,7 @@ window.addEventListener('storage', updateButtonVisibility);
 logoutButton.addEventListener('click', () => {
   localStorage.removeItem('logged');
   updateButtonVisibility();
+  navigate('/main');
 });
 
 document.addEventListener('DOMContentLoaded', updateButtonVisibility);

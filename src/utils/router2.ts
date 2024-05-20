@@ -13,8 +13,20 @@ export default function initRouting() {
     .on({
       '/': renderMainPage,
       '/main': renderMainPage,
-      '/login': renderLoginPage,
-      '/register': renderRegisterPage,
+      '/login': () => {
+        if (localStorage.getItem('logged')) {
+          router.navigate('/main');
+        } else {
+          renderLoginPage();
+        }
+      },
+      '/register': () => {
+        if (localStorage.getItem('logged')) {
+          router.navigate('/main');
+        } else {
+          renderRegisterPage();
+        }
+      },
       '/catalog': renderCatalogPage,
       '/blogs': renderBlogsPage,
     })
