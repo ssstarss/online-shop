@@ -1,6 +1,6 @@
 import Connection from '../app/connection';
-import { AuthResponse } from '../app/interfaces/authResponse';
 import generateErrorPopup from '../components/popups/popup';
+import { AuthResponse } from '../interfaces/authResponse';
 
 async function loginFunc(emailInputClass: string, passwordInputClass: string) {
   const emailInput = document.querySelector(emailInputClass) as HTMLInputElement;

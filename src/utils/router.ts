@@ -1,38 +1,26 @@
 import Navigo from 'navigo';
-
-import mainContainer from '../components/mainContainer/mainContainer';
-import loginPage from '../pages/loginPage/loginPage';
-import mainPage from '../pages/mainPage/mainPage';
-import RegistrationPage from '../pages/registrationPage/registrationPage';
-import { page404 } from '../pages/page404/page404';
+import {
+  renderMainPage,
+  renderLoginPage,
+  renderRegisterPage,
+  renderCatalogPage,
+  renderBlogsPage,
+  render404Page,
+} from './pageRenders';
 
 const root = '/';
 
 const router = new Navigo(root);
-const registrationPage = new RegistrationPage();
 
 router
   .on({
-    '/': () => {
-      mainContainer.innerHTML = '';
-      mainContainer.append(mainPage);
-    },
-    '/login': () => {
-      mainContainer.innerHTML = '';
-      mainContainer.append(loginPage);
-    },
-    '/register': () => {
-      mainContainer.innerHTML = '';
-      mainContainer.append(registrationPage.element);
-    },
+    '/': renderMainPage,
+    '/login': renderLoginPage,
+    '/register': renderRegisterPage,
+    '/catalog': renderCatalogPage,
+    '/blogs': renderBlogsPage,
   })
-  .notFound(() => {
-    mainContainer.append(page404);
-  })
+  .notFound(render404Page)
   .resolve();
 
-export function navigate(path: string): void {
-  router.navigate(path);
-}
-
-export default navigate;
+export default router;

@@ -1,4 +1,4 @@
-import BaseComponent from '../baseComponent';
+import BaseComponent from '../../helpers/baseComponent';
 import './inputPassword.css';
 
 export default class PasswordInput extends BaseComponent {
