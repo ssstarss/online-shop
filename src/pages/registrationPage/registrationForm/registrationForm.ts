@@ -184,12 +184,15 @@ export default class RegistrationForm extends BaseComponent {
           connection
             .newCustomer(customer)
             .then(() => {
-              popUpMessage.showMessage('Customer succesfully registered. Welcome to green Shop');
+              popUpMessage.showMessage(
+                'Customer succesfully registered. Welcome to green Shop',
+                true
+              );
               localStorage.setItem('logged', 'true');
             })
-            .catch(() => popUpMessage.showMessage('User with this email already exists'));
+            .catch(() => popUpMessage.showMessage('User with this email already exists', false));
         } else {
-          popUpMessage.showMessage('Please fulfill all fields correctly');
+          popUpMessage.showMessage('Please fulfill all fields correctly', false);
           inputsForValidation.forEach((input) => {
             const elem = input;
             if (!input.isValid) (elem.element.nextSibling as HTMLElement).style.opacity = '100%';

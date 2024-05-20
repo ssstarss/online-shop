@@ -1,8 +1,11 @@
 import BaseComponent from '../../../../helpers/baseComponent';
+import navigate from '../../../../utils/navigate';
 import './popUpMessage.css';
 
 export default class PopUpMessage extends BaseComponent {
   popUpMessage: BaseComponent;
+
+  registered = false;
 
   constructor() {
     super({
@@ -30,11 +33,14 @@ export default class PopUpMessage extends BaseComponent {
       this.element.style.display = 'none';
       const popUpMessageCanvas = document.getElementById('popUpMessageCanvas');
       if (popUpMessageCanvas) popUpMessageCanvas.style.display = 'none';
+      if (this.registered) navigate('/main');
     });
   }
 
-  showMessage(message: string) {
+  showMessage(message: string, registered: boolean) {
+    this.registered = registered;
     this.popUpMessage.setTextContent(message);
+
     const body = document.getElementsByTagName('body');
     body[0].style.overflow = 'hidden';
     const popUpMessageCanvas = document.getElementById('popUpMessageCanvas');
