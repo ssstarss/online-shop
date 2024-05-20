@@ -1,5 +1,5 @@
 import {
-  // TokenCache,
+  TokenCache,
   ClientBuilder,
   type AuthMiddlewareOptions,
   type HttpMiddlewareOptions,
@@ -10,6 +10,7 @@ import {
   CustomerSignin,
 } from '@commercetools/platform-sdk';
 import { AuthResponse } from './interfaces/authResponse';
+import store from './utils/tokenCacheStore';
 
 type PasswordAuthMiddlewareOptions = {
   host: string;
@@ -23,7 +24,7 @@ type PasswordAuthMiddlewareOptions = {
     };
   };
   scopes?: Array<string>;
-  // tokenCache?: TokenCache;
+  tokenCache?: TokenCache;
   oauthUri?: string;
   fetch?: any; // eslint-disable-line
 };
@@ -52,7 +53,8 @@ export default class Connection {
   ctpClient2;
 
   apiRoot;
-  // tokenCache: TokenCache;
+
+  tokenCache: TokenCache = store({});
 
   constructor(login?: string, password?: string) {
     // this.tokenCache = new TokenCache();
@@ -69,6 +71,7 @@ export default class Connection {
         clientSecret: this.ADMIN_CLIENT_SECRET,
       },
       scopes: this.SCOPES,
+      tokenCache: this.tokenCache,
       fetch,
     };
 
@@ -89,6 +92,7 @@ export default class Connection {
         },
       },
       scopes: this.SCOPES,
+      tokenCache: this.tokenCache,
       fetch,
     };
 
