@@ -15,21 +15,62 @@
 .regFormSubmit {
   width: 300px;
   height: 40px;
-  border: 1px solid #eaeaea;
+  border: 1px solid var(--input-border);
   border-radius: 5px;
 
   padding-left: 14px;
 }
 
+.inputField::-webkit-input-placeholder {
+  font-size: 14px;
+  color: var(--placeholder-txt);
+  font-weight: 400;
+}
+
+.inputField::-moz-placeholder {
+  font-size: 14px;
+  color: var(--placeholder-txt);
+  font-weight: 400;
+}
+
+.inputField:-ms-input-placeholder {
+  font-size: 14px;
+  color: var(--placeholder-txt);
+  font-weight: 400;
+}
+
+.inputField::-ms-input-placeholder {
+  font-size: 14px;
+  color: var(--placeholder-txt);
+  font-weight: 400;
+}
+
+.inputField::placeholder {
+  font-size: 14px;
+  color: var(--placeholder-txt);
+  font-weight: 400;
+}
+
+
 .errorTip {
   opacity: 0%;
   max-width: 300px;
-  color: #f03800;
+  color: var(--error);
   font-size: 11px;
   margin: 0;
   padding: 5px 0;
 }
 
 .regFormSubmit {
-  background-color: #46a358;
+  background-color: var(--accent-color);
+  color: var(--on-accent-txt);
+}
+
+.regFormText {
+  margin-top: 0;
+  font-size: 13px;
+}
+
+.regFormAdressesText {
+  font-size: 13px;
 }
