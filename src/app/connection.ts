@@ -10,7 +10,7 @@ import {
   CustomerSignin,
 } from '@commercetools/platform-sdk';
 
-import { AuthResponse } from './interfaces/authResponse';
+import { AuthResponse } from '../interfaces/authResponse';
 import store from './utils/tokenCacheStore';
 
 type PasswordAuthMiddlewareOptions = {
