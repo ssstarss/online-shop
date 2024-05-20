@@ -1,4 +1,11 @@
 import { loginLink, registerLink } from '../components/loginHeader/loginHeader';
+import {
+  blogsLinkMain,
+  catalogLinkMain,
+  loginLinkMain,
+  mainLink,
+  registerLinkMain,
+} from '../pages/mainPage/mainPage';
 import { buttonHome } from '../pages/page404/page404';
 import {
   basketLink,
@@ -51,7 +58,7 @@ searchLink.addEventListener('click', (event) => {
 });
 basketLink.addEventListener('click', (event) => {
   event.preventDefault();
-  navigate('/blogs');
+  navigate('/');
 });
 
 loginButton.addEventListener('click', (event) => {
@@ -127,4 +134,29 @@ mobileRegisterButton.addEventListener('click', (event) => {
   mobileMenu.classList.toggle('active');
   event.preventDefault();
   navigate('/register');
+});
+
+mainLink.addEventListener('click', (event) => {
+  event.preventDefault();
+  navigate('/');
+});
+
+loginLinkMain.addEventListener('click', (event) => {
+  event.preventDefault();
+  navigate('/login');
+});
+
+registerLinkMain.addEventListener('click', (event) => {
+  event.preventDefault();
+  navigate('/register');
+});
+
+catalogLinkMain.addEventListener('click', (event) => {
+  event.preventDefault();
+  navigate('/catalog');
+});
+
+blogsLinkMain.addEventListener('click', (event) => {
+  event.preventDefault();
+  navigate('/blogs');
 });
