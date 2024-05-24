@@ -1,9 +1,13 @@
-import mainPage from '../pages/mainPage/mainPage';
+import header from '../components/header/header';
+import mainContainer from '../components/mainContainer/mainContainer';
+import navigate from '../utils/navigate';
+import initRouting from '../utils/router2';
 
 const App = () => {
-  document.body.append(mainPage);
+  navigate(window.location.pathname);
+  document.body.append(header, mainContainer);
 };
 
 document.addEventListener('DOMContentLoaded', App);
-
+initRouting();
 export default App;

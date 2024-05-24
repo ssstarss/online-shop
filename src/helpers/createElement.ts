@@ -1,32 +1,53 @@
-const createElement = <K extends keyof HTMLElementTagNameMap>(
-  tag: K,
-  className: string,
-  type?: string,
-  placeholder?: string,
-  required?: boolean,
-  disabled?: boolean
-): HTMLElementTagNameMap[K] => {
-  const element = document.createElement(tag);
-  element.className = className;
+interface ElementParams<K extends keyof HTMLElementTagNameMap> {
+  tag: K;
+  className: string | string[];
+  type?: string;
+  placeholder?: string;
+  required?: boolean;
+  disabled?: boolean;
+  href?: string;
+  target?: string;
+  textContent?: string;
+}
 
-  switch (tag) {
+const createElement = <K extends keyof HTMLElementTagNameMap>(
+  params: ElementParams<K>
+): HTMLElementTagNameMap[K] => {
+  const element = document.createElement(params.tag);
+  if (params.textContent) {
+    element.textContent = params.textContent;
+  }
+  if (Array.isArray(params.className)) {
+    element.className = params.className.join(' ');
+  } else {
+    element.className = params.className;
+  }
+  switch (params.tag) {
     case 'input':
-      if (type) {
-        element.setAttribute('type', type);
+      if (params.type) {
+        element.setAttribute('type', params.type);
       }
-      if (placeholder) {
-        (element as HTMLInputElement).placeholder = placeholder;
+      if (params.placeholder) {
+        (element as HTMLInputElement).placeholder = params.placeholder;
       }
-      if (required) {
+      if (params.required) {
         (element as HTMLInputElement).required = true;
       }
       break;
     case 'button':
-      if (type) {
-        element.setAttribute('type', type);
+      if (params.type) {
+        element.setAttribute('type', params.type);
       }
-      if (disabled) {
+      if (params.disabled) {
         (element as HTMLButtonElement).disabled = true;
+      }
+      break;
+    case 'a':
+      if (params.href) {
+        (element as HTMLAnchorElement).href = params.href;
+      }
+      if (params.target) {
+        (element as HTMLAnchorElement).target = params.target;
       }
       break;
     default:
