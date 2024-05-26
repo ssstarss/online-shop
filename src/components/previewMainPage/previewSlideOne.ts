@@ -1,5 +1,6 @@
 import { previewImg, previewImgSlide2, previewImgSlide3 } from '../../assets/images';
 import createElement from '../../helpers/createElement';
+import navigate from '../../utils/navigate';
 
 interface Slide {
   title: string;
@@ -63,6 +64,10 @@ export function renderSlide(slide: Slide) {
     tag: 'button',
     className: 'preview__text-btn button',
     textContent: 'SHOP NOW',
+  });
+  buttonShopNow.addEventListener('click', (event) => {
+    event.preventDefault();
+    navigate('/catalog');
   });
 
   textContainer.append(textWelcome, textTitle, textDescription, buttonShopNow);
