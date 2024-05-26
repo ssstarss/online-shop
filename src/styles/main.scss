@@ -1,6 +1,19 @@
 @import 'normalize.css';
 @import '../pages/page404/page404';
 @import '../components/header/header';
+@import '../components/previewMainPage/previewSlide';
+@import 'swiper/css';
+@import 'swiper/css/navigation';
+@import 'swiper/css/pagination';
+@import 'swiper/scss/autoplay';
+@import 'swiper/swiper-bundle.css';
+
+@font-face {
+  font-family: 'CeraPro';
+  src: url('../assets/fonts/CeraPro-Black.woff') format('woff');
+  font-weight: 900;
+  font-style: normal;
+}
 
 @font-face {
   font-family: 'CeraPro';
@@ -43,6 +56,8 @@
   --placeholder-txt: #a5a5a5;
   --error: #f03800;
   --popup-bg: #7978787a;
+  --text-description: #727272;
+  --bg-section: #fbfbfb;
 }
 
 html {
@@ -61,6 +76,17 @@ body {
   max-width: 1200px;
   width: 100%;
   margin: 0 auto;
+  overflow: hidden;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+p,
+ul {
+  margin: 0;
 }
 
 a {
