@@ -8,6 +8,8 @@ interface ElementParams<K extends keyof HTMLElementTagNameMap> {
   href?: string;
   target?: string;
   textContent?: string;
+  src?: string;
+  title?: string;
 }
 
 const createElement = <K extends keyof HTMLElementTagNameMap>(
@@ -48,6 +50,14 @@ const createElement = <K extends keyof HTMLElementTagNameMap>(
       }
       if (params.target) {
         (element as HTMLAnchorElement).target = params.target;
+      }
+      break;
+    case 'img':
+      if (params.src) {
+        (element as HTMLImageElement).src = params.src;
+      }
+      if (params.title) {
+        (element as HTMLAnchorElement).title = params.title;
       }
       break;
     default:
