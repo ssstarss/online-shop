@@ -60,24 +60,32 @@
   --text-description: #727272;
   --bg-section: #fbfbfb;
 }
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
 
 html {
   font-family: 'CeraPro', sans-serif;
   background-color: var(--bg);
   color: var(--base-txt);
-  height: 100%;
 }
 
 body {
-  height: 100%;
   padding: 0 20px;
-  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
 .container {
   max-width: 1200px;
   width: 100%;
   margin: 0 auto;
+}
+main {
+  flex-grow: 1;
 }
 
 h1,

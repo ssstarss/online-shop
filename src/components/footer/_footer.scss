@@ -1,8 +1,5 @@
 .footer {
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
+  flex-shrink: 0;
   .footer__wrap {
     display: grid;
     grid-template-columns: 60% auto;
