@@ -101,13 +101,13 @@ const footerLocation = createElement({
   className: 'footer__contacts-img',
 });
 footerLocation.innerHTML = locationSvg;
+
 const footerLocationText = createElement({
   tag: 'a',
   className: 'footer__contacts-text',
   textContent: '70 West Buckingham Ave. Farmingdale, NY 11735',
   href: 'https://www.google.com/maps/search/70+West+Buckingham+Ave.+Farmingdale,+NY+11735/@40.7317583,-73.4582906,15z/data=!3m1!4b1?entry=ttu',
 });
-footerLocation.append(footerLocationText);
 
 const footerMessage = createElement({
   tag: 'div',
@@ -136,9 +136,11 @@ const footerCallingText = createElement({
 footerCalling.append(footerCallingText);
 footerMessage.append(footerMessageText);
 footerLocation.append(footerLocationText);
-footerContactsContainer.append(footerLogo, footerLocation, footerMessage, footerCalling);
+const footerContactsWrap = createElement({ tag: 'div', className: 'footer__contacts-wrap' });
+footerContactsContainer.append(footerLocation, footerMessage, footerCalling);
+footerContactsWrap.append(footerLogo, footerContactsContainer);
 const footerOne = createElement({ tag: 'div', className: 'footer__wrap' });
 footerOne.append(themeContainer, newslettersBlock);
-footerContainer.append(footerOne, footerContactsContainer);
+footerContainer.append(footerOne, footerContactsWrap);
 
 export default footerContainer;
