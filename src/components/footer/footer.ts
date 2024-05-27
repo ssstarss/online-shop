@@ -1,3 +1,4 @@
+import { callingSvg, locationSvg, logoSvg, messageSvg } from '../../assets/icons';
 import { themeOneImg, themeThreeImg, themeTwoImg } from '../../assets/images';
 import createElement from '../../helpers/createElement';
 
@@ -88,6 +89,56 @@ const themeThreeDescription = createElement({
 themeThree.append(themeThreeImage, themeThreeTitle, themeThreeDescription);
 
 themeContainer.append(themeOne, themeTwo, themeThree);
-footerContainer.append(themeContainer, newslettersBlock);
+const footerContactsContainer = createElement({ tag: 'div', className: 'footer__contacts' });
+const footerLogo = createElement({
+  tag: 'div',
+  className: 'footer__contacts-logo',
+});
+footerLogo.innerHTML = logoSvg;
+
+const footerLocation = createElement({
+  tag: 'div',
+  className: 'footer__contacts-img',
+});
+footerLocation.innerHTML = locationSvg;
+const footerLocationText = createElement({
+  tag: 'a',
+  className: 'footer__contacts-text',
+  textContent: '70 West Buckingham Ave. Farmingdale, NY 11735',
+  href: 'https://www.google.com/maps/search/70+West+Buckingham+Ave.+Farmingdale,+NY+11735/@40.7317583,-73.4582906,15z/data=!3m1!4b1?entry=ttu',
+});
+footerLocation.append(footerLocationText);
+
+const footerMessage = createElement({
+  tag: 'div',
+  className: 'footer__contacts-img',
+});
+footerMessage.innerHTML = messageSvg;
+const footerMessageText = createElement({
+  tag: 'a',
+  className: 'footer__contacts-text',
+  textContent: 'contact@greenshop.com',
+  href: 'mailto:contact@greenshop.com',
+});
+
+const footerCalling = createElement({
+  tag: 'div',
+  className: 'footer__contacts-img',
+});
+footerCalling.innerHTML = callingSvg;
+const footerCallingText = createElement({
+  tag: 'a',
+  className: 'footer__contacts-text',
+  textContent: '+88 01911 717 490',
+  href: 'tel:+8801911717490',
+});
+
+footerCalling.append(footerCallingText);
+footerMessage.append(footerMessageText);
+footerLocation.append(footerLocationText);
+footerContactsContainer.append(footerLogo, footerLocation, footerMessage, footerCalling);
+const footerOne = createElement({ tag: 'div', className: 'footer__wrap' });
+footerOne.append(themeContainer, newslettersBlock);
+footerContainer.append(footerOne, footerContactsContainer);
 
 export default footerContainer;

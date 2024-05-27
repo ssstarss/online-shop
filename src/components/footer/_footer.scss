@@ -1,75 +1,101 @@
 .footer {
-  display: grid;
-  grid-template-columns: 60% auto;
-  gap: 62px;
-  padding: 25px;
-  background: var(--bg-section);
-  .footer__theme-container {
-    display: flex;
+  .footer__wrap {
+    display: grid;
+    grid-template-columns: 60% auto;
     gap: 62px;
-    .footer__theme-img {
-      margin-bottom: 15px;
+    padding: 25px;
+    background: var(--bg-section);
+    .footer__theme-container {
+      display: flex;
+      gap: 62px;
+
+      .footer__theme-img {
+        margin-bottom: 15px;
+      }
+      .footer__theme-title {
+        margin-bottom: 9px;
+        font-size: 17px;
+        font-weight: 700;
+      }
+      .footer__theme-desc {
+        font-size: 14px;
+        font-weight: 400;
+        color: var(--text-description);
+      }
     }
-    .footer__theme-title {
-      margin-bottom: 9px;
-      font-size: 17px;
-      font-weight: 700;
-    }
-    .footer__theme-desc {
-      font-size: 14px;
-      font-weight: 400;
-      color: var(--text-description);
+    .footer__newsletters {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      .footer__newsletters-title {
+        padding-top: 13px;
+      }
+
+      .footer__newsletters-group {
+        width: 100%;
+        display: grid;
+        grid-template-columns: 79% auto;
+        .footer__newsletters-input {
+          padding: 12px 14px;
+          border: none;
+          border-radius: 5px 0 0 5px;
+          box-shadow: 0 4px 9px rgba(0, 0, 0, 0.1);
+          &::-webkit-input-placeholder {
+            font-size: 14px;
+            font-family: inherit;
+            font-weight: 400;
+            color: var(--placeholder-txt);
+          }
+        }
+        .footer__newsletters-button {
+          align-items: center;
+          justify-content: center;
+          text-align: center;
+          background-color: var(--accent-color);
+          cursor: pointer;
+          border: none;
+          transition: 0.5s;
+          border-radius: 0 5px 5px 0;
+          color: var(--on-accent-txt);
+          padding: 12px 25px;
+          font-size: 18px;
+          font-weight: 700;
+
+          &:hover {
+            opacity: 0.7;
+            transition: 0.5s;
+          }
+        }
+      }
+
+      .footer__newsletters-desc {
+        font-size: 13px;
+        font-weight: 400;
+        color: var(--text-description);
+      }
     }
   }
-  .footer__newsletters {
+  .footer__contacts {
     display: flex;
-    flex-direction: column;
-    gap: 18px;
-    .footer__newsletters-title {
-      padding-top: 13px;
+    justify-content: space-between;
+    height: 88px;
+    padding: 25px;
+    align-items: center;
+    background: #46a35927;
+    border-top: 1px solid #d7e9da;
+    border-bottom: 1px solid #d7e9da;
+    .footer__contacts-logo {
+      height: auto;
+      width: 150px;
     }
+    .footer__contacts-img {
+      display: flex;
 
-    .footer__newsletters-group {
-      width: 100%;
-      display: grid;
-      grid-template-columns: 79% auto;
-      .footer__newsletters-input {
-        padding: 12px 14px;
-        border: none;
-        border-radius: 5px 0 0 5px;
-        box-shadow: 0 4px 9px rgba(0, 0, 0, 0.1);
-        &::-webkit-input-placeholder {
-          font-size: 14px;
-          font-family: inherit;
-          font-weight: 400;
-          color: var(--placeholder-txt);
-        }
+      svg {
+        width: 20px;
+        height: 20px;
+        margin-right: 10px;
       }
-      .footer__newsletters-button {
-        align-items: center;
-        justify-content: center;
-        text-align: center;
-        background-color: var(--accent-color);
-        cursor: pointer;
-        border: none;
-        transition: 0.5s;
-        border-radius: 0 5px 5px 0;
-        color: var(--on-accent-txt);
-        padding: 12px 25px;
-        font-size: 18px;
-        font-weight: 700;
-
-        &:hover {
-          opacity: 0.7;
-          transition: 0.5s;
-        }
-      }
-    }
-
-    .footer__newsletters-desc {
-      font-size: 13px;
-      font-weight: 400;
-      color: var(--text-description);
     }
   }
 }
