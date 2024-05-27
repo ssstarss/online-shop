@@ -6,6 +6,7 @@ import RegistrationPage from '../pages/registrationPage/registrationPage';
 import catalogPage from '../pages/catalogPage/catalogPage';
 import blogsPage from '../pages/blogsPage/blogsPage';
 import loginHeader, { loginLink, registerLink } from '../components/loginHeader/loginHeader';
+import userProfilePage from '../pages/userProfilePage/userProfilePage';
 
 const registrationPage = new RegistrationPage();
 
@@ -41,4 +42,9 @@ export function renderBlogsPage(): void {
 export function render404Page(): void {
   mainContainer.innerHTML = '';
   mainContainer.append(page404);
+}
+
+export function renderUserProfilePage(): void {
+  mainContainer.innerHTML = '';
+  mainContainer.append(userProfilePage);
 }

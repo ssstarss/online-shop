@@ -20,6 +20,7 @@ import {
   mobileSearchLink,
   registerButton,
   searchLink,
+  userProfile,
 } from '../components/header/header';
 import navigate from '../utils/navigate';
 
@@ -149,6 +150,7 @@ const updateButtonVisibility = () => {
     loginButton.style.display = 'none';
     registerButton.style.display = 'none';
     logoutButton.style.display = 'block';
+    userProfile.style.display = 'block';
   } else {
     mobileLoginButton.style.display = 'flex';
     mobileRegisterButton.style.display = 'flex';
@@ -156,6 +158,7 @@ const updateButtonVisibility = () => {
     loginButton.style.display = 'flex';
     registerButton.style.display = 'flex';
     logoutButton.style.display = 'none';
+    userProfile.style.display = 'none';
   }
 };
 
@@ -165,6 +168,11 @@ logoutButton.addEventListener('click', () => {
   localStorage.removeItem('logged');
   updateButtonVisibility();
   navigate('/main');
+});
+
+userProfile.addEventListener('click', (event) => {
+  event.preventDefault();
+  navigate('/profile');
 });
 
 document.addEventListener('DOMContentLoaded', updateButtonVisibility);
