@@ -129,6 +129,12 @@ export const mobileLogoutButton = createElement({
   textContent: 'Logout',
 });
 
+export const mobileUserProfileButton = createElement({
+  tag: 'li',
+  className: 'mobile__list-item mobile__user-profile',
+  textContent: 'Account details',
+});
+
 mobileLinksList.append(
   mobileLinkHome,
   mobileLinkCatalog,
@@ -137,7 +143,8 @@ mobileLinksList.append(
   mobileBasketLink,
   mobileLoginButton,
   mobileRegisterButton,
-  mobileLogoutButton
+  mobileLogoutButton,
+  mobileUserProfileButton
 );
 
 export const mobileMenu = createElement({ tag: 'div', className: 'mobile-menu' });

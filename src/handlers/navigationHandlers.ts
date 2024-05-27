@@ -18,6 +18,7 @@ import {
   mobileMenu,
   mobileRegisterButton,
   mobileSearchLink,
+  mobileUserProfileButton,
   registerButton,
   searchLink,
   userProfile,
@@ -147,6 +148,7 @@ const updateButtonVisibility = () => {
     mobileLoginButton.style.display = 'none';
     mobileRegisterButton.style.display = 'none';
     mobileLogoutButton.style.display = 'block';
+    mobileUserProfileButton.style.display = 'block';
     loginButton.style.display = 'none';
     registerButton.style.display = 'none';
     logoutButton.style.display = 'block';
@@ -155,6 +157,7 @@ const updateButtonVisibility = () => {
     mobileLoginButton.style.display = 'flex';
     mobileRegisterButton.style.display = 'flex';
     mobileLogoutButton.style.display = 'none';
+    mobileUserProfileButton.style.display = 'none';
     loginButton.style.display = 'flex';
     registerButton.style.display = 'flex';
     logoutButton.style.display = 'none';
@@ -171,6 +174,11 @@ logoutButton.addEventListener('click', () => {
 });
 
 userProfile.addEventListener('click', (event) => {
+  event.preventDefault();
+  navigate('/profile');
+});
+
+mobileUserProfileButton.addEventListener('click', (event) => {
   event.preventDefault();
   navigate('/profile');
 });
