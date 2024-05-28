@@ -1,5 +1,5 @@
 import createElement from '../../helpers/createElement';
-import createCatalogCard from '../../components/catalogCard/catalogCard';
+import generateDetailedProductPage from '../detailedProductPage/detailedProductPage';
 
 const catalogPage = createElement({
   tag: 'section',
@@ -7,14 +7,7 @@ const catalogPage = createElement({
   textContent: 'CATALOG PAGE',
 });
 
-const card = createCatalogCard(
-  'https://www.ikea.com/gb/en/images/products/clusia-potted-plant-clusia__0653977_pe708206_s5.jpg?f=xl',
-  '#',
-  'Dypsis lutescens',
-  '12',
-  '14',
-  '5'
-);
-catalogPage.append(card);
+const detailedPage = generateDetailedProductPage();
+catalogPage.append(detailedPage);
 
 export default catalogPage;
