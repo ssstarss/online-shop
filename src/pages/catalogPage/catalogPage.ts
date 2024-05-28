@@ -1,5 +1,6 @@
 import createElement from '../../helpers/createElement';
 import createCatalogCard from '../../components/catalogCard/catalogCard';
+import getProducts from '../../utils/getProducts';
 
 const catalogPage = createElement({
   tag: 'section',
@@ -16,5 +17,7 @@ const card = createCatalogCard(
   '5'
 );
 catalogPage.append(card);
+
+getProducts();
 
 export default catalogPage;
