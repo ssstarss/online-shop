@@ -29,3 +29,30 @@ export default function generateErrorPopup(error: string) {
     }
   });
 }
+
+export function generateSliderPopup(slider: HTMLElement) {
+  const popupContainer = createElement({
+    tag: 'div',
+    className: ['error-popup__container', 'slider-popup__container'],
+  });
+  const popup = createElement({ tag: 'div', className: ['error-popup', 'slider-popup'] });
+  const closeBtn = createElement({
+    tag: 'button',
+    className: ['error-popup__close', 'slider-popup__close'],
+    type: 'button',
+  });
+
+  const { body } = document;
+
+  closeBtn.addEventListener('click', () => {
+    popupContainer.remove();
+  });
+  body.append(popupContainer);
+  popupContainer.append(popup);
+  popup.append(closeBtn, slider);
+  document.addEventListener('click', (e) => {
+    if (popupContainer && e.target !== popup && e.target === popupContainer) {
+      popupContainer.remove();
+    }
+  });
+}
