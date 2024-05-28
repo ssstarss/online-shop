@@ -107,7 +107,7 @@ export function initializeSwiper() {
   });
   // eslint-disable-next-line
   new Swiper('.mySwiper2', {
-    direction: 'vertical',
+    // direction: 'vertical',
     loop: true,
     spaceBetween: 10,
     thumbs: {
