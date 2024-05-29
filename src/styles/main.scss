@@ -8,8 +8,9 @@
 @import 'swiper/scss/autoplay';
 @import 'swiper/swiper-bundle.css';
 @import '../components/footer/footer';
-@import '../components/userProfile/userProfile';
-
+@import '../components/userProfile/userProfileMenu/userProfileMenu';
+@import '../components/userProfile/accountDetails/accountDetails';
+@import '../pages/userProfilePage/userProfilePage';
 @font-face {
   font-family: 'CeraPro';
   src: url('../assets/fonts/CeraPro-Black.woff') format('woff');
