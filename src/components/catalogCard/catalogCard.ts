@@ -5,13 +5,18 @@ export default function createCatalogCard(
   imgSrc: string,
   productPageLink: string,
   title: string,
+  discount: boolean,
   price: string,
-  previousPrice: string,
-  saleRate: string
+  previousPrice?: string,
+  saleRate?: string
 ) {
   const card = createElement({ tag: 'article', className: 'card' });
+  if (discount === true) {
+    card.classList.add('discount');
+  }
   const cardLink = createElement({ tag: 'a', className: 'card__link', href: productPageLink });
   const imgWrapper = createElement({ tag: 'div', className: 'card__inner' });
+
   const saleTag = createElement({
     tag: 'span',
     className: 'card__sale-tag',

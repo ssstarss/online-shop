@@ -50,7 +50,7 @@ export interface IProduct {
         sku: string;
       };
       name: {
-        en: string;
+        'en-US': string;
       };
       slug: {
         en: string;

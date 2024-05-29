@@ -3,6 +3,9 @@ import header from '../components/header/header';
 import mainContainer from '../components/mainContainer/mainContainer';
 import navigate from '../utils/navigate';
 import initRouting from '../utils/router2';
+import ConnectionByFetch from './connectionByFetch';
+
+export const connection = new ConnectionByFetch();
 
 const App = () => {
   navigate(window.location.pathname);
