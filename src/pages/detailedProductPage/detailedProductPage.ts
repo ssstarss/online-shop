@@ -1,8 +1,5 @@
 import './_detailedProductPage.scss';
-import {
-  generateProductSlider,
-  initializeSwiper,
-} from '../../components/productSlider/productSlider';
+import { generateProductSlider } from '../../components/productSlider/productSlider';
 import createElement from '../../helpers/createElement';
 
 export default function generateDetailedProductPage(
@@ -16,11 +13,11 @@ export default function generateDetailedProductPage(
   const sliderBlock = createElement({ tag: 'div', className: 'slider-section' });
   const slider = generateProductSlider();
 
-  // initializeSwiper();
+  // // initializeSwiper();
 
-  setTimeout(() => {
-    initializeSwiper();
-  }, 1000);
+  // setTimeout(() => {
+  //   initializeSwiper();
+  // }, 1000);
 
   const productInfoSection = createElement({ tag: 'div', className: 'product-info' });
   const productHeader = createElement({ tag: 'div', className: 'product-info__header' });

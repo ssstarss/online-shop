@@ -1,8 +1,11 @@
 // import Swiper from 'swiper';
 import Swiper from 'swiper';
+import { Navigation, Thumbs } from 'swiper/modules';
 import 'swiper/css/bundle';
 import createElement from '../../helpers/createElement';
 import './_productSlider.scss';
+
+Swiper.use([Navigation, Thumbs]);
 
 export function generateProductSlider() {
   const swipersContainer = createElement({ tag: 'div', className: 'swipers-container' });
@@ -96,8 +99,10 @@ export function generateProductSlider() {
 
   return swipersContainer;
 }
+export default generateProductSlider;
 
-export function initializeSwiper() {
+setTimeout(() => {
+  // eslint-disable-next-line no-new
   const swiper = new Swiper('.mySwiper', {
     loop: true,
     spaceBetween: 10,
@@ -106,12 +111,16 @@ export function initializeSwiper() {
     watchSlidesProgress: true,
   });
   // eslint-disable-next-line
-  new Swiper('.mySwiper2', {
+  let swiper2 = new Swiper('.mySwiper2', {
     // direction: 'vertical',
+    navigation: {
+      nextEl: '.swiper-button-next',
+      prevEl: '.swiper-button-prev',
+    },
     loop: true,
     spaceBetween: 10,
     thumbs: {
       swiper,
     },
   });
-}
+});

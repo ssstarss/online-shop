@@ -1,6 +1,11 @@
 @import 'normalize.css';
 @import '../pages/page404/page404';
 @import '../components/header/header';
+@import 'swiper/css';
+@import 'swiper/css/navigation';
+@import 'swiper/css/pagination';
+@import 'swiper/scss/autoplay';
+@import 'swiper/swiper-bundle.css';
 
 @font-face {
   font-family: 'CeraPro';
