@@ -30,8 +30,7 @@ export default class ConnectionByFetch {
     else {
       this.bearerToken = localStorage.getItem('token') || '';
     }
-    //  this.discounts = await this.getDiscountedProducts();
-    // const products = await this.getProducts();
+    this.discounts = await this.getDiscountedProducts();
     if (id) this.currentCustomer = await this.getCustumerByID(id);
   }
 
