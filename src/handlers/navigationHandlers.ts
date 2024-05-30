@@ -24,6 +24,12 @@ import {
   userProfile,
 } from '../components/header/header';
 import navigate from '../utils/navigate';
+import {
+  profileAccountDetails,
+  profileAddress,
+} from '../components/userProfile/userProfileMenu/userProfileMenu';
+import loadAccountDetails from '../components/userProfile/loadersContent/loadAccountDetails';
+import loadAddress from '../components/userProfile/loadersContent/loadAddress';
 
 buttonHome.addEventListener('click', () => {
   navigate('/main');
@@ -176,11 +182,23 @@ logoutButton.addEventListener('click', () => {
 userProfile.addEventListener('click', (event) => {
   event.preventDefault();
   navigate('/profile');
+  loadAccountDetails();
 });
 
 mobileUserProfileButton.addEventListener('click', (event) => {
   event.preventDefault();
   navigate('/profile');
+  loadAccountDetails();
+});
+
+profileAccountDetails.addEventListener('click', (event) => {
+  event.preventDefault();
+  loadAccountDetails();
+});
+
+profileAddress.addEventListener('click', (event) => {
+  event.preventDefault();
+  loadAddress();
 });
 
 document.addEventListener('DOMContentLoaded', updateButtonVisibility);

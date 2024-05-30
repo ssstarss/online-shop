@@ -1,6 +1,6 @@
 import createElement from '../../../helpers/createElement';
 
-const accountDetails = createElement({ tag: 'div', className: 'account-details' });
+const accountDetails = createElement({ tag: 'form', className: 'account-details' });
 const accountDetailsTitle = createElement({
   tag: 'h3',
   className: 'account-details__title',
@@ -64,6 +64,7 @@ const buttonChange = createElement({
 const buttonSaveChange = createElement({
   tag: 'button',
   className: 'button-save-change button',
+  type: 'submit',
   textContent: 'Save Change',
 });
 buttonWrap.append(buttonChange, buttonSaveChange);
