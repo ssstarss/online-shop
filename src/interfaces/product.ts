@@ -115,5 +115,34 @@ export interface IProduct {
   };
   createdAt: string;
   lastModifiedAt: string;
-  discount: object;
+  discount: Idiscount;
+}
+
+export interface Idiscount {
+  id: string;
+  version: number;
+  value: {
+    type: string;
+    money: [
+      {
+        type: string;
+        fractionDigits: number;
+        currencyCode: string;
+        centAmount: number;
+      },
+    ];
+    id: string;
+  };
+  predicate: string;
+  name: {
+    en: string;
+  };
+  description: {
+    en: string;
+  };
+  isActive: boolean;
+  sortOrder: string;
+  references: [];
+  createdAt: string;
+  lastModifiedAt: string;
 }
