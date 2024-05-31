@@ -1,12 +1,12 @@
 // import ConnectionByFetch from '../app/connectionByFetch';
-import { connection } from '../app/app';
+import { connectionByFetch } from '../app/app';
 // import { IProduct } from '../interfaces/product';
 
 async function getProducts() {
   // const connection = new ConnectionByFetch();
 
   try {
-    const response = await connection.getProducts();
+    const response = await connectionByFetch.getProducts();
 
     return response;
   } catch (error: unknown) {

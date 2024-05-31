@@ -121,3 +121,23 @@
 .card .card__inner {
   margin-bottom: 12px;
 }
+
+/* Inline таблица стилей #13 | http://localhost:8080/catalog */
+
+.card__sale-tag {
+  display: none;
+}
+
+.card__prev-price {
+  display: none;
+}
+
+/* Inline таблица стилей #15 | http://localhost:8080/catalog */
+
+.discount .card__sale-tag {
+  display: block;
+}
+
+.discount .card__prev-price {
+  display: block;
+}

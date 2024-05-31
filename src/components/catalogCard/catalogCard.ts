@@ -4,6 +4,7 @@ import './catalogCards.scss';
 export default function createCatalogCard(
   imgSrc: string,
   productPageLink: string,
+  id: string,
   title: string,
   discount: boolean,
   price: string,
@@ -15,6 +16,7 @@ export default function createCatalogCard(
     card.classList.add('discount');
   }
   const cardLink = createElement({ tag: 'a', className: 'card__link', href: productPageLink });
+  cardLink.setAttribute('id', id);
   const imgWrapper = createElement({ tag: 'div', className: 'card__inner' });
 
   const saleTag = createElement({
