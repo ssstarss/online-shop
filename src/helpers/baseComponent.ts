@@ -91,4 +91,26 @@ export default class BaseComponent {
   setTextContent(text = '') {
     this.element.textContent = text;
   }
+
+  addLabel(text: string) {
+    const label = document.createElement('label');
+    label.textContent = text;
+    this.element.parentNode?.insertBefore(label, this.element);
+  }
+
+  getValue() {
+    return (this.element as HTMLInputElement).value;
+  }
+
+  setValue(value: string) {
+    (this.element as HTMLInputElement).value = value;
+  }
+
+  disable() {
+    (this.element as HTMLInputElement).disabled = true;
+  }
+
+  enable() {
+    (this.element as HTMLInputElement).disabled = false;
+  }
 }
