@@ -1,11 +1,11 @@
 // import Swiper from 'swiper';
 import Swiper from 'swiper';
-import { Navigation, Thumbs } from 'swiper/modules';
+import { Thumbs } from 'swiper/modules';
 import 'swiper/css/bundle';
 import createElement from '../../helpers/createElement';
 import './_productSlider.scss';
 
-Swiper.use([Navigation, Thumbs]);
+Swiper.use([Thumbs]);
 
 export function generateProductSlider() {
   const swipersContainer = createElement({ tag: 'div', className: 'swipers-container' });
@@ -14,8 +14,6 @@ export function generateProductSlider() {
     className: 'swiper mySwiper2',
     textContent: '',
   });
-  swiper1.style.setProperty('--swiper-navigation-color', '#fff');
-  swiper1.style.setProperty('--swiper-pagination-color', '#fff');
 
   const swiperWrapper1 = createElement({
     tag: 'div',
@@ -48,20 +46,6 @@ export function generateProductSlider() {
   });
 
   swiper1.appendChild(swiperWrapper1);
-
-  const swiperButtonNext = createElement({
-    tag: 'div',
-    className: 'swiper-button-next',
-    textContent: '',
-  });
-  const swiperButtonPrev = createElement({
-    tag: 'div',
-    className: 'swiper-button-prev',
-    textContent: '',
-  });
-
-  swiper1.appendChild(swiperButtonNext);
-  swiper1.appendChild(swiperButtonPrev);
 
   const swiper2 = createElement({
     tag: 'div',
@@ -105,20 +89,17 @@ setTimeout(() => {
   // eslint-disable-next-line no-new
   const swiper = new Swiper('.mySwiper', {
     loop: true,
-    spaceBetween: 10,
+    spaceBetween: 16,
     slidesPerView: 4,
     freeMode: true,
     watchSlidesProgress: true,
+    direction: 'vertical',
   });
   // eslint-disable-next-line
   let swiper2 = new Swiper('.mySwiper2', {
-    // direction: 'vertical',
-    navigation: {
-      nextEl: '.swiper-button-next',
-      prevEl: '.swiper-button-prev',
-    },
+    direction: 'vertical',
     loop: true,
-    spaceBetween: 10,
+    spaceBetween: 16,
     thumbs: {
       swiper,
     },
