@@ -9,7 +9,7 @@
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint --ext .ts --fix",
     "format": "prettier **/*.{ts,css} --write",
-    "test": "jest",
+    "test": "jest --coverage",
     "build": "webpack",
     "serve": "webpack serve --open --mode development",
     "watch": "webpack --watch",

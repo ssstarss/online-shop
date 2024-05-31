@@ -21,3 +21,12 @@ export function containsSpecialCharacter(value: string) {
 export function hasNoLeadingOrTrailingWhitespace(value: string) {
   return /^\S(.*\S)?$/.test(value);
 }
+
+module.exports = {
+  isPasswordLengthValid,
+  containsUppercase,
+  containsLowercase,
+  containsDigit,
+  containsSpecialCharacter,
+  hasNoLeadingOrTrailingWhitespace,
+};

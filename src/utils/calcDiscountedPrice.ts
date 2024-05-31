@@ -6,3 +6,4 @@ export default function calculateDiscountedPrice(
   const finalPrice = originalPrice - discountAmount;
   return finalPrice;
 }
+module.exports = calculateDiscountedPrice;

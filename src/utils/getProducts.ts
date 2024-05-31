@@ -1,10 +1,6 @@
-// import ConnectionByFetch from '../app/connectionByFetch';
 import { connectionByFetch } from '../app/app';
-// import { IProduct } from '../interfaces/product';
 
 async function getProducts() {
-  // const connection = new ConnectionByFetch();
-
   try {
     const response = await connectionByFetch.getProducts();
 

@@ -52,5 +52,3 @@ export default async function generateCatalog() {
   });
   return catalogPage;
 }
-
-// export default catalogPage;
