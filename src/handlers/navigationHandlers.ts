@@ -175,6 +175,8 @@ window.addEventListener('storage', updateButtonVisibility);
 
 logoutButton.addEventListener('click', () => {
   localStorage.removeItem('logged');
+  localStorage.removeItem('id');
+  localStorage.removeItem('token');
   updateButtonVisibility();
   navigate('/main');
 });

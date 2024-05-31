@@ -1,4 +1,5 @@
-import { IProduct } from '../interfaces/product';
+import Customer from '../interfaces/customer';
+import { IProduct, Idiscount } from '../interfaces/product';
 
 export default class ConnectionByFetch {
   ADMIN_CLIENT_ID = process.env.CTP_CLIENT_ID;
@@ -15,12 +16,27 @@ export default class ConnectionByFetch {
 
   bearerToken = '';
 
+  currentCustomer: Customer = Object();
+
+  discounts: Idiscount[] = [];
+
   constructor() {
-    this.obtainTokenByCredentials();
+    this.init();
   }
+
+  async init() {
+    const id = localStorage.getItem('id');
+    if (!id) await this.loginAnonymous();
+    else {
+      this.bearerToken = localStorage.getItem('token') || '';
+    }
+    this.discounts = await this.getDiscountedProducts();
+    if (id) this.currentCustomer = await this.getCustumerByID(id);
+  }
+
   // возможно ненужная функция
 
-  obtainTokenByPassword() {
+  async obtainTokenByPassword(username: string, password: string) {
     const header = new Headers();
     header.append(
       'Authorization',
@@ -28,8 +44,8 @@ export default class ConnectionByFetch {
     );
     const requestParams = new URLSearchParams({
       grant_type: 'password',
-      username: 's.s.star@mail.ru',
-      password: 'Aa!12345',
+      username,
+      password,
     });
 
     const options = {
@@ -41,12 +57,40 @@ export default class ConnectionByFetch {
     const token = fetch(url, options)
       .then((response) => response.text())
       .then((result) => {
-        console.log(result);
         this.bearerToken = JSON.parse(result).access_token;
         return this.bearerToken;
-      })
-      .catch((error) => console.error(error));
+      });
+    // добавить обработку ошибок
     return token;
+  }
+
+  async loginByPassword(email: string, password: string): Promise<Response> {
+    return new Promise((resolve, reject) => {
+      const header = new Headers();
+      header.append('Content-Type', 'application/json');
+      header.append('Authorization', `Bearer ${this.bearerToken}`);
+      const requestParams = JSON.stringify({
+        email,
+        password,
+      });
+
+      const options = {
+        method: 'POST',
+        headers: header,
+        body: requestParams,
+      };
+      const url = this.API_URL.concat(`/${this.projectKey}/login`);
+      fetch(url, options).then((response) => {
+        if (response.ok) {
+          this.obtainTokenByPassword(email, password);
+          resolve(response);
+        } else {
+          response.json().then((result) => {
+            reject(result.message);
+          });
+        }
+      });
+    });
   }
 
   obtainTokenByCredentials() {
@@ -67,15 +111,14 @@ export default class ConnectionByFetch {
     const token = fetch(url, options)
       .then((response) => response.text())
       .then((result) => {
-        console.log(result);
         this.bearerToken = JSON.parse(result).access_token;
         return this.bearerToken;
-      })
-      .catch((error) => console.error(error));
+      });
+    // добавить обработку ошибок
     return token;
   }
 
-  login(email: string, password: string) {
+  login(email: string = 's.s.star@mail.ru', password: string = 'Aa!12345') {
     const header = new Headers();
     header.append('Content-Type', 'application/json');
     header.append('Authorization', `Bearer ${this.bearerToken}`);
@@ -98,8 +141,8 @@ export default class ConnectionByFetch {
       .then((response) => response.json())
       .then((result) => {
         return result;
-      })
-      .catch((error) => console.error(error));
+      });
+    // добавить обработку ошибок
   }
 
   loginAnonymous() {
@@ -110,6 +153,8 @@ export default class ConnectionByFetch {
     );
     const requestParams = new URLSearchParams();
     requestParams.append('grant_type', 'client_credentials');
+    requestParams.append('scope', this.SCOPES);
+
     const options = {
       method: 'POST',
       headers: header,
@@ -119,9 +164,10 @@ export default class ConnectionByFetch {
     return fetch(url, options)
       .then((response) => response.json())
       .then((result) => {
+        this.bearerToken = result.access_token;
         return result.access_token;
-      })
-      .catch((error) => console.error(error));
+      });
+    // добавить обработку ошибок
   }
 
   getProducts(
@@ -146,27 +192,26 @@ export default class ConnectionByFetch {
       `?limit=${limit}`,
       `&${requestParams}`
     );
-    return fetch(url, requestOptions)
-      .then((response) =>
-        response.json().then((products) => {
-          const newArr: IProduct[] = [];
-          products.results.forEach((product: IProduct, index: number) => {
-            newArr[index] = Object.assign(product);
-            if (product.masterData.current.masterVariant.prices[0].discounted) {
-              this.getDiscountProductsByID(
-                product.masterData.current.masterVariant.prices[0].discounted.discount.id
-              ).then((result) => {
-                newArr[index].discount = result;
-              });
-            }
-          });
-          return newArr;
-        })
-      )
-      .catch((error) => console.log(error));
+
+    return fetch(url, requestOptions).then((response) =>
+      response.json().then((products) => {
+        const newArr: IProduct[] = [];
+        products.results.forEach((product: IProduct, index: number) => {
+          newArr[index] = JSON.parse(JSON.stringify(product)) as typeof product;
+          const discountID =
+            product.masterData.current.masterVariant.prices[0].discounted?.discount.id;
+          if (discountID) {
+            const discount = this.discounts.find((item) => item.id === discountID);
+            if (discount)
+              newArr[index].discount = JSON.parse(JSON.stringify(discount)) as typeof discount;
+          }
+        });
+        return newArr;
+      })
+    );
   }
 
-  getDiscountProductsByID(id: string) {
+  async getDiscountedProducts() {
     const myHeaders = new Headers();
     myHeaders.append('Content-Type', 'application/json');
     myHeaders.append('Authorization', `Bearer ${this.bearerToken}`);
@@ -175,13 +220,45 @@ export default class ConnectionByFetch {
       method: 'GET',
       headers: myHeaders,
     };
-    const url = this.API_URL.concat('/', this.projectKey, `/product-discounts/${id}`);
-    return fetch(url, requestOptions)
-      .then((response) =>
-        response.json().then((result) => {
-          return result;
-        })
-      )
-      .catch((error) => console.log(error));
+    const url = this.API_URL.concat('/', this.projectKey, `/product-discounts/`);
+    return fetch(url, requestOptions).then((response) =>
+      response.json().then((result) => {
+        return result.results;
+      })
+    );
+    // добавить обработку ошибок
+  }
+
+  async signUpCustomer(customer: Customer) {
+    const myHeaders = new Headers();
+    myHeaders.append('Content-Type', 'application/json');
+    myHeaders.append('Authorization', `Bearer ${this.bearerToken}`);
+
+    const raw = JSON.stringify(customer);
+
+    const requestOptions = {
+      method: 'POST',
+      headers: myHeaders,
+      body: raw,
+    };
+    const url = this.API_URL.concat(`/${this.projectKey}/customers`);
+    fetch(url, requestOptions);
+    // добавить обработку ошибок
+  }
+
+  async getCustumerByID(id: string) {
+    const myHeaders = new Headers();
+    myHeaders.append('Content-Type', 'application/json');
+    myHeaders.append('Authorization', `Bearer ${this.bearerToken}`);
+
+    const requestOptions = {
+      method: 'GET',
+      headers: myHeaders,
+    };
+    const url = this.API_URL.concat('/', this.projectKey, `/customers/${id}`);
+    return fetch(url, requestOptions).then((response) => {
+      return response.json();
+    });
+    // добавить обработку ошибок
   }
 }
