@@ -1,7 +1,7 @@
 import Customer from '../interfaces/customer';
 import { IProduct, Idiscount } from '../interfaces/product';
 
-export default class ConnectionByFetch {
+export class ConnectionByFetch {
   ADMIN_CLIENT_ID = process.env.CTP_CLIENT_ID;
 
   ADMIN_CLIENT_SECRET = process.env.CTP_CLIENT_SECRET;
@@ -19,10 +19,6 @@ export default class ConnectionByFetch {
   currentCustomer: Customer = Object();
 
   discounts: Idiscount[] = [];
-
-  constructor() {
-    this.init();
-  }
 
   async init() {
     const id = localStorage.getItem('id');
@@ -262,3 +258,5 @@ export default class ConnectionByFetch {
     // добавить обработку ошибок
   }
 }
+
+export const connectionByFetch = new ConnectionByFetch();

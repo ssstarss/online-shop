@@ -1,0 +1,40 @@
+.loader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  background-color: var(--bg);
+  top: 0;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  transform: translate(-50%);
+  z-index: 101;
+
+  &__inner {
+    position: absolute;
+    -webkit-animation: 1s loader infinite;
+    animation: 1s loader infinite;
+  }
+}
+
+.loader.hidden {
+  display: none;
+}
+@-webkit-keyframes loader {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes loader {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
