@@ -9,6 +9,7 @@ const catalogPage = createElement({
   className: 'catalog',
 });
 
+
 export default async function generateCatalog() {
   catalogPage.innerHTML = '';
   const products = await getProducts();
