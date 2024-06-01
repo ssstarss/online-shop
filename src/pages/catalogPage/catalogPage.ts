@@ -9,6 +9,9 @@ const catalogPage = createElement({
   className: 'catalog',
 });
 
+// catalog header
+const catalogHeader = createElement({ tag: 'div', className: 'catalog__header' });
+
 export default async function generateCatalog() {
   catalogPage.innerHTML = '';
   const products = await getProducts();
