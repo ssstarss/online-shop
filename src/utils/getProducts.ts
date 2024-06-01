@@ -6,10 +6,7 @@ async function getProducts() {
 
     return response;
   } catch (error: unknown) {
-    console.log(error);
     throw new Error('Failed to get product');
-
-    return [];
   }
 }
 
