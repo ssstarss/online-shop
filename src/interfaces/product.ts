@@ -1,121 +1,100 @@
 export interface IProduct {
   id: string;
   version: number;
-  masterData: {
-    current: {
-      categories: [
-        {
-          id: string;
-          typeId: string;
-        },
-      ];
-      description: {
-        en: string;
-      };
-      masterVariant: {
-        attributes: [];
-        id: number;
-        images: [
-          {
-            dimensions: {
-              h: number;
-              w: number;
-            };
-            url: string;
-          },
-        ];
-        prices: [
-          {
-            value: {
-              type: string;
-              fractionDigits: number;
-              centAmount: number;
-              currencyCode: string;
-            };
-            discounted?: {
-              discount: {
-                id: string;
-                typeID: string;
-                value: {
-                  type: string;
-                  currencyCode: string;
-                  centAmount: number;
-                  fractionDigits: number;
-                };
-              };
-            };
-            id: string;
-          },
-        ];
-        sku: string;
-      };
-      name: {
-        en: string;
-      };
-      slug: {
-        en: string;
-      };
-      variants: [];
-      searchKeywords: object;
-    };
-    hasStagedChanges: boolean;
-    published: boolean;
-    staged: {
-      categories: [
-        {
-          id: string;
-          typeId: string;
-        },
-      ];
-      description: {
-        en: string;
-      };
-      masterVariant: {
-        attributes: [];
-        id: number;
-        images: [
-          {
-            dimensions: {
-              h: number;
-              w: number;
-            };
-            url: string;
-          },
-        ];
-        prices: [
-          {
-            value: {
-              type: string;
-              fractionDigits: number;
-              centAmount: number;
-              currencyCode: string;
-            };
-            id: string;
-          },
-        ];
-        sku: string;
-      };
-      name: {
-        en: string;
-      };
-      slug: {
-        en: string;
-      };
-      variants: [];
-      searchKeywords: object;
-    };
-  };
   productType: {
-    id: string;
     typeId: string;
-  };
-  taxCategory: {
     id: string;
-    typeId: string;
   };
+  name: {
+    'en-US': string;
+  };
+  description: {
+    'en-US': string;
+  };
+  categories: [
+    {
+      typeId: string;
+      id: string;
+    },
+    {
+      typeId: string;
+      id: string;
+    },
+  ];
+  categoryOrderHints: { some: string };
+  slug: {
+    'en-US': string;
+  };
+  metaTitle: {
+    'en-US': string;
+  };
+  metaDescription: {
+    'en-US': string;
+  };
+  variants: [];
+  masterVariant: {
+    attributes: [
+      {
+        name: string;
+        value: string;
+      },
+    ];
+    assets: [];
+    images: [
+      {
+        url: string;
+        dimensions: {
+          w: number;
+          h: number;
+        };
+      },
+      {
+        url: string;
+        dimensions: {
+          w: number;
+          h: number;
+        };
+      },
+    ];
+    prices: [
+      {
+        id: string;
+        value: {
+          type: string;
+          currencyCode: string;
+          centAmount: number;
+          fractionDigits: number;
+        };
+        country: string;
+        discounted: {
+          value: {
+            type: string;
+            currencyCode: string;
+            centAmount: number;
+            fractionDigits: number;
+          };
+          discount: Idiscount;
+        };
+      },
+    ];
+    key: string;
+    sku: string;
+    id: number;
+  };
+  searchKeywords: {
+    'en-US': [
+      {
+        text: string;
+      },
+    ];
+  };
+
+  hasStagedChanges: boolean;
+  published: boolean;
+  key: string;
+  priceMode: string;
   createdAt: string;
   lastModifiedAt: string;
-  discount: Idiscount;
 }
 
 export interface Idiscount {
@@ -137,9 +116,7 @@ export interface Idiscount {
   name: {
     en: string;
   };
-  description: {
-    en: string;
-  };
+
   isActive: boolean;
   sortOrder: string;
   references: [];

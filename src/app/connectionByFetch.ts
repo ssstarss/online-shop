@@ -1,5 +1,7 @@
-import Customer from '../interfaces/customer';
+import { CustomerDraft } from '@commercetools/platform-sdk';
+
 import { IProduct, Idiscount } from '../interfaces/product';
+import { Mutable, Customer } from '../interfaces/customer';
 
 export default class ConnectionByFetch {
   ADMIN_CLIENT_ID = process.env.CTP_CLIENT_ID;
@@ -31,7 +33,15 @@ export default class ConnectionByFetch {
       this.bearerToken = localStorage.getItem('token') || '';
     }
     this.discounts = await this.getDiscountedProducts();
-    if (id) this.currentCustomer = await this.getCustumerByID(id);
+    const products = await this.getProducts(
+      20,
+      { param: '', direction: 'desc' },
+      { higherThen: 0, lowerThen: 5000 },
+      ''
+    );
+    console.log(products);
+    /*  if (id) this.currentCustomer = await this.getCustumerByID(id);
+    this.deleteCustomer('00ef4f06-8a8c-483e-9d40-259ac4496c2a'); */
   }
 
   // возможно ненужная функция
@@ -172,7 +182,12 @@ export default class ConnectionByFetch {
 
   getProducts(
     limit: number = 20,
-    sort: { param: 'name' | ''; direction: 'asc' | 'desc' | '' } = { param: '', direction: '' }
+    sort: { param: 'name' | 'price' | ''; direction: 'asc' | 'desc' | '' } = {
+      param: '',
+      direction: '',
+    },
+    filterPrice: { higherThen: number; lowerThen: number } = { higherThen: 0, lowerThen: 10000000 },
+    searchText: string = ''
   ) {
     const myHeaders = new Headers();
     myHeaders.append('Content-Type', 'application/json');
@@ -180,7 +195,17 @@ export default class ConnectionByFetch {
     const requestParams = new URLSearchParams();
 
     if (sort.param === 'name')
-      requestParams.append('sort', `masterData.current.name.en-US ${sort.direction.toLowerCase()}`);
+      requestParams.append('sort', `name.en-US ${sort.direction.toLowerCase()}`);
+
+    if (sort.param === 'price')
+      requestParams.append('sort', `price ${sort.direction.toLowerCase()}`);
+
+    requestParams.append(
+      'filter.query',
+      `variants.price.centAmount:range(${filterPrice.higherThen} to ${filterPrice.lowerThen})`
+    );
+    requestParams.append('text.en-US', searchText);
+
     const requestOptions = {
       method: 'GET',
       headers: myHeaders,
@@ -188,7 +213,7 @@ export default class ConnectionByFetch {
     const url = this.API_URL.concat(
       '/',
       this.projectKey,
-      '/products',
+      '/product-projections/search',
       `?limit=${limit}`,
       `&${requestParams}`
     );
@@ -198,12 +223,13 @@ export default class ConnectionByFetch {
         const newArr: IProduct[] = [];
         products.results.forEach((product: IProduct, index: number) => {
           newArr[index] = JSON.parse(JSON.stringify(product)) as typeof product;
-          const discountID =
-            product.masterData.current.masterVariant.prices[0].discounted?.discount.id;
-          if (discountID) {
-            const discount = this.discounts.find((item) => item.id === discountID);
-            if (discount)
-              newArr[index].discount = JSON.parse(JSON.stringify(discount)) as typeof discount;
+          if (product.masterVariant.prices[0].discounted) {
+            const discount = this.discounts.find(
+              (item) => item.id === product.masterVariant.prices[0].discounted.discount.id
+            );
+            newArr[index].masterVariant.prices[0].discounted.discount = JSON.parse(
+              JSON.stringify(discount)
+            );
           }
         });
         return newArr;
@@ -229,22 +255,32 @@ export default class ConnectionByFetch {
     // добавить обработку ошибок
   }
 
-  async signUpCustomer(customer: Customer) {
+  async signUpCustomer(customer: Mutable<CustomerDraft>): Promise<Response> {
     const myHeaders = new Headers();
     myHeaders.append('Content-Type', 'application/json');
     myHeaders.append('Authorization', `Bearer ${this.bearerToken}`);
-
     const raw = JSON.stringify(customer);
-
     const requestOptions = {
       method: 'POST',
       headers: myHeaders,
       body: raw,
     };
     const url = this.API_URL.concat(`/${this.projectKey}/customers`);
-    fetch(url, requestOptions);
-    // добавить обработку ошибок
+    return new Promise((resolve, reject) => {
+      fetch(url, requestOptions).then((response) => {
+        if (response.ok) {
+          this.loginByPassword(customer.email, customer.password || '');
+          resolve(response);
+        } else {
+          response.json().then((result) => {
+            reject(result.message);
+          });
+        }
+      });
+    });
   }
+
+  // добавить обработку ошибок}
 
   async getCustumerByID(id: string) {
     const myHeaders = new Headers();
@@ -260,5 +296,26 @@ export default class ConnectionByFetch {
       return response.json();
     });
     // добавить обработку ошибок
+  }
+
+  async deleteCustomer(id: string) {
+    const customer = await this.getCustumerByID(id);
+
+    const customerVersion = customer.version;
+
+    const myHeaders = new Headers();
+    myHeaders.append('Content-Type', 'application/json');
+    myHeaders.append('Authorization', `Bearer ${this.bearerToken}`);
+
+    const requestOptions = {
+      method: 'DELETE',
+      headers: myHeaders,
+    };
+    const url = this.API_URL.concat(
+      '/',
+      this.projectKey,
+      `/customers/${id}?version=${customerVersion}`
+    );
+    fetch(url, requestOptions);
   }
 }

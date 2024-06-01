@@ -1,4 +1,4 @@
-export default interface Customer {
+export interface Customer {
   id: string;
   version: number;
   createdAt: string;
@@ -22,3 +22,7 @@ export default interface Customer {
   stores: [];
   authenticationMode: string;
 }
+
+export type Mutable<T extends object> = {
+  -readonly [K in keyof T]: T[K];
+};
