@@ -50,7 +50,7 @@ export interface IProduct {
         sku: string;
       };
       name: {
-        en: string;
+        'en-US': string;
       };
       slug: {
         en: string;
@@ -122,16 +122,8 @@ export interface Idiscount {
   id: string;
   version: number;
   value: {
+    permyriad: number;
     type: string;
-    money: [
-      {
-        type: string;
-        fractionDigits: number;
-        currencyCode: string;
-        centAmount: number;
-      },
-    ];
-    id: string;
   };
   predicate: string;
   name: {
