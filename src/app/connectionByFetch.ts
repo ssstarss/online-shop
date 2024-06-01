@@ -3,7 +3,7 @@ import { CustomerDraft } from '@commercetools/platform-sdk';
 import { IProduct, Idiscount } from '../interfaces/product';
 import { Mutable, Customer } from '../interfaces/customer';
 
-export default class ConnectionByFetch {
+export class ConnectionByFetch {
   ADMIN_CLIENT_ID = process.env.CTP_CLIENT_ID;
 
   ADMIN_CLIENT_SECRET = process.env.CTP_CLIENT_SECRET;
@@ -21,10 +21,6 @@ export default class ConnectionByFetch {
   currentCustomer: Customer = Object();
 
   discounts: Idiscount[] = [];
-
-  constructor() {
-    this.init();
-  }
 
   async init() {
     const id = localStorage.getItem('id');
@@ -319,3 +315,5 @@ export default class ConnectionByFetch {
     fetch(url, requestOptions);
   }
 }
+
+export const connectionByFetch = new ConnectionByFetch();
