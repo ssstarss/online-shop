@@ -1,4 +1,4 @@
-import { connectionByFetch } from '../app/app';
+import { connectionByFetch } from '../app/connectionByFetch';
 
 async function getProducts() {
   try {
@@ -6,10 +6,7 @@ async function getProducts() {
 
     return response;
   } catch (error: unknown) {
-    console.log(error);
-    throw new Error('Failed to get product');
-
-    return [];
+    throw new Error(`Failed to get product: ${error}`);
   }
 }
 
