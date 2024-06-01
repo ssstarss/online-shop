@@ -203,6 +203,8 @@ export default class RegistrationForm extends BaseComponent {
       },
     });
 
+    // const connect = new ConnectionByFetch();
+
     this.addElement(
       formHeader,
       firstName,

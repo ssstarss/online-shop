@@ -1,11 +1,4 @@
 import { loginLink, registerLink } from '../components/loginHeader/loginHeader';
-import {
-  blogsLinkMain,
-  catalogLinkMain,
-  loginLinkMain,
-  mainLink,
-  registerLinkMain,
-} from '../pages/mainPage/mainPage';
 import { buttonHome } from '../pages/page404/page404';
 import {
   basketLink,
@@ -147,30 +140,6 @@ mobileRegisterButton.addEventListener('click', (event) => {
   navigate('/register');
 });
 
-mainLink.addEventListener('click', (event) => {
-  event.preventDefault();
-  navigate('/main');
-});
-
-loginLinkMain.addEventListener('click', (event) => {
-  event.preventDefault();
-  navigate('/login');
-});
-
-registerLinkMain.addEventListener('click', (event) => {
-  event.preventDefault();
-  navigate('/register');
-});
-
-catalogLinkMain.addEventListener('click', (event) => {
-  event.preventDefault();
-  navigate('/catalog');
-});
-
-blogsLinkMain.addEventListener('click', (event) => {
-  event.preventDefault();
-  navigate('/blogs');
-});
 const updateButtonVisibility = () => {
   const isLoggedIn = localStorage.getItem('logged');
   if (isLoggedIn) {
@@ -194,6 +163,8 @@ window.addEventListener('storage', updateButtonVisibility);
 
 logoutButton.addEventListener('click', () => {
   localStorage.removeItem('logged');
+  localStorage.removeItem('id');
+  localStorage.removeItem('token');
   updateButtonVisibility();
   navigate('/main');
 });
