@@ -1,15 +1,13 @@
 import './registrationForm.css';
 import { CustomerDraft } from '@commercetools/platform-sdk';
 import BaseComponent from '../../../helpers/baseComponent';
-import Connection from '../../../app/connection';
+
 import PopUpMessage from './popUpMessage/popUpMessage';
 import PasswordInput from '../../../components/inputPassword/inputPassword';
 import AdressesBlock from '../../../components/adressesBLock/adressesBlock';
 import countries from '../../../components/adressesBLock/countries';
-
-type Mutable<T extends object> = {
-  -readonly [K in keyof T]: T[K];
-};
+import { connectionByFetch } from '../../../app/app';
+import { Mutable } from '../../../interfaces/customer';
 
 export default class RegistrationForm extends BaseComponent {
   constructor() {
@@ -26,7 +24,7 @@ export default class RegistrationForm extends BaseComponent {
       classNames: ['regFormText'],
       text: 'Enter registration data:',
     });
-    const connection = new Connection();
+    // const connection = new Connection();
     const firstName = new BaseComponent({
       tag: 'input',
       classNames: ['firstName', 'inputField'],
@@ -182,17 +180,22 @@ export default class RegistrationForm extends BaseComponent {
             customer.defaultBillingAddress = temp;
           }
 
-          connection
-            .newCustomer(customer)
-            .then(() => {
-              popUpMessage.showMessage(
-                'Customer succesfully registered. Welcome to green Shop',
-                true
-              );
+          connectionByFetch
+            .signUpCustomer(customer)
+            .then((response) => {
+              if (response.ok)
+                popUpMessage.showMessage(
+                  'Customer succesfully registered. Welcome to green Shop',
+                  true
+                );
               localStorage.setItem('logged', 'true');
+              localStorage.setItem('token', connectionByFetch.bearerToken);
+              response.json().then((result) => {
+                localStorage.setItem('id', result.customer.id);
+              });
               window.dispatchEvent(new Event('storage'));
             })
-            .catch(() => popUpMessage.showMessage('User with this email already exists', false));
+            .catch((error) => popUpMessage.showMessage(error, false));
         } else {
           popUpMessage.showMessage('Please fulfill all fields correctly', false);
           inputsForValidation.forEach((input) => {

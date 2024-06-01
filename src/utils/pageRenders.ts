@@ -3,7 +3,9 @@ import loginPage from '../pages/loginPage/loginPage';
 import mainPage from '../pages/mainPage/mainPage';
 import { page404 } from '../pages/page404/page404';
 import RegistrationPage from '../pages/registrationPage/registrationPage';
-import catalogPage from '../pages/catalogPage/catalogPage';
+import generateCatalog from '../pages/catalogPage/catalogPage';
+// import catalogPage from '../pages/catalogPage/catalogPage';
+
 import blogsPage from '../pages/blogsPage/blogsPage';
 import loginHeader, { loginLink, registerLink } from '../components/loginHeader/loginHeader';
 import userProfilePage from '../pages/userProfilePage/userProfilePage';
@@ -29,9 +31,15 @@ export function renderRegisterPage(): void {
   registerLink.classList.add('login__link--active');
 }
 
-export function renderCatalogPage(): void {
+// export function renderCatalogPage(): void {
+//   mainContainer.innerHTML = '';
+//   mainContainer.append(catalogPage);
+// }
+
+export async function renderCatalogPage() {
   mainContainer.innerHTML = '';
-  mainContainer.append(catalogPage);
+  const catalog = await generateCatalog();
+  mainContainer.append(catalog);
 }
 
 export function renderBlogsPage(): void {

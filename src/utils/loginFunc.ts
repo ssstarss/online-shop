@@ -1,6 +1,6 @@
 import generateErrorPopup from '../components/popups/popup';
 import navigate from './navigate';
-import { connectionByFetch } from '../app/app';
+import { connectionByFetch } from '../app/connectionByFetch';
 
 async function loginFunc(emailInputClass: string, passwordInputClass: string) {
   const emailInput = document.querySelector(emailInputClass) as HTMLInputElement;

@@ -1,0 +1,143 @@
+.card {
+  max-width: 258px;
+  width: 100%;
+  display: flex;
+
+  .card__inner {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 300px;
+    position: relative;
+    background-color: #fbfbfb;
+  }
+
+  .card__link {
+    width: 100%;
+    transition: 0.5s;
+    position: relative;
+
+    &:before {
+      content: '';
+      width: 100%;
+      height: 1px;
+      position: absolute;
+      background-color: var(--accent-color);
+      transition: 0.5s;
+      display: block;
+      left: 0;
+      top: 0;
+      z-index: 1;
+      transform: translateY(-100%);
+      opacity: 0;
+    }
+
+    &:hover {
+      opacity: 1;
+      transition: transform 0.3s ease-in-out;
+
+      .card__cart-btn {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+      }
+    }
+
+    &:hover.card__link::before {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+}
+
+.catalog__img {
+  mix-blend-mode: multiply;
+}
+
+.card__sale-tag {
+  background-color: var(--accent-color);
+  color: var(--on-accent-txt);
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  padding: 7px 9px;
+  position: absolute;
+  top: 14px;
+  font-size: 16px;
+  text-transform: uppercase;
+}
+
+.card__cart-btn {
+  width: 35px;
+  height: 35px;
+  border-radius: 5px;
+  background-image: url('data:image/svg+xml,%3Csvg%20width%3D%2220%22%20height%3D%2220%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Cpath%20d%3D%22M14.294%2016.8745H8.24077C5.65655%2016.8745%203.55412%2014.7721%203.55412%2012.1879V7.38404C3.55412%204.98174%202.35676%202.75812%200.351225%201.43578C-0.00894369%201.19832-0.108379%200.71388%200.129078%200.353711C0.366535-0.00649689%200.850939-0.105971%201.21119%200.131564C2.35606%200.886427%203.28487%201.88203%203.94905%203.0283C4.09258%203.1891%205.24995%204.41583%207.14726%204.41583H16.142C18.596%204.36994%2020.5168%206.83265%2019.8752%209.20136L18.8397%2013.3283C18.3159%2015.4163%2016.4466%2016.8745%2014.294%2016.8745ZM4.91926%205.53676C5.04912%206.13669%205.11634%206.75528%205.11634%207.38404V12.1879C5.11634%2013.9107%206.51796%2015.3123%208.24077%2015.3123H14.294C15.7291%2015.3123%2016.9752%2014.3401%2017.3245%2012.9482L18.3599%208.8212C18.7412%207.41372%2017.5997%205.95082%2016.142%205.97804H7.14722C6.28913%205.97804%205.54224%205.79304%204.91926%205.53676ZM7.85021%2019.0226C7.85021%2018.4833%207.41307%2018.0462%206.87383%2018.0462C5.57828%2018.0978%205.57942%2019.9479%206.87383%2019.9989C7.41307%2019.9989%207.85021%2019.5618%207.85021%2019.0226ZM15.6222%2019.0226C15.6222%2018.4833%2015.1851%2018.0462%2014.6459%2018.0462C13.3503%2018.0978%2013.3514%2019.9479%2014.6459%2019.9989C15.1851%2019.9989%2015.6222%2019.5618%2015.6222%2019.0226ZM16.9231%208.32137C16.9231%207.88996%2016.5734%207.54026%2016.142%207.54026H7.45966C6.42329%207.5815%206.42407%209.06158%207.45966%209.10248H16.142C16.5734%209.10248%2016.9231%208.75277%2016.9231%208.32137Z%22%20fill%3D%22%233D3D3D%22/%3E%3C/svg%3E');
+  background-size: 20px 20px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: var(--bg);
+  position: absolute;
+  bottom: 7px;
+  left: 50%;
+  transform: translateX(-50%) translateY(100%);
+  opacity: 0;
+  transition:
+    transform 0.3s ease-in-out,
+    opacity 0.3s ease-in-out;
+}
+
+.card__cart-btn:hover {
+  background-image: url('data:image/svg+xml,%3Csvg%20width%3D%2220%22%20height%3D%2220%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Cpath%20d%3D%22M14.294%2016.8745H8.24077C5.65655%2016.8745%203.55412%2014.7721%203.55412%2012.1879V7.38404C3.55412%204.98174%202.35676%202.75812%200.351225%201.43578C-0.00894369%201.19832-0.108379%200.71388%200.129078%200.353711C0.366535-0.00649689%200.850939-0.105971%201.21119%200.131564C2.35606%200.886427%203.28487%201.88203%203.94905%203.0283C4.09258%203.1891%205.24995%204.41583%207.14726%204.41583H16.142C18.596%204.36994%2020.5168%206.83265%2019.8752%209.20136L18.8397%2013.3283C18.3159%2015.4163%2016.4466%2016.8745%2014.294%2016.8745ZM4.91926%205.53676C5.04912%206.13669%205.11634%206.75528%205.11634%207.38404V12.1879C5.11634%2013.9107%206.51796%2015.3123%208.24077%2015.3123H14.294C15.7291%2015.3123%2016.9752%2014.3401%2017.3245%2012.9482L18.3599%208.8212C18.7412%207.41372%2017.5997%205.95082%2016.142%205.97804H7.14722C6.28913%205.97804%205.54224%205.79304%204.91926%205.53676ZM7.85021%2019.0226C7.85021%2018.4833%207.41307%2018.0462%206.87383%2018.0462C5.57828%2018.0978%205.57942%2019.9479%206.87383%2019.9989C7.41307%2019.9989%207.85021%2019.5618%207.85021%2019.0226ZM15.6222%2019.0226C15.6222%2018.4833%2015.1851%2018.0462%2014.6459%2018.0462C13.3503%2018.0978%2013.3514%2019.9479%2014.6459%2019.9989C15.1851%2019.9989%2015.6222%2019.5618%2015.6222%2019.0226ZM16.9231%208.32137C16.9231%207.88996%2016.5734%207.54026%2016.142%207.54026H7.45966C6.42329%207.5815%206.42407%209.06158%207.45966%209.10248H16.142C16.5734%209.10248%2016.9231%208.75277%2016.9231%208.32137Z%22%20fill%3D%22%2346A358%22/%3E%3C/svg%3E');
+}
+
+.card__title {
+  margin: 0;
+  font-weight: normal;
+  font-size: 16px;
+  margin-bottom: 6px;
+}
+
+.card__txt-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.card__price-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.card__main-price {
+  font-size: 18px;
+  font-weight: bold;
+  color: var(--accent-color);
+}
+
+.card__prev-price {
+  color: var(--old-price);
+  text-decoration: line-through;
+}
+
+.card .card__inner {
+  margin-bottom: 12px;
+}
+
+/* Inline таблица стилей #13 | http://localhost:8080/catalog */
+
+.card__sale-tag {
+  display: none;
+}
+
+.card__prev-price {
+  display: none;
+}
+
+/* Inline таблица стилей #15 | http://localhost:8080/catalog */
+
+.discount .card__sale-tag {
+  display: block;
+}
+
+.discount .card__prev-price {
+  display: block;
+}
