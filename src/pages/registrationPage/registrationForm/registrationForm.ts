@@ -6,7 +6,7 @@ import PopUpMessage from './popUpMessage/popUpMessage';
 import PasswordInput from '../../../components/inputPassword/inputPassword';
 import AdressesBlock from '../../../components/adressesBLock/adressesBlock';
 import countries from '../../../components/adressesBLock/countries';
-import { connectionByFetch } from '../../../app/app';
+import { connectionByFetch } from '../../../app/connectionByFetch';
 import { Mutable } from '../../../interfaces/customer';
 
 export default class RegistrationForm extends BaseComponent {
