@@ -1,4 +1,5 @@
 import createElement from '../../../helpers/createElement';
+import { buttonWrap } from '../buttonWrap/buttonWrap';
 
 const accountDetails = createElement({ tag: 'form', className: 'account-details' });
 const accountDetailsTitle = createElement({
@@ -53,21 +54,6 @@ const dateOfBirth = createElement({
   id: 'dateOfBirth',
 });
 
-const buttonWrap = createElement({ tag: 'div', className: 'button-wrap' });
-
-const buttonChange = createElement({
-  tag: 'button',
-  className: 'button-change button',
-  textContent: 'Change',
-});
-
-const buttonSaveChange = createElement({
-  tag: 'button',
-  className: 'button-save-change button',
-  type: 'submit',
-  textContent: 'Save Change',
-});
-buttonWrap.append(buttonChange, buttonSaveChange);
 accountDetails.append(
   accountDetailsTitle,
   firstNameLabel,

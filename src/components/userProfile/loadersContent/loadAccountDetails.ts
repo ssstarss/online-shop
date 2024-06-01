@@ -1,5 +1,5 @@
 import userProfilePage from '../../../pages/userProfilePage/userProfilePage';
-import accountDetails from '../accountDetails/assountDetails';
+import accountDetails from '../accountDetails/accountDetails';
 import profileList from '../userProfileMenu/userProfileMenu';
 
 const loadAccountDetails = () => {

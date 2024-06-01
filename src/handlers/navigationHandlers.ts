@@ -30,6 +30,7 @@ import {
 } from '../components/userProfile/userProfileMenu/userProfileMenu';
 import loadAccountDetails from '../components/userProfile/loadersContent/loadAccountDetails';
 import loadAddress from '../components/userProfile/loadersContent/loadAddress';
+import getCustomerData from '../components/userProfile/getCustomerData';
 
 buttonHome.addEventListener('click', () => {
   navigate('/main');
@@ -185,6 +186,7 @@ userProfile.addEventListener('click', (event) => {
   event.preventDefault();
   navigate('/profile');
   loadAccountDetails();
+  getCustomerData();
 });
 
 mobileUserProfileButton.addEventListener('click', (event) => {

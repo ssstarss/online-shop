@@ -1,0 +1,18 @@
+.button-wrap {
+  display: flex;
+  gap: 10px;
+  .button {
+    background: var(--accent-color);
+    cursor: pointer;
+    border: none;
+    transition: 0.5s;
+    padding: 8px 10px;
+    border-radius: 5px;
+    color: var(--on-accent-txt);
+
+    &:hover {
+      opacity: 0.7;
+      transition: 0.5s;
+    }
+  }
+}
