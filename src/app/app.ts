@@ -2,7 +2,6 @@ import footerContainer from '../components/footer/footer';
 import header from '../components/header/header';
 import generatePreloader from '../components/loader/loader';
 import mainContainer from '../components/mainContainer/mainContainer';
-import { initSwiperPreview } from '../components/previewMainPage/swiperSlider';
 import initRouting from '../utils/router2';
 import { connectionByFetch } from './connectionByFetch';
 
@@ -15,7 +14,6 @@ const App = async () => {
   document.body.append(header, mainContainer, footerContainer);
   initRouting();
   preloader.classList.add('hidden');
-  initSwiperPreview();
 };
 
 document.addEventListener('DOMContentLoaded', App);

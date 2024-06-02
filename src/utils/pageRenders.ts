@@ -11,12 +11,14 @@ import { initializeSwiper } from '../components/productSlider/productSlider';
 import generateCatalogPage from '../pages/catalogPage/catalogPage';
 import userProfilePage from '../pages/userProfilePage/userProfilePage';
 import generateDetailedProductPage from '../pages/detailedProductPage/detailedProductPage';
+import { initSwiperPreview } from '../components/previewMainPage/swiperSlider';
 
 const registrationPage = new RegistrationPage();
 
 export function renderMainPage(): void {
   mainContainer.innerHTML = '';
   mainContainer.append(mainPage);
+  initSwiperPreview();
 }
 
 export function renderLoginPage(): void {

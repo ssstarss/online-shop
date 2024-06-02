@@ -53,7 +53,7 @@ export function initSwiperPreview() {
       },
       mousewheel: {
         enabled: true,
-        eventsTarget: '.swiper',
+        eventsTarget: '.swiperMain',
       },
       updateOnWindowResize: true,
     });
