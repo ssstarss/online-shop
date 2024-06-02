@@ -10,6 +10,7 @@ interface ElementParams<K extends keyof HTMLElementTagNameMap> {
   textContent?: string;
   src?: string;
   title?: string;
+  value?: string;
   for?: string;
   id?: string;
 }
@@ -20,6 +21,9 @@ const createElement = <K extends keyof HTMLElementTagNameMap>(
   const element = document.createElement(params.tag);
   if (params.textContent) {
     element.textContent = params.textContent;
+  }
+  if (params.id) {
+    element.id = params.id;
   }
   if (Array.isArray(params.className)) {
     element.className = params.className.join(' ');
@@ -65,6 +69,12 @@ const createElement = <K extends keyof HTMLElementTagNameMap>(
         (element as HTMLAnchorElement).title = params.title;
       }
       break;
+    case 'option':
+      if (params.value) {
+        (element as HTMLOptionElement).value = params.value;
+      }
+      if (params.title) {
+        (element as HTMLAnchorElement).title = params.title;
     case 'label':
       if (params.for) {
         (element as HTMLLabelElement).htmlFor = params.for;

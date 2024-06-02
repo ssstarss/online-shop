@@ -85,7 +85,7 @@ export function generateProductSlider() {
 }
 export default generateProductSlider;
 
-setTimeout(() => {
+export function initializeSwiper() {
   // eslint-disable-next-line no-new
   const swiper = new Swiper('.mySwiper', {
     loop: true,
@@ -104,4 +104,4 @@ setTimeout(() => {
       swiper,
     },
   });
-});
+}

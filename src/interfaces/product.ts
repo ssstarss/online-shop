@@ -1,4 +1,4 @@
-export interface getProductsParams {
+export interface GetProductsParams {
   sort?: { param: 'name' | 'price' | ''; direction: 'asc' | 'desc' | '' };
   filterPrice?: { higherThen: number; lowerThen: number };
   searchText?: string;

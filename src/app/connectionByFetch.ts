@@ -1,6 +1,6 @@
 import { CustomerDraft } from '@commercetools/platform-sdk';
 
-import { IProduct, Idiscount, getProductsParams } from '../interfaces/product';
+import { IProduct, Idiscount, GetProductsParams } from '../interfaces/product';
 import { Mutable, Customer } from '../interfaces/customer';
 
 export class ConnectionByFetch {
@@ -30,11 +30,11 @@ export class ConnectionByFetch {
     }
     if (id) this.currentCustomer = await this.getCustumerByID(id);
     this.discounts = await this.getDiscountedProducts();
-    /*const products = await this.getProducts({
+    /* const products = await this.getProducts({
       filterPrice: { higherThen: 1401, lowerThen: 4000 },
       sort: { param: 'price', direction: 'asc' },
     });
-    console.log(products);*/
+    console.log(products); */
     /*  if (id) this.currentCustomer = await this.getCustumerByID(id);
     this.deleteCustomer('00ef4f06-8a8c-483e-9d40-259ac4496c2a'); */
   }
@@ -175,7 +175,7 @@ export class ConnectionByFetch {
     // добавить обработку ошибок
   }
 
-  getProducts(params?: getProductsParams) {
+  getProducts(params?: GetProductsParams) {
     const myHeaders = new Headers();
     myHeaders.append('Content-Type', 'application/json');
     myHeaders.append('Authorization', `Bearer ${this.bearerToken}`);
