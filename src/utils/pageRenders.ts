@@ -10,12 +10,16 @@ import loginHeader, { loginLink, registerLink } from '../components/loginHeader/
 import { initializeSwiper } from '../components/productSlider/productSlider';
 import generateCatalogPage from '../pages/catalogPage/catalogPage';
 import userProfilePage from '../pages/userProfilePage/userProfilePage';
+import { headerLinkBlogs, headerLinkCatalog, headerLinkHome } from '../components/header/header';
 
 const registrationPage = new RegistrationPage();
 
 export function renderMainPage(): void {
   mainContainer.innerHTML = '';
   mainContainer.append(mainPage);
+  headerLinkHome.classList.add('active-header');
+  headerLinkBlogs.classList.remove('active-header');
+  headerLinkCatalog.classList.remove('active-header');
 }
 
 export function renderLoginPage(): void {
@@ -42,11 +46,17 @@ export async function renderCatalogPage() {
   const catalog = await generateCatalogPage();
   mainContainer.append(catalog);
   initializeSwiper();
+  headerLinkCatalog.classList.add('active-header');
+  headerLinkBlogs.classList.remove('active-header');
+  headerLinkHome.classList.remove('active-header');
 }
 
 export function renderBlogsPage(): void {
   mainContainer.innerHTML = '';
   mainContainer.append(blogsPage);
+  headerLinkBlogs.classList.add('active-header');
+  headerLinkCatalog.classList.remove('active-header');
+  headerLinkHome.classList.remove('active-header');
 }
 
 export function render404Page(): void {
