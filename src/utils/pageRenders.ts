@@ -10,6 +10,7 @@ import loginHeader, { loginLink, registerLink } from '../components/loginHeader/
 import { initializeSwiper } from '../components/productSlider/productSlider';
 import generateCatalogPage from '../pages/catalogPage/catalogPage';
 import userProfilePage from '../pages/userProfilePage/userProfilePage';
+import generateDetailedProductPage from '../pages/detailedProductPage/detailedProductPage';
 
 const registrationPage = new RegistrationPage();
 
@@ -41,6 +42,14 @@ export async function renderCatalogPage() {
   mainContainer.innerHTML = '';
   const catalog = await generateCatalogPage();
   mainContainer.append(catalog);
+  initializeSwiper();
+}
+
+export async function renderCatalogDetailedPage(pageID: string) {
+  mainContainer.innerHTML = '';
+  console.log(pageID);
+  const detailedPage = generateDetailedProductPage('kek', 'kek', '12', 'V');
+  mainContainer.append(detailedPage);
   initializeSwiper();
 }
 
