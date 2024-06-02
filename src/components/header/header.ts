@@ -1,5 +1,5 @@
 import createElement from '../../helpers/createElement';
-import { basket, login, logoSvg, register, search } from '../../assets/icons/index';
+import { basket, login, logoSvg, register, search, userSvg } from '../../assets/icons/index';
 
 const header = createElement({ tag: 'header', className: 'header container' });
 export const logoLink = createElement({ tag: 'a', className: 'logo__link' });
@@ -69,6 +69,12 @@ const logoutText = createElement({
 });
 logoutButton.append(logoutText);
 
+export const userProfile = createElement({
+  tag: 'a',
+  className: 'header__user-profile button',
+});
+userProfile.innerHTML = userSvg;
+
 // burger
 export const burgerMenu = createElement({ tag: 'button', className: 'burger-menu' });
 const burgerMenuLine = createElement({ tag: 'span', className: 'burger-menu__line' });
@@ -123,6 +129,12 @@ export const mobileLogoutButton = createElement({
   textContent: 'Logout',
 });
 
+export const mobileUserProfileButton = createElement({
+  tag: 'li',
+  className: 'mobile__list-item mobile__user-profile',
+  textContent: 'Account details',
+});
+
 mobileLinksList.append(
   mobileLinkHome,
   mobileLinkCatalog,
@@ -131,13 +143,14 @@ mobileLinksList.append(
   mobileBasketLink,
   mobileLoginButton,
   mobileRegisterButton,
-  mobileLogoutButton
+  mobileLogoutButton,
+  mobileUserProfileButton
 );
 
 export const mobileMenu = createElement({ tag: 'div', className: 'mobile-menu' });
 mobileMenu.append(mobileLinksList);
 
-linkWrap.append(searchLink, basketLink, loginButton, registerButton, logoutButton);
+linkWrap.append(searchLink, basketLink, loginButton, registerButton, userProfile, logoutButton);
 header.append(logoLink, headerLinksList, linkWrap, burgerMenu, mobileMenu);
 
 export default header;

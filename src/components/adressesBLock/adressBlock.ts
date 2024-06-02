@@ -9,6 +9,8 @@ type Country = {
 };
 
 export default class Adress extends BaseComponent {
+  adressesTitle: BaseComponent;
+
   adressesHeader: BaseComponent;
 
   street: BaseComponent;
@@ -25,6 +27,12 @@ export default class Adress extends BaseComponent {
     super({
       tag: 'div',
       classNames: ['Adresses'],
+    });
+
+    this.adressesTitle = new BaseComponent({
+      tag: 'h3',
+      classNames: ['addresses-title'],
+      text: `${typeOfAdress} address:`,
     });
 
     this.adressesHeader = new BaseComponent({
@@ -120,6 +128,7 @@ export default class Adress extends BaseComponent {
     });
     setDefaultWrapper.addElement(setDefaultText, this.setDefaultChkBox);
     this.addElement(
+      this.adressesTitle,
       this.adressesHeader,
       this.street,
       this.city,

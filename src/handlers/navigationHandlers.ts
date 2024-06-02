@@ -18,10 +18,25 @@ import {
   mobileMenu,
   mobileRegisterButton,
   mobileSearchLink,
+  mobileUserProfileButton,
   registerButton,
   searchLink,
+  userProfile,
 } from '../components/header/header';
 import navigate from '../utils/navigate';
+import {
+  profileAccountDetails,
+  profileAddress,
+  profileLogout,
+  profileOrders,
+  profileSupport,
+} from '../components/userProfile/userProfileMenu/userProfileMenu';
+import loadAccountDetails from '../components/userProfile/loadersContent/loadAccountDetails';
+import loadAddress from '../components/userProfile/loadersContent/loadAddress';
+import { fillCustomerData } from '../components/userProfile/address/address';
+import { fillCustomerDetails } from '../components/userProfile/accountDetails/accountDetails';
+import loadOrders from '../components/userProfile/loadersContent/loadOrders';
+import loadSupport from '../components/userProfile/loadersContent/loadSupport';
 
 buttonHome.addEventListener('click', () => {
   navigate('/main');
@@ -146,22 +161,102 @@ const updateButtonVisibility = () => {
     mobileLoginButton.style.display = 'none';
     mobileRegisterButton.style.display = 'none';
     mobileLogoutButton.style.display = 'block';
+    mobileUserProfileButton.style.display = 'block';
     loginButton.style.display = 'none';
     registerButton.style.display = 'none';
     logoutButton.style.display = 'block';
+    userProfile.style.display = 'block';
   } else {
     mobileLoginButton.style.display = 'flex';
     mobileRegisterButton.style.display = 'flex';
     mobileLogoutButton.style.display = 'none';
+    mobileUserProfileButton.style.display = 'none';
     loginButton.style.display = 'flex';
     registerButton.style.display = 'flex';
     logoutButton.style.display = 'none';
+    userProfile.style.display = 'none';
   }
 };
 
 window.addEventListener('storage', updateButtonVisibility);
 
 logoutButton.addEventListener('click', () => {
+  localStorage.removeItem('logged');
+  localStorage.removeItem('id');
+  localStorage.removeItem('token');
+  updateButtonVisibility();
+  navigate('/main');
+});
+
+userProfile.addEventListener('click', (event) => {
+  event.preventDefault();
+  navigate('/profile');
+  document.querySelectorAll('.profile__menu-list-item').forEach((element) => {
+    element.classList.remove('active__item');
+  });
+  profileAccountDetails.classList.add('active__item');
+  loadAccountDetails();
+  fillCustomerData();
+  fillCustomerDetails();
+});
+
+mobileUserProfileButton.addEventListener('click', (event) => {
+  event.preventDefault();
+  navigate('/profile');
+  document.querySelectorAll('.profile__menu-list-item').forEach((element) => {
+    element.classList.remove('active__item');
+  });
+  profileAccountDetails.classList.add('active__item');
+  loadAccountDetails();
+  fillCustomerData();
+  fillCustomerDetails();
+});
+profileAddress.addEventListener('click', (event) => {
+  event.preventDefault();
+  document.querySelectorAll('.profile__menu-list-item').forEach((element) => {
+    element.classList.remove('active__item');
+  });
+  profileAddress.classList.add('active__item');
+});
+
+profileOrders.addEventListener('click', (event) => {
+  event.preventDefault();
+  document.querySelectorAll('.profile__menu-list-item').forEach((element) => {
+    element.classList.remove('active__item');
+  });
+  profileOrders.classList.add('active__item');
+  loadOrders();
+});
+
+profileSupport.addEventListener('click', (event) => {
+  event.preventDefault();
+  document.querySelectorAll('.profile__menu-list-item').forEach((element) => {
+    element.classList.remove('active__item');
+  });
+  profileSupport.classList.add('active__item');
+  loadSupport();
+});
+
+profileAccountDetails.addEventListener('click', (event) => {
+  event.preventDefault();
+  document.querySelectorAll('.profile__menu-list-item').forEach((element) => {
+    element.classList.remove('active__item');
+  });
+  profileAccountDetails.classList.add('active__item');
+});
+
+profileAccountDetails.addEventListener('click', (event) => {
+  event.preventDefault();
+  loadAccountDetails();
+});
+
+profileAddress.addEventListener('click', (event) => {
+  event.preventDefault();
+  loadAddress();
+});
+
+profileLogout.addEventListener('click', (event) => {
+  event.preventDefault();
   localStorage.removeItem('logged');
   localStorage.removeItem('id');
   localStorage.removeItem('token');

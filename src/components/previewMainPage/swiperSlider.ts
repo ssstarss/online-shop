@@ -21,45 +21,43 @@ const swiperButtonPrev = createElement({ tag: 'div', className: 'swiper-button-p
 const swiperButtonNext = createElement({ tag: 'div', className: 'swiper-button-next' });
 
 swiperContainer.append(swiperWrapper, swiperPagination, swiperButtonPrev, swiperButtonNext);
-
-setTimeout(() => {
-  // eslint-disable-next-line no-new
-  new Swiper('.swiper', {
-    direction: 'horizontal',
-    loop: true,
-    speed: 1000,
-    preventClicks: true,
-    keyboard: {
-      enabled: true,
-      onlyInViewport: false,
-    },
-    effect: 'paralax',
-    cubeEffect: {
-      slideShadows: true,
-    },
-    navigation: {
-      nextEl: '.swiper-button-next',
-      prevEl: '.swiper-button-prev',
-    },
-    pagination: {
-      el: '.swiper-pagination',
-      clickable: true,
-    },
-    autoplay: {
-      delay: 8000,
-      disableOnInteraction: false,
-      pauseOnMouseEnter: true,
-    },
-    scrollbar: {
-      el: '.swiper-scrollbar',
-      draggable: true,
-    },
-    mousewheel: {
-      enabled: true,
-      eventsTarget: '.swiper',
-    },
-    updateOnWindowResize: true,
-  });
-}, 0);
+export function initSwiperPreview() {
+  setTimeout(() => {
+    // eslint-disable-next-line no-new
+    new Swiper('.swiper', {
+      direction: 'horizontal',
+      loop: true,
+      speed: 1000,
+      preventClicks: true,
+      keyboard: {
+        enabled: true,
+        onlyInViewport: false,
+      },
+      effect: 'paralax',
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+      },
+      autoplay: {
+        delay: 8000,
+        disableOnInteraction: false,
+        pauseOnMouseEnter: true,
+      },
+      scrollbar: {
+        el: '.swiper-scrollbar',
+        draggable: true,
+      },
+      mousewheel: {
+        enabled: true,
+        eventsTarget: '.swiper',
+      },
+      updateOnWindowResize: true,
+    });
+  }, 0);
+}
 
 export default swiperContainer;
