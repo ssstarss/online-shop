@@ -3,11 +3,12 @@ import loginPage from '../pages/loginPage/loginPage';
 import mainPage from '../pages/mainPage/mainPage';
 import { page404 } from '../pages/page404/page404';
 import RegistrationPage from '../pages/registrationPage/registrationPage';
-import generateCatalog from '../pages/catalogPage/catalogPage';
 // import catalogPage from '../pages/catalogPage/catalogPage';
 
 import blogsPage from '../pages/blogsPage/blogsPage';
 import loginHeader, { loginLink, registerLink } from '../components/loginHeader/loginHeader';
+import { initializeSwiper } from '../components/productSlider/productSlider';
+import generateCatalogPage from '../pages/catalogPage/catalogPage';
 
 const registrationPage = new RegistrationPage();
 
@@ -37,8 +38,9 @@ export function renderRegisterPage(): void {
 
 export async function renderCatalogPage() {
   mainContainer.innerHTML = '';
-  const catalog = await generateCatalog();
+  const catalog = await generateCatalogPage();
   mainContainer.append(catalog);
+  initializeSwiper();
 }
 
 export function renderBlogsPage(): void {
