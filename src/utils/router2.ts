@@ -30,7 +30,13 @@ export default function initRouting() {
       },
       '/catalog': renderCatalogPage,
       '/blogs': renderBlogsPage,
-      '/profile': renderUserProfilePage,
+      '/profile': () => {
+        if (localStorage.getItem('logged')) {
+          renderUserProfilePage();
+        } else {
+          router.navigate('/login');
+        }
+      },
     })
     .notFound(render404Page)
     .resolve();

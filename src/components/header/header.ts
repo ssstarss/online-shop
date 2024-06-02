@@ -132,7 +132,7 @@ export const mobileLogoutButton = createElement({
 export const mobileUserProfileButton = createElement({
   tag: 'li',
   className: 'mobile__list-item mobile__user-profile',
-  textContent: 'Account details',
+  textContent: 'User Profile',
 });
 
 mobileLinksList.append(
