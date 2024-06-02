@@ -1,6 +1,7 @@
 export interface GetProductsParams {
   sort?: { param: 'name' | 'price' | ''; direction: 'asc' | 'desc' | '' };
   filterPrice?: { higherThen: number; lowerThen: number };
+  size?: 'Small size' | 'Medium size' | 'Large size';
   searchText?: string;
 }
 
