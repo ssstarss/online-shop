@@ -75,6 +75,8 @@ const createElement = <K extends keyof HTMLElementTagNameMap>(
       }
       if (params.title) {
         (element as HTMLAnchorElement).title = params.title;
+      }
+      break;
     case 'label':
       if (params.for) {
         (element as HTMLLabelElement).htmlFor = params.for;
