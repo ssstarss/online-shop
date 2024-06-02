@@ -11,6 +11,7 @@ interface ElementParams<K extends keyof HTMLElementTagNameMap> {
   src?: string;
   title?: string;
   value?: string;
+  for?: string;
   id?: string;
 }
 
@@ -39,6 +40,9 @@ const createElement = <K extends keyof HTMLElementTagNameMap>(
       }
       if (params.required) {
         (element as HTMLInputElement).required = true;
+      }
+      if (params.id) {
+        (element as HTMLElement).id = params.id;
       }
       break;
     case 'button':
@@ -71,6 +75,9 @@ const createElement = <K extends keyof HTMLElementTagNameMap>(
       }
       if (params.title) {
         (element as HTMLAnchorElement).title = params.title;
+    case 'label':
+      if (params.for) {
+        (element as HTMLLabelElement).htmlFor = params.for;
       }
       break;
     default:
