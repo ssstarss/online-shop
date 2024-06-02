@@ -28,6 +28,7 @@ export class ConnectionByFetch {
     else {
       this.bearerToken = localStorage.getItem('token') || '';
     }
+    if (id) this.currentCustomer = await this.getCustumerByID(id);
     this.discounts = await this.getDiscountedProducts();
     const products = await this.getProducts(
       20,
