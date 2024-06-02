@@ -1,6 +1,6 @@
 import { CustomerDraft } from '@commercetools/platform-sdk';
 
-import { IProduct, Idiscount } from '../interfaces/product';
+import { IProduct, Idiscount, getProductsParams } from '../interfaces/product';
 import { Mutable, Customer } from '../interfaces/customer';
 
 export class ConnectionByFetch {
@@ -24,19 +24,17 @@ export class ConnectionByFetch {
 
   async init() {
     const id = localStorage.getItem('id');
-    if (!id) await this.loginAnonymous();
+    if (!id) await this.obtainTokenByCredentials();
     else {
       this.bearerToken = localStorage.getItem('token') || '';
     }
     if (id) this.currentCustomer = await this.getCustumerByID(id);
     this.discounts = await this.getDiscountedProducts();
-    const products = await this.getProducts(
-      20,
-      { param: '', direction: 'desc' },
-      { higherThen: 0, lowerThen: 5000 },
-      ''
-    );
-    console.log(products);
+    /*const products = await this.getProducts({
+      filterPrice: { higherThen: 1401, lowerThen: 4000 },
+      sort: { param: 'price', direction: 'asc' },
+    });
+    console.log(products);*/
     /*  if (id) this.currentCustomer = await this.getCustumerByID(id);
     this.deleteCustomer('00ef4f06-8a8c-483e-9d40-259ac4496c2a'); */
   }
@@ -177,32 +175,23 @@ export class ConnectionByFetch {
     // добавить обработку ошибок
   }
 
-  getProducts(
-    limit: number = 20,
-    sort: { param: 'name' | 'price' | ''; direction: 'asc' | 'desc' | '' } = {
-      param: '',
-      direction: '',
-    },
-    filterPrice: { higherThen: number; lowerThen: number } = { higherThen: 0, lowerThen: 10000000 },
-    searchText: string = ''
-  ) {
+  getProducts(params?: getProductsParams) {
     const myHeaders = new Headers();
     myHeaders.append('Content-Type', 'application/json');
     myHeaders.append('Authorization', `Bearer ${this.bearerToken}`);
     const requestParams = new URLSearchParams();
-
-    if (sort.param === 'name')
-      requestParams.append('sort', `name.en-US ${sort.direction.toLowerCase()}`);
-
-    if (sort.param === 'price')
-      requestParams.append('sort', `price ${sort.direction.toLowerCase()}`);
-
-    requestParams.append(
-      'filter.query',
-      `variants.price.centAmount:range(${filterPrice.higherThen} to ${filterPrice.lowerThen})`
-    );
-    requestParams.append('text.en-US', searchText);
-
+    if (params) {
+      if (params.sort)
+        if (params.sort.param === 'name')
+          requestParams.append('sort', `name.en-US ${params.sort.direction.toLowerCase()}`);
+        else requestParams.append('sort', `price ${params.sort.direction.toLowerCase()}`);
+      if (params.filterPrice)
+        requestParams.append(
+          'filter.query',
+          `variants.price.centAmount:range(${params.filterPrice.higherThen} to ${params.filterPrice.lowerThen})`
+        );
+      if (params.searchText) requestParams.append('text.en-US', params.searchText);
+    }
     const requestOptions = {
       method: 'GET',
       headers: myHeaders,
@@ -210,9 +199,8 @@ export class ConnectionByFetch {
     const url = this.API_URL.concat(
       '/',
       this.projectKey,
-      '/product-projections/search',
-      `?limit=${limit}`,
-      `&${requestParams}`
+      '/product-projections/search?',
+      `${requestParams}`
     );
 
     return fetch(url, requestOptions).then((response) =>

@@ -1,3 +1,9 @@
+export interface getProductsParams {
+  sort?: { param: 'name' | 'price' | ''; direction: 'asc' | 'desc' | '' };
+  filterPrice?: { higherThen: number; lowerThen: number };
+  searchText?: string;
+}
+
 export interface IProduct {
   id: string;
   version: number;
