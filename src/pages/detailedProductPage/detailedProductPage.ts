@@ -7,17 +7,12 @@ export default function generateDetailedProductPage(
   price: string,
   description: string,
   size: string,
+  images: string[],
   prevPrice?: string
 ) {
   const detailedSection = createElement({ tag: 'section', className: 'detailed-product' });
   const sliderBlock = createElement({ tag: 'div', className: 'slider-section' });
-  const slider = generateProductSlider();
-
-  // // initializeSwiper();
-
-  // setTimeout(() => {
-  //   initializeSwiper();
-  // }, 1000);
+  const slider = generateProductSlider(images);
 
   const productInfoSection = createElement({ tag: 'div', className: 'product-info' });
   const productHeader = createElement({ tag: 'div', className: 'product-info__header' });
@@ -38,8 +33,12 @@ export default function generateDetailedProductPage(
   const productPricePrev = createElement({
     tag: 'span',
     className: 'product-info__prev-price',
-    textContent: `$${prevPrice}`,
   });
+
+  if (prevPrice !== undefined) {
+    productPricePrev.textContent = `$${prevPrice}`;
+  }
+
   const productSubtitle = createElement({
     tag: 'h2',
     className: ['product-info__subtitle', 'product-info__subtitle--desc'],
@@ -74,8 +73,6 @@ export default function generateDetailedProductPage(
     type: 'button',
     textContent: 'Add to cart',
   });
-
-  // const propList = createElement({ tag: 'ul', className: 'product-info__prop-list' });
 
   productPriceWrapper.append(productPrice, productPricePrev);
   productHeader.append(productTitle, productPriceWrapper);

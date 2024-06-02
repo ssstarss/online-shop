@@ -30,18 +30,13 @@ export default function initRouting() {
         }
       },
       '/catalog': renderCatalogPage,
-      // [`/catalog/${productId}#`]: () => {
-      //   renderCatalogDetailedPage(productId!);
-      // },
       '/blogs': renderBlogsPage,
       '/profile': renderUserProfilePage,
     })
     .on('/catalog/:productId', (urlId) => {
       if (urlId) {
-        console.log(urlId.data);
         const obj = urlId.data;
         const id = obj!.productId;
-        console.log(id);
         renderCatalogDetailedPage(id);
       }
     })

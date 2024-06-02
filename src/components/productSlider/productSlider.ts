@@ -7,7 +7,7 @@ import './_productSlider.scss';
 
 Swiper.use([Thumbs]);
 
-export function generateProductSlider() {
+export function generateProductSlider(images: string[]) {
   const swipersContainer = createElement({ tag: 'div', className: 'swipers-container' });
   const swiper1 = createElement({
     tag: 'div',
@@ -21,14 +21,7 @@ export function generateProductSlider() {
     textContent: '',
   });
 
-  const imageSources = [
-    'https://swiperjs.com/demos/images/nature-1.jpg',
-    'https://swiperjs.com/demos/images/nature-2.jpg',
-    'https://swiperjs.com/demos/images/nature-3.jpg',
-    'https://swiperjs.com/demos/images/nature-4.jpg',
-    'https://swiperjs.com/demos/images/nature-5.jpg',
-    'https://swiperjs.com/demos/images/nature-6.jpg',
-  ];
+  const imageSources = images;
 
   imageSources.forEach((src) => {
     const slide = createElement({
