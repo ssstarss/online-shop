@@ -32,11 +32,6 @@ export function renderRegisterPage(): void {
   registerLink.classList.add('login__link--active');
 }
 
-// export function renderCatalogPage(): void {
-//   mainContainer.innerHTML = '';
-//   mainContainer.append(catalogPage);
-// }
-
 export async function renderCatalogPage() {
   mainContainer.innerHTML = '';
   const catalog = await generateCatalogPage();

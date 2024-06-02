@@ -7,14 +7,15 @@ import './_catalogPage.scss';
 // import generateDetailedProductPage from '../detailedProductPage/detailedProductPage';
 import generateCatalogHeader from '../../components/catalog/catalogHeader';
 import generateCatalog from '../../components/catalog/catalog';
+import { GetProductsParams } from '../../interfaces/product';
 
-export default async function generateCatalogPage() {
+export default async function generateCatalogPage(productParams?: GetProductsParams) {
   const catalogPage = createElement({
     tag: 'section',
     className: 'catalog',
   });
   const catalogCards = createElement({ tag: 'section', className: 'catalog-cards' });
-  const catalogInner = await generateCatalog(catalogCards);
+  const catalogInner = await generateCatalog(catalogCards, productParams);
 
   const catalogHeader = generateCatalogHeader();
   catalogPage.append(catalogHeader, catalogInner);
