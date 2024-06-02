@@ -1,5 +1,7 @@
 import createElement from '../../../helpers/createElement';
+import RegistrationForm from '../../../pages/registrationPage/registrationForm/registrationForm';
 import { buttonWrap } from '../buttonWrap/buttonWrap';
+import getCustomerData from '../getCustomerData';
 
 const accountDetails = createElement({ tag: 'form', className: 'account-details' });
 const accountDetailsTitle = createElement({
@@ -7,61 +9,37 @@ const accountDetailsTitle = createElement({
   className: 'account-details__title',
   textContent: 'Personal Information',
 });
+const registrationForm = new RegistrationForm();
+const firstNameField = registrationForm.getFirstName();
+const lastNameField = registrationForm.getLastName();
+const dateOfBirthField = registrationForm.getDateOfBirth();
 
-const firstNameLabel = createElement({
-  tag: 'label',
-  className: 'label',
-  for: 'firstName',
-  textContent: 'First Name',
-});
+let labelsAdded = false;
 
-const firstName = createElement({
-  tag: 'input',
-  className: 'firstName inputField',
-  type: 'text',
-  placeholder: 'First Name',
-  id: 'firstName',
-});
+export async function fillCustomerDetails() {
+  const customer = await getCustomerData();
+  if (customer) {
+    firstNameField.setValue(`${customer.firstName}`);
+    lastNameField.setValue(`${customer.lastName}`);
+    dateOfBirthField.setValue(`${customer.dateOfBirth}`);
 
-const lastNameLabel = createElement({
-  tag: 'label',
-  className: 'label',
-  for: 'lastName',
-  textContent: 'Last Name',
-});
-
-const lastName = createElement({
-  tag: 'input',
-  className: 'lastName inputField',
-  type: 'text',
-  placeholder: 'Last Name',
-  title: 'Last Name',
-  id: 'lastName',
-});
-
-const dateOfBirthLabel = createElement({
-  tag: 'label',
-  className: 'label',
-  for: 'dateOfBirth',
-  textContent: 'Date of Birth',
-});
-
-const dateOfBirth = createElement({
-  tag: 'input',
-  className: 'dateOfBirth inputField',
-  type: 'date',
-  placeholder: '',
-  id: 'dateOfBirth',
-});
+    if (!labelsAdded) {
+      firstNameField.addLabel('First Name');
+      firstNameField.disable();
+      lastNameField.addLabel('Last Name');
+      lastNameField.disable();
+      dateOfBirthField.addLabel('Date of Birth');
+      dateOfBirthField.disable();
+      labelsAdded = true;
+    }
+  }
+}
 
 accountDetails.append(
   accountDetailsTitle,
-  firstNameLabel,
-  firstName,
-  lastNameLabel,
-  lastName,
-  dateOfBirthLabel,
-  dateOfBirth,
+  registrationForm.firstName.getElement(),
+  registrationForm.lastName.getElement(),
+  registrationForm.dateOfBirth.getElement(),
   buttonWrap
 );
 

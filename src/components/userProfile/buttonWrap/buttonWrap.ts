@@ -14,4 +14,7 @@ export const buttonSaveChange = createElement({
   textContent: 'Save Change',
 });
 
+buttonSaveChange.disabled = true;
+buttonSaveChange.classList.add('disable-btn');
+
 buttonWrap.append(buttonChange, buttonSaveChange);

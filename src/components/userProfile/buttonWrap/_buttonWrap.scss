@@ -15,4 +15,10 @@
       transition: 0.5s;
     }
   }
+
+  .disable-btn {
+    background: var(--bg-section);
+    cursor: default;
+    color: var(--accent-color);
+  }
 }

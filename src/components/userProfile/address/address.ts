@@ -1,7 +1,7 @@
 import createElement from '../../../helpers/createElement';
 import AdressesBlock from '../../adressesBLock/adressesBlock';
 import countries from '../../adressesBLock/countries';
-import { buttonWrap } from '../buttonWrap/buttonWrap';
+
 import getCustomerData from '../getCustomerData';
 
 interface Address {
@@ -48,7 +48,7 @@ function isDefaultAddress(addressId: string, defaultAddressId: string | undefine
   return addressId === defaultAddressId;
 }
 
-async function fillCustomerData() {
+export async function fillCustomerData() {
   const customer = await getCustomerData();
   if (customer) {
     const shippingAddresses = customer.addresses.filter((address: Address) =>
@@ -80,8 +80,6 @@ async function fillCustomerData() {
   }
 }
 
-fillCustomerData();
-
 addressBlock.shippingAdress.street.addLabel('Street');
 addressBlock.shippingAdress.city.addLabel('City');
 addressBlock.shippingAdress.country.addLabel('Country');
@@ -91,6 +89,24 @@ addressBlock.billingAdress.street.addLabel('Street');
 addressBlock.billingAdress.city.addLabel('City');
 addressBlock.billingAdress.country.addLabel('Country');
 addressBlock.billingAdress.postalCode.addLabel('Postal Code');
+
+export const buttonWrap = createElement({ tag: 'div', className: 'button-wrap' });
+
+export const buttonChange = createElement({
+  tag: 'button',
+  className: 'button-change button',
+  textContent: 'Change',
+});
+
+export const buttonSaveChange = createElement({
+  tag: 'button',
+  className: 'button-save-change button',
+  textContent: 'Save Change',
+});
+buttonSaveChange.disabled = true;
+buttonSaveChange.classList.add('disable-btn');
+
+buttonWrap.append(buttonChange, buttonSaveChange);
 
 addressContainer.append(addressBlock.getElement(), buttonWrap);
 

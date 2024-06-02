@@ -10,6 +10,12 @@ import { connectionByFetch } from '../../../app/connectionByFetch';
 import { Mutable } from '../../../interfaces/customer';
 
 export default class RegistrationForm extends BaseComponent {
+  firstName!: BaseComponent;
+
+  lastName!: BaseComponent;
+
+  dateOfBirth!: BaseComponent;
+
   constructor() {
     super({
       tag: 'div',
@@ -25,7 +31,7 @@ export default class RegistrationForm extends BaseComponent {
       text: 'Enter registration data:',
     });
     // const connection = new Connection();
-    const firstName = new BaseComponent({
+    this.firstName = new BaseComponent({
       tag: 'input',
       classNames: ['firstName', 'inputField'],
       type: 'text',
@@ -34,7 +40,7 @@ export default class RegistrationForm extends BaseComponent {
       tip: 'Must contain at least one character and no special characters or numbers',
     });
 
-    const lastName = new BaseComponent({
+    this.lastName = new BaseComponent({
       tag: 'input',
       classNames: ['lastName', 'inputField'],
       type: 'text',
@@ -54,7 +60,7 @@ export default class RegistrationForm extends BaseComponent {
 
     const password = new PasswordInput();
 
-    const dateOfBirth = new BaseComponent({
+    this.dateOfBirth = new BaseComponent({
       tag: 'input',
       classNames: ['dateOfBirth', 'inputField'],
       type: 'date',
@@ -67,11 +73,11 @@ export default class RegistrationForm extends BaseComponent {
     this.addElement(adressesBlock);
 
     const inputsForValidation = [
-      firstName,
-      lastName,
+      this.firstName,
+      this.lastName,
       emailAdress,
       password,
-      dateOfBirth,
+      this.dateOfBirth,
       adressesBlock.shippingAdress.street,
       adressesBlock.shippingAdress.city,
       adressesBlock.shippingAdress.postalCode,
@@ -120,11 +126,11 @@ export default class RegistrationForm extends BaseComponent {
         }
 
         if (
-          firstName.isValid &&
-          lastName.isValid &&
+          this.firstName.isValid &&
+          this.lastName.isValid &&
           emailAdress.isValid &&
           password.input.isValid &&
-          dateOfBirth.isValid &&
+          this.dateOfBirth.isValid &&
           adressesBlock.shippingAdress.street.isValid &&
           adressesBlock.shippingAdress.city.isValid &&
           adressesBlock.shippingAdress.postalCode.isValid &&
@@ -145,11 +151,11 @@ export default class RegistrationForm extends BaseComponent {
               (adressesBlock.shippingAdress.country.element as HTMLInputElement).value
           )?.ISO;
           const customer: Mutable<CustomerDraft> = {
-            firstName: (firstName.element as HTMLInputElement).value,
-            lastName: (lastName.element as HTMLInputElement).value,
+            firstName: (this.firstName.element as HTMLInputElement).value,
+            lastName: (this.lastName.element as HTMLInputElement).value,
             email: (emailAdress.element as HTMLInputElement).value,
             password: (password.input.element as HTMLInputElement).value,
-            dateOfBirth: (dateOfBirth.element as HTMLInputElement).value,
+            dateOfBirth: (this.dateOfBirth.element as HTMLInputElement).value,
             addresses: [
               {
                 country: shippingCountryCode || '',
@@ -210,13 +216,33 @@ export default class RegistrationForm extends BaseComponent {
 
     this.addElement(
       formHeader,
-      firstName,
-      lastName,
+      this.firstName,
+      this.lastName,
       emailAdress,
       password,
-      dateOfBirth,
+      this.dateOfBirth,
       adressesBlock,
       submitButton
+    );
+  }
+
+  getFirstName() {
+    return this.firstName;
+  }
+
+  getLastName() {
+    return this.lastName;
+  }
+
+  getDateOfBirth() {
+    return this.dateOfBirth;
+  }
+
+  checkValidity() {
+    return (
+      this.firstName.checkValidity() &&
+      this.lastName.checkValidity() &&
+      this.dateOfBirth.checkValidity()
     );
   }
 }

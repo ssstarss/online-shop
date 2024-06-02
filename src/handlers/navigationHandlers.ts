@@ -27,10 +27,16 @@ import navigate from '../utils/navigate';
 import {
   profileAccountDetails,
   profileAddress,
+  profileLogout,
+  profileOrders,
+  profileSupport,
 } from '../components/userProfile/userProfileMenu/userProfileMenu';
 import loadAccountDetails from '../components/userProfile/loadersContent/loadAccountDetails';
 import loadAddress from '../components/userProfile/loadersContent/loadAddress';
-import getCustomerData from '../components/userProfile/getCustomerData';
+import { fillCustomerData } from '../components/userProfile/address/address';
+import { fillCustomerDetails } from '../components/userProfile/accountDetails/accountDetails';
+import loadOrders from '../components/userProfile/loadersContent/loadOrders';
+import loadSupport from '../components/userProfile/loadersContent/loadSupport';
 
 buttonHome.addEventListener('click', () => {
   navigate('/main');
@@ -185,14 +191,58 @@ logoutButton.addEventListener('click', () => {
 userProfile.addEventListener('click', (event) => {
   event.preventDefault();
   navigate('/profile');
+  document.querySelectorAll('.profile__menu-list-item').forEach((element) => {
+    element.classList.remove('active__item');
+  });
+  profileAccountDetails.classList.add('active__item');
   loadAccountDetails();
-  getCustomerData();
+  fillCustomerData();
+  fillCustomerDetails();
 });
 
 mobileUserProfileButton.addEventListener('click', (event) => {
   event.preventDefault();
   navigate('/profile');
+  document.querySelectorAll('.profile__menu-list-item').forEach((element) => {
+    element.classList.remove('active__item');
+  });
+  profileAccountDetails.classList.add('active__item');
   loadAccountDetails();
+  fillCustomerData();
+  fillCustomerDetails();
+});
+profileAddress.addEventListener('click', (event) => {
+  event.preventDefault();
+  document.querySelectorAll('.profile__menu-list-item').forEach((element) => {
+    element.classList.remove('active__item');
+  });
+  profileAddress.classList.add('active__item');
+});
+
+profileOrders.addEventListener('click', (event) => {
+  event.preventDefault();
+  document.querySelectorAll('.profile__menu-list-item').forEach((element) => {
+    element.classList.remove('active__item');
+  });
+  profileOrders.classList.add('active__item');
+  loadOrders();
+});
+
+profileSupport.addEventListener('click', (event) => {
+  event.preventDefault();
+  document.querySelectorAll('.profile__menu-list-item').forEach((element) => {
+    element.classList.remove('active__item');
+  });
+  profileSupport.classList.add('active__item');
+  loadSupport();
+});
+
+profileAccountDetails.addEventListener('click', (event) => {
+  event.preventDefault();
+  document.querySelectorAll('.profile__menu-list-item').forEach((element) => {
+    element.classList.remove('active__item');
+  });
+  profileAccountDetails.classList.add('active__item');
 });
 
 profileAccountDetails.addEventListener('click', (event) => {
@@ -203,6 +253,15 @@ profileAccountDetails.addEventListener('click', (event) => {
 profileAddress.addEventListener('click', (event) => {
   event.preventDefault();
   loadAddress();
+});
+
+profileLogout.addEventListener('click', (event) => {
+  event.preventDefault();
+  localStorage.removeItem('logged');
+  localStorage.removeItem('id');
+  localStorage.removeItem('token');
+  updateButtonVisibility();
+  navigate('/main');
 });
 
 document.addEventListener('DOMContentLoaded', updateButtonVisibility);
