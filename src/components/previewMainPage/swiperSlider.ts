@@ -5,7 +5,7 @@ import { renderSlide, slide1, slide2, slide3 } from './previewSlideOne';
 
 Swiper.use([Pagination, Autoplay, Mousewheel, Navigation, Keyboard]);
 
-const swiperContainer = createElement({ tag: 'div', className: 'swiper' });
+const swiperContainer = createElement({ tag: 'div', className: ['swiper', 'swiperMain'] });
 const swiperWrapper = createElement({ tag: 'div', className: 'swiper-wrapper' });
 
 const slides = [slide1, slide2, slide3];
@@ -24,7 +24,7 @@ swiperContainer.append(swiperWrapper, swiperPagination, swiperButtonPrev, swiper
 export function initSwiperPreview() {
   setTimeout(() => {
     // eslint-disable-next-line no-new
-    new Swiper('.swiper', {
+    new Swiper('.swiperMain', {
       direction: 'horizontal',
       loop: true,
       speed: 1000,
