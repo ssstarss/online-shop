@@ -16,6 +16,12 @@ export default class RegistrationForm extends BaseComponent {
 
   dateOfBirth!: BaseComponent;
 
+  emailAdress!: BaseComponent;
+
+  password!: BaseComponent;
+
+  submitButton!: BaseComponent;
+
   constructor() {
     super({
       tag: 'div',
@@ -49,7 +55,7 @@ export default class RegistrationForm extends BaseComponent {
       tip: 'Must contain at least one character and no special characters or numbers',
     });
 
-    const emailAdress = new BaseComponent({
+    this.emailAdress = new BaseComponent({
       tag: 'input',
       classNames: ['emailAdress', 'inputField'],
       type: 'text',
@@ -58,7 +64,7 @@ export default class RegistrationForm extends BaseComponent {
       tip: 'Please enter valid e-mail',
     });
 
-    const password = new PasswordInput();
+    this.password = new PasswordInput();
 
     this.dateOfBirth = new BaseComponent({
       tag: 'input',
@@ -75,8 +81,8 @@ export default class RegistrationForm extends BaseComponent {
     const inputsForValidation = [
       this.firstName,
       this.lastName,
-      emailAdress,
-      password,
+      this.emailAdress,
+      this.password,
       this.dateOfBirth,
       adressesBlock.shippingAdress.street,
       adressesBlock.shippingAdress.city,
@@ -97,7 +103,7 @@ export default class RegistrationForm extends BaseComponent {
     const popUpMessage = new PopUpMessage();
     this.addElement(popUpMessage);
 
-    const submitButton = new BaseComponent({
+    this.submitButton = new BaseComponent({
       tag: 'button',
       classNames: ['regFormSubmit'],
       type: 'submit',
@@ -128,8 +134,8 @@ export default class RegistrationForm extends BaseComponent {
         if (
           this.firstName.isValid &&
           this.lastName.isValid &&
-          emailAdress.isValid &&
-          password.input.isValid &&
+          this.emailAdress.isValid &&
+          this.password.isValid &&
           this.dateOfBirth.isValid &&
           adressesBlock.shippingAdress.street.isValid &&
           adressesBlock.shippingAdress.city.isValid &&
@@ -153,8 +159,8 @@ export default class RegistrationForm extends BaseComponent {
           const customer: Mutable<CustomerDraft> = {
             firstName: (this.firstName.element as HTMLInputElement).value,
             lastName: (this.lastName.element as HTMLInputElement).value,
-            email: (emailAdress.element as HTMLInputElement).value,
-            password: (password.input.element as HTMLInputElement).value,
+            email: (this.emailAdress.element as HTMLInputElement).value,
+            password: (this.password.element as HTMLInputElement).value,
             dateOfBirth: (this.dateOfBirth.element as HTMLInputElement).value,
             addresses: [
               {
@@ -218,11 +224,11 @@ export default class RegistrationForm extends BaseComponent {
       formHeader,
       this.firstName,
       this.lastName,
-      emailAdress,
-      password,
+      this.emailAdress,
+      this.password,
       this.dateOfBirth,
       adressesBlock,
-      submitButton
+      this.submitButton
     );
   }
 
@@ -238,11 +244,15 @@ export default class RegistrationForm extends BaseComponent {
     return this.dateOfBirth;
   }
 
-  checkValidity() {
-    return (
-      this.firstName.checkValidity() &&
-      this.lastName.checkValidity() &&
-      this.dateOfBirth.checkValidity()
-    );
+  getEmailAdress() {
+    return this.emailAdress;
+  }
+
+  getPassword() {
+    return this.password;
+  }
+
+  getSubmitButton() {
+    return this.submitButton;
   }
 }

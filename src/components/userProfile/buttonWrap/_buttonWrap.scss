@@ -20,5 +20,13 @@
     background: var(--bg-section);
     cursor: default;
     color: var(--accent-color);
+    &:hover {
+      opacity: 1;
+    }
   }
+}
+
+.regFormSubmit {
+  padding: 8px 10px;
+  width: auto !important;
 }

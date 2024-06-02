@@ -1,7 +1,7 @@
 import createElement from '../../../helpers/createElement';
+import RegistrationForm from '../../../pages/registrationPage/registrationForm/registrationForm';
 import AdressesBlock from '../../adressesBLock/adressesBlock';
 import countries from '../../adressesBLock/countries';
-
 import getCustomerData from '../getCustomerData';
 
 interface Address {
@@ -13,6 +13,9 @@ interface Address {
 }
 
 const addressContainer = createElement({ tag: 'div', className: 'address-container' });
+const registrationForm = new RegistrationForm();
+const buttonSubmit = registrationForm.getSubmitButton();
+
 const addressBlock = new AdressesBlock();
 
 function disableAllFieldsShipping() {
@@ -24,16 +27,35 @@ function disableAllFieldsShipping() {
   addressBlock.useSameChkBox.disable();
 }
 
+export function enableAllFieldsShipping() {
+  addressBlock.shippingAdress.street.enable();
+  addressBlock.shippingAdress.city.enable();
+  addressBlock.shippingAdress.country.enable();
+  addressBlock.shippingAdress.postalCode.enable();
+  addressBlock.shippingAdress.setDefaultChkBox.enable();
+  addressBlock.useSameChkBox.enable();
+}
+
 disableAllFieldsShipping();
 
-function disableAllFieldsBilling() {
+export function disableAllFieldsBilling() {
   addressBlock.billingAdress.street.disable();
   addressBlock.billingAdress.city.disable();
   addressBlock.billingAdress.country.disable();
   addressBlock.billingAdress.postalCode.disable();
   addressBlock.billingAdress.setDefaultChkBox.disable();
 }
-
+export function enableAllFieldsBilling() {
+  addressBlock.billingAdress.street.enable();
+  addressBlock.billingAdress.city.enable();
+  addressBlock.billingAdress.country.enable();
+  addressBlock.billingAdress.postalCode.enable();
+  addressBlock.billingAdress.setDefaultChkBox.enable();
+}
+export function enableSubmitButton() {
+  buttonSubmit.enable();
+  buttonSubmit.removeClass('disable-btn');
+}
 disableAllFieldsBilling();
 
 addressBlock.shippingAdress.adressesHeader.setTextContent(
@@ -92,21 +114,16 @@ addressBlock.billingAdress.postalCode.addLabel('Postal Code');
 
 export const buttonWrap = createElement({ tag: 'div', className: 'button-wrap' });
 
-export const buttonChange = createElement({
+export const buttonChangeAddress = createElement({
   tag: 'button',
   className: 'button-change button',
   textContent: 'Change',
 });
+buttonSubmit.setTextContent('Save change');
+buttonSubmit.disable();
+buttonSubmit.setCssClasses(['disable-btn']);
 
-export const buttonSaveChange = createElement({
-  tag: 'button',
-  className: 'button-save-change button',
-  textContent: 'Save Change',
-});
-buttonSaveChange.disabled = true;
-buttonSaveChange.classList.add('disable-btn');
-
-buttonWrap.append(buttonChange, buttonSaveChange);
+buttonWrap.append(buttonChangeAddress, buttonSubmit.getElement());
 
 addressContainer.append(addressBlock.getElement(), buttonWrap);
 
