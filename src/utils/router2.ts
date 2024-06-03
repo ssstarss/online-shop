@@ -31,7 +31,13 @@ export default function initRouting() {
       },
       '/catalog': renderCatalogPage,
       '/blogs': renderBlogsPage,
-      '/profile': renderUserProfilePage,
+      '/profile': () => {
+        if (localStorage.getItem('logged')) {
+          renderUserProfilePage();
+        } else {
+          router.navigate('/login');
+        }
+      },
     })
     .on('/catalog/:productId', (urlId) => {
       if (urlId) {
