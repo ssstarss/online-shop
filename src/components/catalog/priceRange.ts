@@ -53,7 +53,7 @@ export default function generatePriceRange() {
     type: 'range',
     value: '5',
     min: '5',
-    max: '500',
+    max: '100',
     step: '5',
   });
 
@@ -61,9 +61,9 @@ export default function generatePriceRange() {
     tag: 'input',
     className: 'max-price',
     type: 'range',
-    value: '150',
+    value: '50',
     min: '10',
-    max: '500',
+    max: '100',
     step: '5',
   });
 
@@ -97,8 +97,8 @@ export default function generatePriceRange() {
       maxPriceInput.value = maxPrice.toString();
     }
 
-    const minPercentage = ((minPrice - 5) / 495) * 100;
-    const maxPercentage = ((maxPrice - 5) / 495) * 100;
+    const minPercentage = ((minPrice - 5) / 105) * 100;
+    const maxPercentage = ((maxPrice - 5) / 105) * 100;
 
     rangeFillElement.style.left = `${minPercentage}%`;
     rangeFillElement.style.width = `${maxPercentage - minPercentage}%`;
