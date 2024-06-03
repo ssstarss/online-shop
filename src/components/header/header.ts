@@ -1,5 +1,7 @@
 import createElement from '../../helpers/createElement';
 import { basket, login, logoSvg, register, search, userSvg } from '../../assets/icons/index';
+// import generateCatalog from '../catalog/catalog';
+import generateCatalogPage from '../../pages/catalogPage/catalogPage';
 
 const header = createElement({ tag: 'header', className: 'header container' });
 export const logoLink = createElement({ tag: 'a', className: 'logo__link' });
@@ -28,8 +30,46 @@ export const headerLinkBlogs = createElement({
 headerLinksList.append(headerLinkHome, headerLinkCatalog, headerLinkBlogs);
 
 const linkWrap = createElement({ tag: 'div', className: 'header__wrap' });
-export const searchLink = createElement({ tag: 'a', className: 'header__search' });
-searchLink.innerHTML = search;
+export const searchLink = createElement({ tag: 'div', className: 'header__search' });
+const searchLinkBtn = createElement({
+  tag: 'button',
+  className: 'header__search-btn',
+  type: 'button',
+});
+
+const searchInput = createElement({
+  tag: 'input',
+  className: ['header__search-input', 'hidden'],
+  type: 'search',
+});
+
+// searchLinkBtn.addEventListener('click', async (e) => {
+//   if (!searchInput.classList.contains('hidden') && searchInput.value !== '') {
+//     const catalogPage = document.querySelector('.catalog');
+//     catalogPage?.querySelector('.nothing-found')?.remove();
+//     const catalogCards = document.querySelector('.catalog-cards') as HTMLElement;
+//     if (catalogCards !== null) {
+//       const catalog = await generateCatalog(catalogCards, { searchText: searchInput.value });
+//       catalogPage?.append(catalog);
+//     }
+//   } else {
+//     searchInput.classList.remove('hidden');
+//   }
+// });
+
+searchLinkBtn.addEventListener('click', async () => {
+  if (!searchInput.classList.contains('hidden') && searchInput.value !== '') {
+    const main = document.querySelector('main');
+    main!.innerHTML = '';
+    const catalog = await generateCatalogPage({ searchText: searchInput.value });
+    main?.append(catalog);
+  } else {
+    searchInput.classList.remove('hidden');
+  }
+});
+
+searchLinkBtn.innerHTML = search;
+searchLink.append(searchInput, searchLinkBtn);
 export const basketLink = createElement({ tag: 'a', className: 'header__basket' });
 basketLink.innerHTML = basket;
 
@@ -132,7 +172,7 @@ export const mobileLogoutButton = createElement({
 export const mobileUserProfileButton = createElement({
   tag: 'li',
   className: 'mobile__list-item mobile__user-profile',
-  textContent: 'Account details',
+  textContent: 'User Profile',
 });
 
 mobileLinksList.append(

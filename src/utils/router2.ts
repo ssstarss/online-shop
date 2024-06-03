@@ -6,6 +6,7 @@ import {
   renderBlogsPage,
   render404Page,
   renderUserProfilePage,
+  renderCatalogDetailedPage,
 } from './pageRenders';
 import router from './router';
 
@@ -30,7 +31,20 @@ export default function initRouting() {
       },
       '/catalog': renderCatalogPage,
       '/blogs': renderBlogsPage,
-      '/profile': renderUserProfilePage,
+      '/profile': () => {
+        if (localStorage.getItem('logged')) {
+          renderUserProfilePage();
+        } else {
+          router.navigate('/login');
+        }
+      },
+    })
+    .on('/catalog/:productId', (urlId) => {
+      if (urlId) {
+        const obj = urlId.data;
+        const id = obj!.productId;
+        renderCatalogDetailedPage(id);
+      }
     })
     .notFound(render404Page)
     .resolve();

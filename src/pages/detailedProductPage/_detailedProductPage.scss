@@ -2,11 +2,13 @@
   display: flex;
   gap: 52px;
   padding-top: 43px;
+  margin-bottom: 100px;
 }
 
 .product-info {
   display: flex;
   flex-direction: column;
+  width: 100%;
 }
 
 .product-info__title {
