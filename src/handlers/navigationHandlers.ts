@@ -120,35 +120,41 @@ window.addEventListener('resize', () => {
 
 mobileLinkHome.addEventListener('click', (event) => {
   mobileMenu.classList.toggle('active');
+  burgerMenu.classList.toggle('active');
   event.preventDefault();
   navigate('/main');
 });
 
 mobileLinkCatalog.addEventListener('click', (event) => {
   mobileMenu.classList.toggle('active');
+  burgerMenu.classList.toggle('active');
   event.preventDefault();
   navigate('/catalog');
 });
 mobileLinkBlogs.addEventListener('click', (event) => {
   mobileMenu.classList.toggle('active');
+  burgerMenu.classList.toggle('active');
   event.preventDefault();
   navigate('/blogs');
 });
 
 mobileBasketLink.addEventListener('click', (event) => {
   mobileMenu.classList.toggle('active');
+  burgerMenu.classList.toggle('active');
   event.preventDefault();
   navigate('/main');
 });
 
 mobileLoginButton.addEventListener('click', (event) => {
   mobileMenu.classList.toggle('active');
+  burgerMenu.classList.toggle('active');
   event.preventDefault();
   navigate('/login');
 });
 
 mobileRegisterButton.addEventListener('click', (event) => {
   mobileMenu.classList.toggle('active');
+  burgerMenu.classList.toggle('active');
   event.preventDefault();
   navigate('/register');
 });

@@ -151,6 +151,7 @@ mobileSearchBtn.addEventListener('click', async () => {
     const catalog = await generateCatalogPage({ searchText: mobileSearchInput.value });
     main?.append(catalog);
     mobileMenu.classList.remove('active');
+    burgerMenu.classList.remove('active');
   } else {
     mobileSearchInput.focus();
   }
