@@ -17,10 +17,8 @@ import {
   mobileLogoutButton,
   mobileMenu,
   mobileRegisterButton,
-  mobileSearchLink,
   mobileUserProfileButton,
   registerButton,
-  searchLink,
   userProfile,
 } from '../components/header/header';
 import navigate from '../utils/navigate';
@@ -79,10 +77,6 @@ headerLinkBlogs.addEventListener('click', (event) => {
   navigate('/blogs');
 });
 
-searchLink.addEventListener('click', (event) => {
-  event.preventDefault();
-  navigate('/main');
-});
 basketLink.addEventListener('click', (event) => {
   event.preventDefault();
   navigate('/main');
@@ -126,39 +120,41 @@ window.addEventListener('resize', () => {
 
 mobileLinkHome.addEventListener('click', (event) => {
   mobileMenu.classList.toggle('active');
+  burgerMenu.classList.toggle('active');
   event.preventDefault();
   navigate('/main');
 });
 
 mobileLinkCatalog.addEventListener('click', (event) => {
   mobileMenu.classList.toggle('active');
+  burgerMenu.classList.toggle('active');
   event.preventDefault();
   navigate('/catalog');
 });
 mobileLinkBlogs.addEventListener('click', (event) => {
   mobileMenu.classList.toggle('active');
+  burgerMenu.classList.toggle('active');
   event.preventDefault();
   navigate('/blogs');
 });
-mobileSearchLink.addEventListener('click', (event) => {
-  mobileMenu.classList.toggle('active');
-  event.preventDefault();
-  navigate('/main');
-});
+
 mobileBasketLink.addEventListener('click', (event) => {
   mobileMenu.classList.toggle('active');
+  burgerMenu.classList.toggle('active');
   event.preventDefault();
   navigate('/main');
 });
 
 mobileLoginButton.addEventListener('click', (event) => {
   mobileMenu.classList.toggle('active');
+  burgerMenu.classList.toggle('active');
   event.preventDefault();
   navigate('/login');
 });
 
 mobileRegisterButton.addEventListener('click', (event) => {
   mobileMenu.classList.toggle('active');
+  burgerMenu.classList.toggle('active');
   event.preventDefault();
   navigate('/register');
 });

@@ -31,10 +31,14 @@ export class ConnectionByFetch {
     if (id) this.currentCustomer = await this.getCustumerByID(id);
     this.discounts = await this.getDiscountedProducts();
     /* const products = await this.getProducts({
-      filterPrice: { higherThen: 1401, lowerThen: 4000 },
       sort: { param: 'price', direction: 'asc' },
+      size: 'Medium size',
     });
-    console.log(products); */
+    console.log(products);
+
+    /* const oneProduct = await this.getProductByID('0c8d600a-e4f5-4d55-8639-eefd0c0b09cd');
+    console.log(oneProduct);
+
     /*  if (id) this.currentCustomer = await this.getCustumerByID(id);
     this.deleteCustomer('00ef4f06-8a8c-483e-9d40-259ac4496c2a'); */
   }
@@ -218,6 +222,35 @@ export class ConnectionByFetch {
           }
         });
         return newArr;
+      })
+    );
+  }
+
+  async getProductByID(id: string) {
+    const myHeaders = new Headers();
+    myHeaders.append('Content-Type', 'application/json');
+    myHeaders.append('Authorization', `Bearer ${this.bearerToken}`);
+
+    const requestOptions = {
+      method: 'GET',
+      headers: myHeaders,
+    };
+    const url = this.API_URL.concat('/', this.projectKey, '/product-projections/', `${id}`);
+
+    return fetch(url, requestOptions).then((response) =>
+      response.json().then((product) => {
+        const discountedProduct = JSON.parse(JSON.stringify(product));
+
+        if (product.masterVariant.prices[0].discounted) {
+          const discount = this.discounts.find(
+            (item) => item.id === product.masterVariant.prices[0].discounted.discount.id
+          );
+          discountedProduct.masterVariant.prices[0].discounted.discount = JSON.parse(
+            JSON.stringify(discount)
+          );
+        }
+
+        return discountedProduct;
       })
     );
   }

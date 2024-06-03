@@ -1,4 +1,5 @@
 import createElement from '../../helpers/createElement';
+import navigate from '../../utils/navigate';
 import './catalogCards.scss';
 
 export default function createCatalogCard(
@@ -17,6 +18,13 @@ export default function createCatalogCard(
   }
   const cardLink = createElement({ tag: 'a', className: 'card__link', href: productPageLink });
   cardLink.setAttribute('id', id);
+  cardLink.addEventListener('click', () => {
+    const linkId = cardLink.getAttribute('id');
+    if (linkId !== null) {
+      navigate(`catalog/${linkId}`);
+    }
+  });
+
   const imgWrapper = createElement({ tag: 'div', className: 'card__inner' });
 
   const saleTag = createElement({
