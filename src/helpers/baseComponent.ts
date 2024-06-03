@@ -88,6 +88,10 @@ export default class BaseComponent {
     cssClasses.map((cssClass) => this.element.classList.add(cssClass));
   }
 
+  removeClass(cssClass = '') {
+    this.element.classList.remove(cssClass);
+  }
+
   setTextContent(text = '') {
     this.element.textContent = text;
   }

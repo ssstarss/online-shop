@@ -31,10 +31,18 @@ import {
 } from '../components/userProfile/userProfileMenu/userProfileMenu';
 import loadAccountDetails from '../components/userProfile/loadersContent/loadAccountDetails';
 import loadAddress from '../components/userProfile/loadersContent/loadAddress';
-import { fillCustomerData } from '../components/userProfile/address/address';
-import { fillCustomerDetails } from '../components/userProfile/accountDetails/accountDetails';
+import {
+  buttonChange,
+  enableFields,
+} from '../components/userProfile/accountDetails/accountDetails';
 import loadOrders from '../components/userProfile/loadersContent/loadOrders';
 import loadSupport from '../components/userProfile/loadersContent/loadSupport';
+import {
+  buttonChangeAddress,
+  enableAllFieldsBilling,
+  enableAllFieldsShipping,
+  enableSubmitButton,
+} from '../components/userProfile/address/address';
 
 buttonHome.addEventListener('click', () => {
   navigate('/main');
@@ -186,8 +194,6 @@ userProfile.addEventListener('click', (event) => {
   });
   profileAccountDetails.classList.add('active__item');
   loadAccountDetails();
-  fillCustomerData();
-  fillCustomerDetails();
 });
 
 mobileUserProfileButton.addEventListener('click', (event) => {
@@ -198,8 +204,6 @@ mobileUserProfileButton.addEventListener('click', (event) => {
   });
   profileAccountDetails.classList.add('active__item');
   loadAccountDetails();
-  fillCustomerData();
-  fillCustomerDetails();
 });
 profileAddress.addEventListener('click', (event) => {
   event.preventDefault();
@@ -252,6 +256,18 @@ profileLogout.addEventListener('click', (event) => {
   localStorage.removeItem('token');
   updateButtonVisibility();
   navigate('/main');
+});
+
+buttonChange.addEventListener('click', (event) => {
+  event.preventDefault();
+  enableFields();
+});
+
+buttonChangeAddress.addEventListener('click', (event) => {
+  event.preventDefault();
+  enableAllFieldsBilling();
+  enableAllFieldsShipping();
+  enableSubmitButton();
 });
 
 document.addEventListener('DOMContentLoaded', updateButtonVisibility);

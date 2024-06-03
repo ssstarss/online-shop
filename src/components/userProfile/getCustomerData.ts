@@ -1,5 +1,5 @@
 import { connectionByFetch } from '../../app/connectionByFetch';
-import Customer from '../../interfaces/customerProfile';
+import { Customer } from '../../interfaces/customer';
 
 export default async function getCustomerData(): Promise<Customer | null> {
   const id = localStorage.getItem('id');

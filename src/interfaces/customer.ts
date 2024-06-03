@@ -1,3 +1,11 @@
+interface Address {
+  id: string;
+  streetName: string;
+  city: string;
+  country: string;
+  postalCode: string;
+}
+
 export interface Customer {
   id: string;
   version: number;
@@ -14,13 +22,16 @@ export interface Customer {
   email: string;
   firstName: string;
   lastName: string;
+  dateOfBirth: string;
   password: string;
-  addresses: [];
-  shippingAddressIds: [];
-  billingAddressIds: [];
+  addresses: Address[];
+  shippingAddressIds: string[];
+  billingAddressIds: string[];
   isEmailVerified: boolean;
   stores: [];
   authenticationMode: string;
+  defaultShippingAddressId?: string;
+  defaultBillingAddressId?: string;
 }
 
 export type Mutable<T extends object> = {
