@@ -4,7 +4,7 @@ import './inputPassword.css';
 export default class PasswordInput extends BaseComponent {
   showPasswordIcon: BaseComponent;
 
-  input: BaseComponent;
+  public input: BaseComponent;
 
   constructor() {
     super({

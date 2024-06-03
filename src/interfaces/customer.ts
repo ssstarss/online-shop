@@ -37,3 +37,12 @@ export interface Customer {
 export type Mutable<T extends object> = {
   -readonly [K in keyof T]: T[K];
 };
+
+export type CustomerAccauntDetails = {
+  version: number;
+  id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  dateOfBirth: string;
+};

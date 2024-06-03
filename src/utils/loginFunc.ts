@@ -16,6 +16,7 @@ async function loginFunc(emailInputClass: string, passwordInputClass: string) {
         response.json().then((result) => {
           localStorage.setItem('id', result.customer.id);
           connectionByFetch.currentCustomer.id = result.customer.id;
+          connectionByFetch.currentCustomer.version = result.customer.version;
           window.dispatchEvent(new Event('storage'));
           /* navigate to main page */
           navigate('/main');

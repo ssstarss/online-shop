@@ -27,7 +27,8 @@ export default class PopUpMessage extends BaseComponent {
     });
     this.addElement(closeMessageButton);
 
-    closeMessageButton.element.addEventListener('click', () => {
+    closeMessageButton.element.addEventListener('click', (event) => {
+      event.preventDefault();
       const body = document.getElementsByTagName('body');
       body[0].style.overflow = 'scroll';
       this.element.style.display = 'none';
