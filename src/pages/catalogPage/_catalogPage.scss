@@ -1,10 +1,38 @@
 .catalog {
-  display: flex;
-  flex-direction: column;
   width: 100%;
   margin-bottom: 80px;
+  display: grid;
+  gap: 0px 0px;
+  grid-template-areas: 'aside header header' 'aside catalog catalog' 'aside catalog catalog';
+  grid-template-columns: minmax(-webkit-max-content, 310px) 1fr 1fr;
+  grid-template-columns: minmax(max-content, 310px) 1fr 1fr;
+  gap: 22px 50px;
+  padding-top: 26px;
 }
 .catalog__header {
   display: flex;
   justify-content: flex-end;
+  grid-area: header;
+}
+
+.catalog__sidebar {
+  grid-area: aside;
+  background-color: var(--bg-section);
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+  padding: 14px 24px 20px 20px;
+  // max-width: 310px;
+  // width: 100%;
+}
+
+.catalog__sidebar-title {
+  font-size: 18px;
+  font-weight: 700;
+  margin: 0;
+  margin-bottom: 7px;
+}
+
+.catalog-cards {
+  grid-area: catalog;
 }

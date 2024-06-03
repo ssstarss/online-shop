@@ -13,6 +13,9 @@ interface ElementParams<K extends keyof HTMLElementTagNameMap> {
   value?: string;
   for?: string;
   id?: string;
+  step?: string;
+  min?: string;
+  max?: string;
 }
 
 const createElement = <K extends keyof HTMLElementTagNameMap>(
@@ -43,6 +46,18 @@ const createElement = <K extends keyof HTMLElementTagNameMap>(
       }
       if (params.id) {
         (element as HTMLElement).id = params.id;
+      }
+      if (params.step) {
+        (element as HTMLInputElement).step = params.step;
+      }
+      if (params.min) {
+        (element as HTMLInputElement).min = params.min;
+      }
+      if (params.max) {
+        (element as HTMLInputElement).max = params.max;
+      }
+      if (params.value) {
+        (element as HTMLInputElement).value = params.value;
       }
       break;
     case 'button':
