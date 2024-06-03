@@ -101,6 +101,12 @@
   max-height: 444px;
   overflow: hidden;
   height: 100%;
+  @media (max-width: 1024px) {
+    display: none;
+  }
+}
+
+.swiper-popup-pagination {
 }
 
 .mySwiper .swiper-slide {

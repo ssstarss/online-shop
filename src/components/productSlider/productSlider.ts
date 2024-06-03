@@ -1,6 +1,6 @@
 // import Swiper from 'swiper';
 import Swiper from 'swiper';
-import { Thumbs, Navigation } from 'swiper/modules';
+import { Thumbs, Navigation, Pagination } from 'swiper/modules';
 import 'swiper/css/bundle';
 import createElement from '../../helpers/createElement';
 import { search } from '../../assets/icons/index';
@@ -8,7 +8,7 @@ import { search } from '../../assets/icons/index';
 import './_productSlider.scss';
 import { generateSliderPopup } from '../popups/popup';
 
-Swiper.use([Thumbs, Navigation]);
+Swiper.use([Thumbs, Navigation, Pagination]);
 
 function generatePopupSwiper(images: string[]) {
   const swiperPopup = createElement({
@@ -46,7 +46,16 @@ function generatePopupSwiper(images: string[]) {
     tag: 'div',
     className: ['swiper-popup-button-next', 'swiper-button-next'],
   });
-  swiperPopup.append(swiperWrapperPopup, slidePopupNavPrev, slidePopupNavNext);
+  const slidePopupPagination = createElement({
+    tag: 'div',
+    className: ['swiper-pagination', 'swiper-popup-pagination'],
+  });
+  swiperPopup.append(
+    swiperWrapperPopup,
+    slidePopupNavPrev,
+    slidePopupNavNext,
+    slidePopupPagination
+  );
   return swiperPopup;
 }
 
@@ -62,6 +71,10 @@ export function generateProductSlider(images: string[]) {
     tag: 'div',
     className: 'swiper-wrapper',
     textContent: '',
+  });
+  const slideMainPagination = createElement({
+    tag: 'div',
+    className: ['swiper-pagination', 'swiper-product-pagination'],
   });
 
   const imageSources = images;
@@ -80,6 +93,7 @@ export function generateProductSlider(images: string[]) {
       className: 'product__slide-img',
       src,
     });
+
     slide.append(img, zoomIcon);
     slide.addEventListener('click', () => {
       const popupSlider = generatePopupSwiper(imageSources);
@@ -92,12 +106,21 @@ export function generateProductSlider(images: string[]) {
           nextEl: '.swiper-popup-button-next',
           prevEl: '.swiper-popup-button-prev',
         },
+        pagination: {
+          el: '.swiper-popup-pagination',
+          type: 'bullets',
+        },
+        breakpoints: {
+          1024: {
+            pagination: undefined,
+          },
+        },
       });
     });
     swiperWrapper1.appendChild(slide);
   });
 
-  swiper1.appendChild(swiperWrapper1);
+  swiper1.append(swiperWrapper1, slideMainPagination);
 
   const swiper2 = createElement({
     tag: 'div',
@@ -152,6 +175,15 @@ export function initializeSwiper() {
     direction: 'vertical',
     loop: true,
     spaceBetween: 16,
+    pagination: {
+      el: '.swiper-product-pagination',
+      type: 'bullets',
+    },
+    breakpoints: {
+      1024: {
+        pagination: undefined,
+      },
+    },
     thumbs: {
       swiper,
     },

@@ -40,7 +40,11 @@
   max-width: 800px;
   padding: 5px;
   width: calc(100% - 40px);
-
   height: calc(100% - 40px);
   top: 50%;
+
+  @media (max-width: 1024px) {
+    height: calc(80vh - 40px);
+    top: 40%;
+  }
 }
