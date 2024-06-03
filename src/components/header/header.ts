@@ -44,13 +44,13 @@ const searchInput = createElement({
 });
 
 searchLinkBtn.addEventListener('click', async () => {
-  if (!searchInput.classList.contains('hidden') && searchInput.value !== '') {
+  if (searchInput.value !== '') {
     const main = document.querySelector('main');
     main!.innerHTML = '';
     const catalog = await generateCatalogPage({ searchText: searchInput.value });
     main?.append(catalog);
   } else {
-    searchInput.classList.remove('hidden');
+    searchInput.focus();
   }
 });
 
@@ -109,8 +109,7 @@ burgerMenu.append(
   burgerMenuLine.cloneNode(),
   burgerMenuLine.cloneNode()
 );
-
-// Creating new elements for the mobile menu
+export const mobileMenu = createElement({ tag: 'div', className: 'mobile-menu' });
 const mobileLinksList = createElement({ tag: 'ul', className: 'mobile__links-list' });
 export const mobileLinkHome = createElement({
   tag: 'li',
@@ -127,11 +126,38 @@ export const mobileLinkBlogs = createElement({
   className: 'mobile__list-item blogs-link',
   textContent: 'Blogs',
 });
+
 export const mobileSearchLink = createElement({
   tag: 'li',
   className: 'mobile__list-item mobile__search',
-  textContent: 'Search',
+  textContent: '',
 });
+const mobileSearchInput = createElement({
+  tag: 'input',
+  className: ['mobile__search-input', 'hidden'],
+  type: 'search',
+});
+const mobileSearchBtn = createElement({
+  tag: 'button',
+  className: 'mobile__search-btn',
+  type: 'button',
+});
+mobileSearchBtn.innerHTML = search;
+
+mobileSearchBtn.addEventListener('click', async () => {
+  if (mobileSearchInput.value !== '') {
+    const main = document.querySelector('main');
+    main!.innerHTML = '';
+    const catalog = await generateCatalogPage({ searchText: mobileSearchInput.value });
+    main?.append(catalog);
+    mobileMenu.classList.remove('active');
+  } else {
+    mobileSearchInput.focus();
+  }
+});
+
+mobileSearchLink.append(mobileSearchInput, mobileSearchBtn);
+
 export const mobileBasketLink = createElement({
   tag: 'li',
   className: 'mobile__list-item mobile__basket',
@@ -162,10 +188,10 @@ export const mobileUserProfileButton = createElement({
 });
 
 mobileLinksList.append(
+  mobileSearchLink,
   mobileLinkHome,
   mobileLinkCatalog,
   mobileLinkBlogs,
-  mobileSearchLink,
   mobileBasketLink,
   mobileLoginButton,
   mobileRegisterButton,
@@ -173,7 +199,6 @@ mobileLinksList.append(
   mobileUserProfileButton
 );
 
-export const mobileMenu = createElement({ tag: 'div', className: 'mobile-menu' });
 mobileMenu.append(mobileLinksList);
 
 linkWrap.append(searchLink, basketLink, loginButton, registerButton, userProfile, logoutButton);

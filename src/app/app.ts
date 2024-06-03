@@ -18,7 +18,6 @@ const App = async () => {
   preloader.classList.add('hidden');
   fillCustomerData();
   fillCustomerDetails();
-
 };
 
 document.addEventListener('DOMContentLoaded', App);
