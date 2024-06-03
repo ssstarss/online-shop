@@ -208,7 +208,10 @@ export interface Image {
 
 interface Attribute {
   name: string;
-  value: string;
+  value: {
+    key: string;
+    label: string;
+  };
 }
 
 interface SearchKeyword {
