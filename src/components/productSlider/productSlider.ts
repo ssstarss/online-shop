@@ -1,11 +1,54 @@
 // import Swiper from 'swiper';
 import Swiper from 'swiper';
-import { Thumbs } from 'swiper/modules';
+import { Thumbs, Navigation } from 'swiper/modules';
 import 'swiper/css/bundle';
 import createElement from '../../helpers/createElement';
-import './_productSlider.scss';
+import { search } from '../../assets/icons/index';
 
-Swiper.use([Thumbs]);
+import './_productSlider.scss';
+import { generateSliderPopup } from '../popups/popup';
+
+Swiper.use([Thumbs, Navigation]);
+
+function generatePopupSwiper(images: string[]) {
+  const swiperPopup = createElement({
+    tag: 'div',
+    className: 'swiper swiperPopup',
+    textContent: '',
+  });
+
+  const swiperWrapperPopup = createElement({
+    tag: 'div',
+    className: 'swiper-wrapper',
+    textContent: '',
+  });
+  images.forEach((src) => {
+    const slidePopup = createElement({
+      tag: 'div',
+      className: ['swiper-slide', 'product__slide-popup'],
+      textContent: '',
+    });
+
+    const slidePopupImg = createElement({
+      tag: 'img',
+      className: 'product__slide-img',
+      src,
+    });
+
+    slidePopup.append(slidePopupImg);
+    swiperWrapperPopup.append(slidePopup);
+  });
+  const slidePopupNavPrev = createElement({
+    tag: 'div',
+    className: ['swiper-popup-button-prev', 'swiper-button-prev'],
+  });
+  const slidePopupNavNext = createElement({
+    tag: 'div',
+    className: ['swiper-popup-button-next', 'swiper-button-next'],
+  });
+  swiperPopup.append(swiperWrapperPopup, slidePopupNavPrev, slidePopupNavNext);
+  return swiperPopup;
+}
 
 export function generateProductSlider(images: string[]) {
   const swipersContainer = createElement({ tag: 'div', className: 'swipers-container' });
@@ -26,15 +69,31 @@ export function generateProductSlider(images: string[]) {
   imageSources.forEach((src) => {
     const slide = createElement({
       tag: 'div',
-      className: 'swiper-slide',
+      className: ['swiper-slide', 'product__slide', 'product__slide--main'],
       textContent: '',
     });
+    const zoomIcon = createElement({ tag: 'span', className: 'product__zoom-icon' });
+    zoomIcon.innerHTML = search;
+
     const img = createElement({
       tag: 'img',
-      className: '',
+      className: 'product__slide-img',
       src,
     });
-    slide.appendChild(img);
+    slide.append(img, zoomIcon);
+    slide.addEventListener('click', () => {
+      const popupSlider = generatePopupSwiper(imageSources);
+      generateSliderPopup(popupSlider);
+      // eslint-disable-next-line
+      const swiper3 = new Swiper('.swiperPopup', {
+        loop: true,
+        spaceBetween: 16,
+        navigation: {
+          nextEl: '.swiper-popup-button-next',
+          prevEl: '.swiper-popup-button-prev',
+        },
+      });
+    });
     swiperWrapper1.appendChild(slide);
   });
 
@@ -56,12 +115,12 @@ export function generateProductSlider(images: string[]) {
   imageSources.forEach((src) => {
     const slide = createElement({
       tag: 'div',
-      className: 'swiper-slide',
+      className: ['swiper-slide', 'product__slide'],
       textContent: '',
     });
     const img = createElement({
       tag: 'img',
-      className: '',
+      className: 'product__slide-img',
       src,
     });
     slide.appendChild(img);
