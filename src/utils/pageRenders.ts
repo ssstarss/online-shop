@@ -10,6 +10,7 @@ import loginHeader, { loginLink, registerLink } from '../components/loginHeader/
 import { initializeSwiper } from '../components/productSlider/productSlider';
 import generateCatalogPage from '../pages/catalogPage/catalogPage';
 import userProfilePage from '../pages/userProfilePage/userProfilePage';
+
 import { headerLinkBlogs, headerLinkCatalog, headerLinkHome } from '../components/header/header';
 import generateDetailedProductPage from '../pages/detailedProductPage/detailedProductPage';
 import { initSwiperPreview } from '../components/previewMainPage/swiperSlider';
@@ -76,4 +77,5 @@ export function render404Page(): void {
 export function renderUserProfilePage(): void {
   mainContainer.innerHTML = '';
   mainContainer.append(userProfilePage);
+  fillCustomerDetails();
 }

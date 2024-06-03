@@ -1,7 +1,6 @@
 import { CustomerDraft } from '@commercetools/platform-sdk';
-
 import { IProduct, Idiscount, GetProductsParams } from '../interfaces/product';
-import { Mutable, Customer } from '../interfaces/customer';
+import { Mutable, Customer, CustomerAccauntDetails } from '../interfaces/customer';
 
 export class ConnectionByFetch {
   ADMIN_CLIENT_ID = process.env.CTP_CLIENT_ID;
@@ -27,6 +26,7 @@ export class ConnectionByFetch {
     if (!id) await this.obtainTokenByCredentials();
     else {
       this.bearerToken = localStorage.getItem('token') || '';
+      this.currentCustomer.id = id;
     }
     if (id) this.currentCustomer = await this.getCustumerByID(id);
     this.discounts = await this.getDiscountedProducts();
@@ -335,6 +335,58 @@ export class ConnectionByFetch {
       `/customers/${id}?version=${customerVersion}`
     );
     fetch(url, requestOptions);
+  }
+
+  async updateCustomer(customer: CustomerAccauntDetails): Promise<Response> {
+    const myHeaders = new Headers();
+    myHeaders.append('Content-Type', 'application/json');
+    myHeaders.append('Authorization', `Bearer ${this.bearerToken}`);
+    const raw = JSON.stringify({
+      id: customer.id,
+      version: customer.version,
+      actions: [
+        {
+          action: 'setFirstName',
+          firstName: customer.firstName,
+        },
+        {
+          action: 'setLastName',
+          lastName: customer.lastName,
+        },
+        {
+          action: 'setDateOfBirth',
+          dateOfBirth: customer.dateOfBirth,
+        },
+        {
+          action: 'changeEmail',
+          email: customer.email,
+        },
+        {
+          action: 'changeEmail',
+          email: customer.email,
+        },
+      ],
+    });
+    const requestOptions = {
+      method: 'POST',
+      headers: myHeaders,
+      body: raw,
+    };
+    const url = this.API_URL.concat(`/${this.projectKey}/customers/${customer.id}`);
+    return new Promise((resolve, reject) => {
+      fetch(url, requestOptions).then((response) => {
+        if (response.ok) {
+          response.json().then((result) => {
+            this.currentCustomer.version = result.version;
+          });
+          resolve(response);
+        } else {
+          response.json().then((result) => {
+            reject(result.message);
+          });
+        }
+      });
+    });
   }
 }
 

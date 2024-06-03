@@ -64,7 +64,7 @@ export default class RegistrationForm extends BaseComponent {
       tip: 'Please enter valid e-mail',
     });
 
-    this.password = new PasswordInput();
+    const passwordWrapper = new PasswordInput();
 
     this.dateOfBirth = new BaseComponent({
       tag: 'input',
@@ -82,7 +82,7 @@ export default class RegistrationForm extends BaseComponent {
       this.firstName,
       this.lastName,
       this.emailAdress,
-      this.password,
+      passwordWrapper.input,
       this.dateOfBirth,
       adressesBlock.shippingAdress.street,
       adressesBlock.shippingAdress.city,
@@ -135,16 +135,12 @@ export default class RegistrationForm extends BaseComponent {
           this.firstName.isValid &&
           this.lastName.isValid &&
           this.emailAdress.isValid &&
-          this.password.isValid &&
+          passwordWrapper.input.isValid &&
           this.dateOfBirth.isValid &&
           adressesBlock.shippingAdress.street.isValid &&
           adressesBlock.shippingAdress.city.isValid &&
           adressesBlock.shippingAdress.postalCode.isValid &&
-          adressesBlock.shippingAdress.country.isValid &&
-          adressesBlock.billingAdress.street.isValid &&
-          adressesBlock.billingAdress.city.isValid &&
-          adressesBlock.billingAdress.postalCode.isValid &&
-          adressesBlock.billingAdress.country.isValid
+          adressesBlock.shippingAdress.country.isValid
         ) {
           const billingCountryCode = countries.find(
             (country) =>
@@ -160,7 +156,7 @@ export default class RegistrationForm extends BaseComponent {
             firstName: (this.firstName.element as HTMLInputElement).value,
             lastName: (this.lastName.element as HTMLInputElement).value,
             email: (this.emailAdress.element as HTMLInputElement).value,
-            password: (this.password.element as HTMLInputElement).value,
+            password: (passwordWrapper.input.element as HTMLInputElement).value,
             dateOfBirth: (this.dateOfBirth.element as HTMLInputElement).value,
             addresses: [
               {
@@ -204,6 +200,8 @@ export default class RegistrationForm extends BaseComponent {
               localStorage.setItem('token', connectionByFetch.bearerToken);
               response.json().then((result) => {
                 localStorage.setItem('id', result.customer.id);
+                connectionByFetch.currentCustomer.id = result.customer.id;
+                connectionByFetch.currentCustomer.version = result.customer.version;
               });
               window.dispatchEvent(new Event('storage'));
             })
@@ -225,7 +223,7 @@ export default class RegistrationForm extends BaseComponent {
       this.firstName,
       this.lastName,
       this.emailAdress,
-      this.password,
+      passwordWrapper,
       this.dateOfBirth,
       adressesBlock,
       this.submitButton
