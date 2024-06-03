@@ -1,8 +1,8 @@
 .swiper {
   width: 100%;
-  height: 100%;
+  margin-left: auto;
+  margin-right: auto;
 }
-
 .swiper-slide {
   text-align: center;
   font-size: 18px;
@@ -18,12 +18,6 @@
   height: 100%;
   -o-object-fit: cover;
   object-fit: cover;
-}
-.swiper {
-  width: 100%;
-  height: 300px;
-  margin-left: auto;
-  margin-right: auto;
 }
 
 .swiper-slide {
