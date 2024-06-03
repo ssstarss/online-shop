@@ -47,15 +47,6 @@ export async function fillCustomerDetails() {
     dateOfBirthField.setValue(`${customer.dateOfBirth}`);
     emailAdressField.setValue(`${customer.email}`);
     passwordField.setValue(`${customer.password}`);
-
-    if (!labelsAdded) {
-      firstNameField.addLabel('First Name');
-      lastNameField.addLabel('Last Name');
-      dateOfBirthField.addLabel('Date of Birth');
-      emailAdressField.addLabel('Email Address');
-      passwordField.addLabel('Password');
-      labelsAdded = true;
-    }
   }
 }
 export const buttonWrap = createElement({ tag: 'div', className: 'button-wrap' });
@@ -68,6 +59,15 @@ export const buttonChange = createElement({
 buttonSubmit.setTextContent('Save change');
 buttonSubmit.disable();
 buttonSubmit.setCssClasses(['disable-btn']);
+
+if (!labelsAdded) {
+  firstNameField.addLabel('First Name');
+  lastNameField.addLabel('Last Name');
+  dateOfBirthField.addLabel('Date of Birth');
+  emailAdressField.addLabel('Email Address');
+  passwordField.addLabel('Password');
+  labelsAdded = true;
+}
 
 buttonWrap.append(buttonChange, buttonSubmit.getElement());
 accountDetails.append(
