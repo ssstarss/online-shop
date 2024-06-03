@@ -10,6 +10,7 @@ import loginHeader, { loginLink, registerLink } from '../components/loginHeader/
 import { initializeSwiper } from '../components/productSlider/productSlider';
 import generateCatalogPage from '../pages/catalogPage/catalogPage';
 import userProfilePage from '../pages/userProfilePage/userProfilePage';
+import { fillCustomerDetails } from '../components/userProfile/accountDetails/accountDetails';
 
 const registrationPage = new RegistrationPage();
 
@@ -57,4 +58,5 @@ export function render404Page(): void {
 export function renderUserProfilePage(): void {
   mainContainer.innerHTML = '';
   mainContainer.append(userProfilePage);
+  fillCustomerDetails();
 }

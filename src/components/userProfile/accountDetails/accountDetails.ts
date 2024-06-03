@@ -65,6 +65,8 @@ export const buttonChange = createElement({
   className: 'button-change button',
   textContent: 'Change',
 });
+buttonChange.addEventListener('click', enableFields);
+
 buttonSubmit.setTextContent('Save change');
 buttonSubmit.disable();
 buttonSubmit.setCssClasses(['disable-btn']);

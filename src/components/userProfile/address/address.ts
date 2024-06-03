@@ -119,6 +119,12 @@ export const buttonChangeAddress = createElement({
   className: 'button-change button',
   textContent: 'Change',
 });
+buttonChangeAddress.addEventListener('click', () => {
+  enableAllFieldsShipping();
+  enableAllFieldsBilling();
+  enableSubmitButton();
+});
+
 buttonSubmit.setTextContent('Save change');
 buttonSubmit.disable();
 buttonSubmit.setCssClasses(['disable-btn']);
@@ -126,5 +132,7 @@ buttonSubmit.setCssClasses(['disable-btn']);
 buttonWrap.append(buttonChangeAddress, buttonSubmit.getElement());
 
 addressContainer.append(addressBlock.getElement(), buttonWrap);
+
+document.addEventListener('DOMContentLoaded', fillCustomerData);
 
 export default addressContainer;
