@@ -1,3 +1,4 @@
+import createElement from '../../helpers/createElement';
 import { GetProductsParams, IProduct } from '../../interfaces/product';
 import calculateDiscountedRate from '../../utils/calcDiscountedRate';
 import getProducts from '../../utils/getProducts';
@@ -11,6 +12,14 @@ export default async function generateCatalog(
   const cardsContainer = catalogCardsContainer;
   cardsContainer.innerHTML = '';
   const products = await getProducts(productParams);
+  if (productParams?.searchText && products.length === 0) {
+    const nothingFoundMessage = createElement({
+      tag: 'p',
+      className: 'nothing-found',
+      textContent: 'Nothing found',
+    });
+    return nothingFoundMessage;
+  }
 
   products?.forEach((product: IProduct) => {
     const name = product.name['en-US'];

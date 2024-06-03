@@ -17,10 +17,8 @@ import {
   mobileLogoutButton,
   mobileMenu,
   mobileRegisterButton,
-  mobileSearchLink,
   mobileUserProfileButton,
   registerButton,
-  searchLink,
   userProfile,
 } from '../components/header/header';
 import navigate from '../utils/navigate';
@@ -71,10 +69,6 @@ headerLinkBlogs.addEventListener('click', (event) => {
   navigate('/blogs');
 });
 
-searchLink.addEventListener('click', (event) => {
-  event.preventDefault();
-  navigate('/main');
-});
 basketLink.addEventListener('click', (event) => {
   event.preventDefault();
   navigate('/main');
@@ -132,11 +126,7 @@ mobileLinkBlogs.addEventListener('click', (event) => {
   event.preventDefault();
   navigate('/blogs');
 });
-mobileSearchLink.addEventListener('click', (event) => {
-  mobileMenu.classList.toggle('active');
-  event.preventDefault();
-  navigate('/main');
-});
+
 mobileBasketLink.addEventListener('click', (event) => {
   mobileMenu.classList.toggle('active');
   event.preventDefault();
