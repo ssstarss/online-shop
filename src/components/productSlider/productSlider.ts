@@ -1,6 +1,6 @@
 // import Swiper from 'swiper';
 import Swiper from 'swiper';
-import { Thumbs, Navigation, Pagination } from 'swiper/modules';
+import { Thumbs, Navigation, Pagination, Zoom } from 'swiper/modules';
 import 'swiper/css/bundle';
 import createElement from '../../helpers/createElement';
 import { search } from '../../assets/icons/index';
@@ -8,7 +8,7 @@ import { search } from '../../assets/icons/index';
 import './_productSlider.scss';
 import { generateSliderPopup } from '../popups/popup';
 
-Swiper.use([Thumbs, Navigation, Pagination]);
+Swiper.use([Thumbs, Navigation, Pagination, Zoom]);
 
 function generatePopupSwiper(images: string[]) {
   const swiperPopup = createElement({
@@ -98,6 +98,7 @@ export function generateProductSlider(images: string[]) {
     slide.addEventListener('click', () => {
       const popupSlider = generatePopupSwiper(imageSources);
       generateSliderPopup(popupSlider);
+
       // eslint-disable-next-line
       const swiper3 = new Swiper('.swiperPopup', {
         loop: true,
@@ -110,10 +111,11 @@ export function generateProductSlider(images: string[]) {
           el: '.swiper-popup-pagination',
           type: 'bullets',
         },
-        breakpoints: {
-          1024: {
-            pagination: undefined,
-          },
+        zoom: {
+          maxRatio: 5,
+        },
+        thumbs: {
+          // slideThumbActiveClass: ,
         },
       });
     });
@@ -178,11 +180,6 @@ export function initializeSwiper() {
     pagination: {
       el: '.swiper-product-pagination',
       type: 'bullets',
-    },
-    breakpoints: {
-      1024: {
-        pagination: undefined,
-      },
     },
     thumbs: {
       swiper,
