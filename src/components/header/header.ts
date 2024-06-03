@@ -33,13 +33,13 @@ const linkWrap = createElement({ tag: 'div', className: 'header__wrap' });
 export const searchLink = createElement({ tag: 'div', className: 'header__search' });
 const searchLinkBtn = createElement({
   tag: 'button',
-  className: 'header__search-btn',
+  className: 'header__search-btn button',
   type: 'button',
 });
 
 const searchInput = createElement({
   tag: 'input',
-  className: ['header__search-input', 'hidden'],
+  className: ['header__search-input'],
   type: 'search',
 });
 
