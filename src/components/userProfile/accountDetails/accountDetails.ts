@@ -1,3 +1,4 @@
+import BaseComponent from '../../../helpers/baseComponent';
 import createElement from '../../../helpers/createElement';
 import RegistrationForm from '../../../pages/registrationPage/registrationForm/registrationForm';
 import getCustomerData from '../getCustomerData';
@@ -71,15 +72,20 @@ buttonSubmit.setTextContent('Save change');
 buttonSubmit.disable();
 buttonSubmit.setCssClasses(['disable-btn']);
 
-buttonWrap.append(buttonChange, buttonSubmit.getElement());
-accountDetails.append(
-  accountDetailsTitle,
-  registrationForm.firstName.getElement(),
-  registrationForm.lastName.getElement(),
-  registrationForm.dateOfBirth.getElement(),
-  registrationForm.emailAdress.getElement(),
-  registrationForm.password.getElement(),
-  buttonWrap
+const accountDetailsWrapper = new BaseComponent({
+  tag: 'div',
+  classNames: ['accountDetailsWrapper'],
+});
+
+accountDetailsWrapper.addElement(
+  registrationForm.firstName,
+  registrationForm.lastName,
+  registrationForm.dateOfBirth,
+  registrationForm.emailAdress,
+  registrationForm.password
 );
+
+buttonWrap.append(buttonChange, buttonSubmit.getElement());
+accountDetails.append(accountDetailsTitle, accountDetailsWrapper.getElement(), buttonWrap);
 
 export default accountDetails;
