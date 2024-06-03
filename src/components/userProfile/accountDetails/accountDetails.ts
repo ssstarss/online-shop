@@ -71,7 +71,6 @@ export async function fillCustomerDetails() {
       emailAdressField.addLabel('Email Address');
       labelsAdded = true;
     }
-
   }
 }
 export const buttonWrap = createElement({ tag: 'div', className: 'button-wrap' });
@@ -97,7 +96,6 @@ accountDetailsWrapper.addElement(
   registrationForm.lastName,
   registrationForm.dateOfBirth,
   registrationForm.emailAdress
-
 );
 
 buttonWrap.append(buttonChange, buttonSubmit.getElement());

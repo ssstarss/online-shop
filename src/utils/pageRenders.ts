@@ -10,12 +10,12 @@ import loginHeader, { loginLink, registerLink } from '../components/loginHeader/
 import { initializeSwiper } from '../components/productSlider/productSlider';
 import generateCatalogPage from '../pages/catalogPage/catalogPage';
 import userProfilePage from '../pages/userProfilePage/userProfilePage';
-
 import { headerLinkBlogs, headerLinkCatalog, headerLinkHome } from '../components/header/header';
 import generateDetailedProductPage from '../pages/detailedProductPage/detailedProductPage';
 import { initSwiperPreview } from '../components/previewMainPage/swiperSlider';
 import getDetailedProduct from './getDetailedProduct';
 import parseDetailedProductData from './parseDetailProductData';
+import { fillCustomerDetails } from '../components/userProfile/accountDetails/accountDetails';
 
 const registrationPage = new RegistrationPage();
 
