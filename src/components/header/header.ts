@@ -43,20 +43,6 @@ const searchInput = createElement({
   type: 'search',
 });
 
-// searchLinkBtn.addEventListener('click', async (e) => {
-//   if (!searchInput.classList.contains('hidden') && searchInput.value !== '') {
-//     const catalogPage = document.querySelector('.catalog');
-//     catalogPage?.querySelector('.nothing-found')?.remove();
-//     const catalogCards = document.querySelector('.catalog-cards') as HTMLElement;
-//     if (catalogCards !== null) {
-//       const catalog = await generateCatalog(catalogCards, { searchText: searchInput.value });
-//       catalogPage?.append(catalog);
-//     }
-//   } else {
-//     searchInput.classList.remove('hidden');
-//   }
-// });
-
 searchLinkBtn.addEventListener('click', async () => {
   if (!searchInput.classList.contains('hidden') && searchInput.value !== '') {
     const main = document.querySelector('main');

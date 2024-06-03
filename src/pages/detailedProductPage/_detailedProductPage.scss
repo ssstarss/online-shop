@@ -3,6 +3,11 @@
   gap: 52px;
   padding-top: 43px;
   margin-bottom: 100px;
+
+  @media (max-width: 1024px) {
+    flex-direction: column;
+    align-items: center;
+  }
 }
 
 .product-info {
@@ -108,8 +113,6 @@
   margin-bottom: 15px;
 }
 
-/* Inline таблица стилей #15 | http://localhost:8080/catalog */
-
 .product-info__subtitle {
   margin: 0;
   font-weight: 600;
@@ -167,4 +170,12 @@
 .product-info__btns button {
   border-radius: 5px;
   border: 1px solid var(--accent-color);
+}
+
+.product__slide-img {
+  mix-blend-mode: multiply;
+}
+
+.product__slide {
+  background-color: var(--bg-section);
 }
