@@ -3,6 +3,7 @@ export interface GetProductsParams {
   filterPrice?: { higherThen: number; lowerThen: number };
   size?: 'Small size' | 'Medium size' | 'Large size';
   searchText?: string;
+  category?: string;
 }
 
 export interface IProduct {
@@ -208,10 +209,7 @@ export interface Image {
 
 interface Attribute {
   name: string;
-  value: {
-    key: string;
-    label: string;
-  };
+  value: string;
 }
 
 interface SearchKeyword {

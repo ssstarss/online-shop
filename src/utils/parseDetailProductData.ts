@@ -12,7 +12,7 @@ export default function parseDetailedProductData(data: DetailedProduct) {
   const { images } = product.masterVariant;
   const imagesLinks: string[] = images.map((image: Image) => image.url);
   const description = product.description['en-US'];
-  const sizeOrig: string = product.masterVariant.attributes[0].value.label;
+  const sizeOrig: string = product.masterVariant.attributes[0].value;
   const size = sizes[sizeOrig];
 
   let price = '';
