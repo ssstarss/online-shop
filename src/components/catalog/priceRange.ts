@@ -1,5 +1,5 @@
 import createElement from '../../helpers/createElement';
-import generateCatalog from './catalog';
+import generateCatalog, { productParams } from './catalog';
 
 export default function generatePriceRange() {
   const range = createElement({ tag: 'div', className: 'price-range' });
@@ -78,7 +78,8 @@ export default function generatePriceRange() {
     const catalogCards = document.querySelector('.catalog-cards') as HTMLElement;
     const minValue = +minPriceInput.value * 100;
     const maxValue = +maxPriceInput.value * 100;
-    generateCatalog(catalogCards, { filterPrice: { higherThen: minValue, lowerThen: maxValue } });
+    productParams.filterPrice = { higherThen: minValue, lowerThen: maxValue };
+    generateCatalog(catalogCards, productParams);
   });
 
   const minValue = minValueElement;

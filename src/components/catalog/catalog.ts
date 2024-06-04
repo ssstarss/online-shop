@@ -5,14 +5,15 @@ import getProducts from '../../utils/getProducts';
 import createCatalogCard from '../catalogCard/catalogCard';
 import './_catalog.scss';
 
+export const productParams: GetProductsParams = {};
 export default async function generateCatalog(
   catalogCardsContainer: HTMLElement,
-  productParams?: GetProductsParams
+  getProductParams?: GetProductsParams
 ) {
   const cardsContainer = catalogCardsContainer;
   cardsContainer.innerHTML = '';
-  const products = await getProducts(productParams);
-  if (productParams?.searchText && products.length === 0) {
+  const products = await getProducts(getProductParams);
+  if (getProductParams?.searchText && products.length === 0) {
     const nothingFoundMessage = createElement({
       tag: 'p',
       className: 'nothing-found',

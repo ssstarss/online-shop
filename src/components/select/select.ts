@@ -1,5 +1,5 @@
 import createElement from '../../helpers/createElement';
-import generateCatalog from '../catalog/catalog';
+import generateCatalog, { productParams } from '../catalog/catalog';
 
 import './_select.scss';
 
@@ -50,14 +50,15 @@ export default function generateSelect() {
     const target = event?.target as HTMLSelectElement;
     const selectedOption = target.value;
     if (selectedOption === 'price-low-high') {
-      generateCatalog(catalogCards!, { sort: { param: 'price', direction: 'asc' } });
+      productParams.sort = { param: 'price', direction: 'asc' };
     } else if (selectedOption === 'price-high-low') {
-      generateCatalog(catalogCards!, { sort: { param: 'price', direction: 'desc' } });
+      productParams.sort = { param: 'price', direction: 'desc' };
     } else if (selectedOption === 'name-alph') {
-      generateCatalog(catalogCards!, { sort: { param: 'name', direction: 'asc' } });
+      productParams.sort = { param: 'name', direction: 'asc' };
     } else {
-      generateCatalog(catalogCards!);
+      productParams.sort = undefined;
     }
+    generateCatalog(catalogCards!, productParams);
   });
   selectWrapper.append(selectLabel, select);
   return selectWrapper;
