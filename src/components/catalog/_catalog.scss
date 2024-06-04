@@ -84,6 +84,12 @@
   padding: 8px 25px;
 }
 
+.price-range__btns {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
 @-moz-document url-prefix() {
   .price-range .range-fill {
     z-index: 0;

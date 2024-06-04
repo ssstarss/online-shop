@@ -67,11 +67,23 @@ export default function generatePriceRange() {
     step: '5',
   });
 
+  const btnsWrapper = createElement({
+    tag: 'div',
+    className: 'price-range__btns',
+  });
+
   const submitBtn = createElement({
     tag: 'button',
     className: 'price-range__submit',
     type: 'button',
     textContent: 'Filter',
+  });
+
+  const resetBtn = createElement({
+    tag: 'button',
+    className: ['price-range__submit', 'price-range__submit--reset'],
+    type: 'button',
+    textContent: 'Reset',
   });
 
   submitBtn.addEventListener('click', () => {
@@ -81,6 +93,14 @@ export default function generatePriceRange() {
     productParams.filterPrice = { higherThen: minValue, lowerThen: maxValue };
     generateCatalog(catalogCards, productParams);
   });
+
+  resetBtn.addEventListener('click', () => {
+    const catalogCards = document.querySelector('.catalog-cards') as HTMLElement;
+    productParams.filterPrice = undefined;
+    generateCatalog(catalogCards, productParams);
+  });
+
+  btnsWrapper.append(submitBtn, resetBtn);
 
   const minValue = minValueElement;
   const maxValue = maxValueElement;
@@ -116,6 +136,6 @@ export default function generatePriceRange() {
 
   validateRange();
   rangeSlider.append(rangeFill, minPriceInput, maxPriceInput);
-  range.append(rangeSlider, priceContent, submitBtn);
+  range.append(rangeSlider, priceContent, btnsWrapper);
   return range;
 }
