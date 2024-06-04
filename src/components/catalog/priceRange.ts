@@ -1,5 +1,5 @@
 import createElement from '../../helpers/createElement';
-import generateCatalog from './catalog';
+import generateCatalog, { productParams } from './catalog';
 
 export default function generatePriceRange() {
   const range = createElement({ tag: 'div', className: 'price-range' });
@@ -67,6 +67,11 @@ export default function generatePriceRange() {
     step: '5',
   });
 
+  const btnsWrapper = createElement({
+    tag: 'div',
+    className: 'price-range__btns',
+  });
+
   const submitBtn = createElement({
     tag: 'button',
     className: 'price-range__submit',
@@ -74,12 +79,28 @@ export default function generatePriceRange() {
     textContent: 'Filter',
   });
 
+  const resetBtn = createElement({
+    tag: 'button',
+    className: ['price-range__submit', 'price-range__submit--reset'],
+    type: 'button',
+    textContent: 'Reset',
+  });
+
   submitBtn.addEventListener('click', () => {
     const catalogCards = document.querySelector('.catalog-cards') as HTMLElement;
     const minValue = +minPriceInput.value * 100;
     const maxValue = +maxPriceInput.value * 100;
-    generateCatalog(catalogCards, { filterPrice: { higherThen: minValue, lowerThen: maxValue } });
+    productParams.filterPrice = { higherThen: minValue, lowerThen: maxValue };
+    generateCatalog(catalogCards, productParams);
   });
+
+  resetBtn.addEventListener('click', () => {
+    const catalogCards = document.querySelector('.catalog-cards') as HTMLElement;
+    productParams.filterPrice = undefined;
+    generateCatalog(catalogCards, productParams);
+  });
+
+  btnsWrapper.append(submitBtn, resetBtn);
 
   const minValue = minValueElement;
   const maxValue = maxValueElement;
@@ -115,6 +136,6 @@ export default function generatePriceRange() {
 
   validateRange();
   rangeSlider.append(rangeFill, minPriceInput, maxPriceInput);
-  range.append(rangeSlider, priceContent, submitBtn);
+  range.append(rangeSlider, priceContent, btnsWrapper);
   return range;
 }
