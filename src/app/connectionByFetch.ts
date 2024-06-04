@@ -30,11 +30,20 @@ export class ConnectionByFetch {
     }
     if (id) this.currentCustomer = await this.getCustumerByID(id);
     this.discounts = await this.getDiscountedProducts();
-    /* const products = await this.getProducts({
+
+    /* const categories = await this.getCategories();
+    console.log('Categories:', categories);
+
+    const mainCategories = await this.getMainCategories();
+    console.log('MainCategories:', mainCategories);
+    const Childcategories = await this.getCategories('21060657-c616-4785-878f-15cef82d822b');
+    console.log('ChildCategories:', Childcategories);
+
+    const products = await this.getProducts({
       sort: { param: 'price', direction: 'asc' },
-      size: 'Medium size',
+      category: '21060657-c616-4785-878f-15cef82d822b',
     });
-    console.log(products);
+    console.log(products); */
 
     /* const oneProduct = await this.getProductByID('0c8d600a-e4f5-4d55-8639-eefd0c0b09cd');
     console.log(oneProduct);
@@ -42,8 +51,6 @@ export class ConnectionByFetch {
     /*  if (id) this.currentCustomer = await this.getCustumerByID(id);
     this.deleteCustomer('00ef4f06-8a8c-483e-9d40-259ac4496c2a'); */
   }
-
-  // возможно ненужная функция
 
   async obtainTokenByPassword(username: string, password: string) {
     const header = new Headers();
@@ -184,7 +191,10 @@ export class ConnectionByFetch {
     myHeaders.append('Content-Type', 'application/json');
     myHeaders.append('Authorization', `Bearer ${this.bearerToken}`);
     const requestParams = new URLSearchParams();
+
     if (params) {
+      if (params.category) requestParams.append('filter', `categories.id:"${params.category}"`);
+      if (params.searchText) requestParams.append('text.en-US', params.searchText);
       if (params.sort)
         if (params.sort.param === 'name')
           requestParams.append('sort', `name.en-US ${params.sort.direction.toLowerCase()}`);
@@ -194,7 +204,6 @@ export class ConnectionByFetch {
           'filter.query',
           `variants.price.centAmount:range(${params.filterPrice.higherThen} to ${params.filterPrice.lowerThen})`
         );
-      if (params.searchText) requestParams.append('text.en-US', params.searchText);
     }
     const requestOptions = {
       method: 'GET',
@@ -380,6 +389,55 @@ export class ConnectionByFetch {
             this.currentCustomer.version = result.version;
           });
           resolve(response);
+        } else {
+          response.json().then((result) => {
+            reject(result.message);
+          });
+        }
+      });
+    });
+  }
+
+  async getCategories(id?: string): Promise<Response> {
+    const myHeaders = new Headers();
+    myHeaders.append('Content-Type', 'application/json');
+    myHeaders.append('Authorization', `Bearer ${this.bearerToken}`);
+
+    const requestOptions = {
+      method: 'GET',
+      headers: myHeaders,
+    };
+    let url = this.API_URL.concat(`/${this.projectKey}/categories`);
+    if (id)
+      url = this.API_URL.concat(
+        `/${this.projectKey}/categories?where=parent%28id+%3D+%22${id}%22%29`
+      );
+    return new Promise((resolve, reject) => {
+      fetch(url, requestOptions).then((response) => {
+        if (response.ok) {
+          response.json().then((result) => resolve(result));
+        } else {
+          response.json().then((result) => {
+            reject(result.message);
+          });
+        }
+      });
+    });
+  }
+
+  async getMainCategories() {
+    const myHeaders = new Headers();
+    myHeaders.append('Content-Type', 'application/json');
+    myHeaders.append('Authorization', `Bearer ${this.bearerToken}`);
+    const requestOptions = {
+      method: 'GET',
+      headers: myHeaders,
+    };
+    const url = this.API_URL.concat(`/${this.projectKey}/categories?where=parent+is+not+defined`);
+    return new Promise((resolve, reject) => {
+      fetch(url, requestOptions).then((response) => {
+        if (response.ok) {
+          response.json().then((result) => resolve(result));
         } else {
           response.json().then((result) => {
             reject(result.message);
