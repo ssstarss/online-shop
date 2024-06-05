@@ -1,6 +1,7 @@
 import createElement from '../../helpers/createElement';
 import navigate from '../../utils/navigate';
 import getCategories from '../../utils/getCategories';
+import closeSidebarOnMomile from '../../utils/closeSidebar';
 
 export const categoriesUrRegex = /\/catalog\?category=(.*)/;
 
@@ -24,6 +25,9 @@ export default async function generateCategories() {
 
       navigate(`catalog${path}`);
       link.classList.add('categories__link--active');
+      if (window.innerWidth <= 1024) {
+        closeSidebarOnMomile();
+      }
     });
     categoriesWrapper.append(link);
   }
