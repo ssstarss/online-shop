@@ -42,6 +42,10 @@ const searchInput = createElement({
   type: 'search',
 });
 
+searchInput.addEventListener('change', () => {
+  handleSearch(searchInput.value, searchInput);
+});
+
 searchLinkBtn.addEventListener('click', () => {
   handleSearch(searchInput.value, searchInput);
 });
