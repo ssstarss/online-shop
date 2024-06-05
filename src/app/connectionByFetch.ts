@@ -1,4 +1,4 @@
-import { CustomerDraft } from '@commercetools/platform-sdk';
+import { CustomerDraft, Category } from '@commercetools/platform-sdk';
 import { IProduct, Idiscount, GetProductsParams } from '../interfaces/product';
 import { Mutable, Customer, CustomerAccauntDetails } from '../interfaces/customer';
 
@@ -31,10 +31,7 @@ export class ConnectionByFetch {
     if (id) this.currentCustomer = await this.getCustumerByID(id);
     this.discounts = await this.getDiscountedProducts();
 
-    /* const categories = await this.getCategories();
-    console.log('Categories:', categories);
-
-    const mainCategories = await this.getMainCategories();
+    /* const mainCategories = await this.getCategories();
     console.log('MainCategories:', mainCategories);
     const Childcategories = await this.getCategories('21060657-c616-4785-878f-15cef82d822b');
     console.log('ChildCategories:', Childcategories);
@@ -43,7 +40,7 @@ export class ConnectionByFetch {
       sort: { param: 'price', direction: 'asc' },
       category: '21060657-c616-4785-878f-15cef82d822b',
     });
-    console.log(products); */
+    console.log('Products:', products);
 
     /* const oneProduct = await this.getProductByID('0c8d600a-e4f5-4d55-8639-eefd0c0b09cd');
     console.log(oneProduct);
@@ -194,7 +191,10 @@ export class ConnectionByFetch {
 
     if (params) {
       if (params.category) requestParams.append('filter', `categories.id:"${params.category}"`);
-      if (params.searchText) requestParams.append('text.en-US', params.searchText);
+      if (params.searchText) {
+        requestParams.append('text.en-US', params.searchText);
+        requestParams.append('fuzzy', 'true');
+      }
       if (params.sort)
         if (params.sort.param === 'name')
           requestParams.append('sort', `name.en-US ${params.sort.direction.toLowerCase()}`);
@@ -398,7 +398,7 @@ export class ConnectionByFetch {
     });
   }
 
-  async getCategories(id?: string): Promise<Response> {
+  async getCategories(id?: string) {
     const myHeaders = new Headers();
     myHeaders.append('Content-Type', 'application/json');
     myHeaders.append('Authorization', `Bearer ${this.bearerToken}`);
@@ -407,44 +407,20 @@ export class ConnectionByFetch {
       method: 'GET',
       headers: myHeaders,
     };
-    let url = this.API_URL.concat(`/${this.projectKey}/categories`);
+    let url = this.API_URL.concat(`/${this.projectKey}/categories?where=parent+is+not+defined`);
     if (id)
       url = this.API_URL.concat(
         `/${this.projectKey}/categories?where=parent%28id+%3D+%22${id}%22%29`
       );
-    return new Promise((resolve, reject) => {
-      fetch(url, requestOptions).then((response) => {
-        if (response.ok) {
-          response.json().then((result) => resolve(result));
-        } else {
-          response.json().then((result) => {
-            reject(result.message);
-          });
-        }
-      });
-    });
-  }
-
-  async getMainCategories() {
-    const myHeaders = new Headers();
-    myHeaders.append('Content-Type', 'application/json');
-    myHeaders.append('Authorization', `Bearer ${this.bearerToken}`);
-    const requestOptions = {
-      method: 'GET',
-      headers: myHeaders,
-    };
-    const url = this.API_URL.concat(`/${this.projectKey}/categories?where=parent+is+not+defined`);
-    return new Promise((resolve, reject) => {
-      fetch(url, requestOptions).then((response) => {
-        if (response.ok) {
-          response.json().then((result) => resolve(result));
-        } else {
-          response.json().then((result) => {
-            reject(result.message);
-          });
-        }
-      });
-    });
+    return fetch(url, requestOptions).then((response) =>
+      response.json().then((categories) => {
+        const mainCategories: Category[] = [];
+        categories.results.forEach((category: Category, index: number) => {
+          mainCategories[index] = JSON.parse(JSON.stringify(category));
+        });
+        return mainCategories;
+      })
+    );
   }
 }
 
