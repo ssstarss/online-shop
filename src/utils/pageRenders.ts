@@ -52,8 +52,15 @@ export async function renderCatalogPage(params?: GetProductsParams) {
 export async function renderCatalogDetailedPage(pageID: string) {
   mainContainer.innerHTML = '';
   const data = await getDetailedProduct(pageID);
-  const parsedParams: [string, string, string, string, string[], string?] =
-    parseDetailedProductData(data);
+  const parsedParams: [
+    string,
+    string,
+    string,
+    string,
+    { name: string; id: string },
+    string[],
+    string?,
+  ] = await parseDetailedProductData(data);
   const detailedPage = generateDetailedProductPage(...parsedParams);
   mainContainer.append(detailedPage);
   initializeSwiper();

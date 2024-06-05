@@ -218,3 +218,21 @@ interface Attribute {
 interface SearchKeyword {
   text: string;
 }
+
+export interface IdCategory {
+  id: string;
+  version: number;
+  name: {
+    'en-US': string;
+  };
+  slug: {
+    en: string;
+  };
+  description: {
+    en: string;
+  };
+  ancestors: [];
+  orderHint: string;
+  createdAt: string;
+  lastModifiedAt: string;
+}
