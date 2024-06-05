@@ -1,4 +1,5 @@
 import generateCatalog, { productParams } from '../components/catalog/catalog';
+import createElement from '../helpers/createElement';
 import {
   renderMainPage,
   renderLoginPage,
@@ -55,8 +56,7 @@ export default function initRouting() {
         productParams.sort = undefined;
       }
       if (params?.params?.category) {
-        // const category = params?.params?.category;
-        // const categoryId = (params?.params.id).toString();
+        const category = params?.params?.category;
         const categoryId = params?.params?.id ? params.params.id.toString() : '';
         const catalogCards = document.querySelector('.catalog-cards') as HTMLElement;
         const categoriesLinks = document.querySelectorAll('.categories__link');
@@ -67,10 +67,36 @@ export default function initRouting() {
 
         if (catalogCards) {
           generateCatalog(catalogCards, { category: categoryId });
+          const breadcrumbs = document.querySelector('.breadcrumbs');
+          const existingBreadcrumbs = breadcrumbs?.querySelectorAll('.breadcrumbs__link');
+          if (existingBreadcrumbs && existingBreadcrumbs?.length > 1) {
+            existingBreadcrumbs[1].remove();
+          }
+
+          const breadcrumb = createElement({
+            tag: 'a',
+            className: 'breadcrumbs__link',
+            href: category,
+            textContent: category,
+          });
+          breadcrumbs?.append(breadcrumb);
         } else {
           await renderCatalogPage({ category: categoryId });
           const activeLink = document.getElementById(categoryId);
           activeLink?.classList.add('categories__link--active');
+          const breadcrumbs = document.querySelector('.breadcrumbs');
+          const existingBreadcrumbs = breadcrumbs?.querySelectorAll('.breadcrumbs__link');
+          if (existingBreadcrumbs && existingBreadcrumbs?.length > 1) {
+            existingBreadcrumbs[1].remove();
+          }
+
+          const breadcrumb = createElement({
+            tag: 'a',
+            className: 'breadcrumbs__link',
+            href: category,
+            textContent: category,
+          });
+          breadcrumbs?.append(breadcrumb);
         }
       }
     })

@@ -24,19 +24,9 @@ export default async function generateCategories() {
 
       navigate(`catalog${path}`);
       link.classList.add('categories__link--active');
-
-      //   // const breadcrumbs = document.querySelector('.breadcrumbs');
-      //   // const breadcrumb = createElement({
-      //   //   tag: 'a',
-      //   //   className: 'breadcrumbs__link',
-      //   //   href: path,
-      //   //   textContent: category,
-      //   // });
-      //   // breadcrumbs?.append(breadcrumb);
     });
     categoriesWrapper.append(link);
   }
-  // router.updatePageLinks();
 
   return categoriesWrapper;
 }
