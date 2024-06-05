@@ -43,7 +43,7 @@ export class ConnectionByFetch {
       sort: { param: 'price', direction: 'asc' },
       category: '21060657-c616-4785-878f-15cef82d822b',
     });
-    console.log(products); */
+    console.log('Products:', products); */
 
     /* const oneProduct = await this.getProductByID('0c8d600a-e4f5-4d55-8639-eefd0c0b09cd');
     console.log(oneProduct);
@@ -425,7 +425,7 @@ export class ConnectionByFetch {
     });
   }
 
-  async getMainCategories() {
+  async getMainCategories(): Promise<Response> {
     const myHeaders = new Headers();
     myHeaders.append('Content-Type', 'application/json');
     myHeaders.append('Authorization', `Bearer ${this.bearerToken}`);
