@@ -191,7 +191,10 @@ export class ConnectionByFetch {
 
     if (params) {
       if (params.category) requestParams.append('filter', `categories.id:"${params.category}"`);
-      if (params.searchText) requestParams.append('text.en-US', params.searchText);
+      if (params.searchText) {
+        requestParams.append('text.en-US', params.searchText);
+        requestParams.append('fuzzy', 'true');
+      }
       if (params.sort)
         if (params.sort.param === 'name')
           requestParams.append('sort', `name.en-US ${params.sort.direction.toLowerCase()}`);
