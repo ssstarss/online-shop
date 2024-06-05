@@ -1,7 +1,6 @@
 import createElement from '../../helpers/createElement';
 import { basket, login, logoSvg, register, search, userSvg } from '../../assets/icons/index';
-// import generateCatalog from '../catalog/catalog';
-import generateCatalogPage from '../../pages/catalogPage/catalogPage';
+import handleSearch from '../../utils/handleSearch';
 
 const header = createElement({ tag: 'header', className: 'header container' });
 export const logoLink = createElement({ tag: 'a', className: 'logo__link' });
@@ -43,15 +42,12 @@ const searchInput = createElement({
   type: 'search',
 });
 
-searchLinkBtn.addEventListener('click', async () => {
-  if (searchInput.value !== '') {
-    const main = document.querySelector('main');
-    main!.innerHTML = '';
-    const catalog = await generateCatalogPage({ searchText: searchInput.value });
-    main?.append(catalog);
-  } else {
-    searchInput.focus();
-  }
+searchInput.addEventListener('change', () => {
+  handleSearch(searchInput.value, searchInput);
+});
+
+searchLinkBtn.addEventListener('click', () => {
+  handleSearch(searchInput.value, searchInput);
 });
 
 searchLinkBtn.innerHTML = search;
@@ -144,17 +140,11 @@ const mobileSearchBtn = createElement({
 });
 mobileSearchBtn.innerHTML = search;
 
-mobileSearchBtn.addEventListener('click', async () => {
-  if (mobileSearchInput.value !== '') {
-    const main = document.querySelector('main');
-    main!.innerHTML = '';
-    const catalog = await generateCatalogPage({ searchText: mobileSearchInput.value });
-    main?.append(catalog);
+mobileSearchBtn.addEventListener('click', () => {
+  handleSearch(mobileSearchInput.value, mobileSearchInput).then(() => {
     mobileMenu.classList.remove('active');
     burgerMenu.classList.remove('active');
-  } else {
-    mobileSearchInput.focus();
-  }
+  });
 });
 
 mobileSearchLink.append(mobileSearchInput, mobileSearchBtn);

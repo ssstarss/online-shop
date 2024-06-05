@@ -264,6 +264,39 @@ export class ConnectionByFetch {
     );
   }
 
+  ///
+  async getCategoryByID(categoryId: string) {
+    const myHeaders = new Headers();
+    myHeaders.append('Content-Type', 'application/json');
+    myHeaders.append('Authorization', `Bearer ${this.bearerToken}`);
+
+    const requestOptions = {
+      method: 'GET',
+      headers: myHeaders,
+    };
+    const url = this.API_URL.concat('/', this.projectKey, '/categories/', `${categoryId}`);
+
+    return fetch(url, requestOptions).then((response) =>
+      response.json().then((category) => {
+        console.log(category);
+        // const discountedProduct = JSON.parse(JSON.stringify(product));
+
+        // if (product.masterVariant.prices[0].discounted) {
+        //   const discount = this.discounts.find(
+        //     (item) => item.id === product.masterVariant.prices[0].discounted.discount.id
+        //   );
+        //   discountedProduct.masterVariant.prices[0].discounted.discount = JSON.parse(
+        //     JSON.stringify(discount)
+        //   );
+        // }
+
+        return category;
+      })
+    );
+  }
+
+  ///
+
   async getDiscountedProducts() {
     const myHeaders = new Headers();
     myHeaders.append('Content-Type', 'application/json');

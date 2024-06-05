@@ -1,16 +1,42 @@
 import './_detailedProductPage.scss';
 import { generateProductSlider } from '../../components/productSlider/productSlider';
 import createElement from '../../helpers/createElement';
+import navigate from '../../utils/navigate';
 
 export default function generateDetailedProductPage(
   title: string,
   price: string,
   description: string,
   size: string,
+  category: {
+    name: string;
+    id: string;
+  },
   images: string[],
   prevPrice?: string
 ) {
   const detailedSection = createElement({ tag: 'section', className: 'detailed-product' });
+  const detailedContent = createElement({ tag: 'div', className: 'detailed-product__inner' });
+  const detailedHeader = createElement({ tag: 'header', className: 'detailed-product__header' });
+
+  const breadcrumbs = createElement({ tag: 'div', className: 'breadcrumbs' });
+  const breadcrumb = createElement({
+    tag: 'a',
+    className: 'breadcrumbs__link',
+    href: '/catalog',
+    textContent: 'catalog',
+  });
+  const breadcrumb2 = createElement({
+    tag: 'a',
+    className: 'breadcrumbs__link',
+    textContent: category.name,
+  });
+
+  breadcrumb2.addEventListener('click', () => {
+    navigate(`catalog?category=${category.name}&id=${category.id}`);
+  });
+  breadcrumbs.append(breadcrumb, breadcrumb2);
+  detailedHeader.append(breadcrumbs);
   const sliderBlock = createElement({ tag: 'div', className: 'slider-section' });
   const slider = generateProductSlider(images);
 
@@ -86,7 +112,9 @@ export default function generateDetailedProductPage(
     productBuyBtns
   );
 
+  detailedContent.append(sliderBlock, productInfoSection);
+
   sliderBlock.append(slider);
-  detailedSection.append(sliderBlock, productInfoSection);
+  detailedSection.append(detailedHeader, detailedContent);
   return detailedSection;
 }

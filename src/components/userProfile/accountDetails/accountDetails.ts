@@ -57,7 +57,6 @@ let labelsAdded = false;
 
 export async function fillCustomerDetails() {
   const customer = await getCustomerData();
-  console.log(customer);
   if (customer) {
     firstNameField.setValue(`${customer.firstName}`);
     lastNameField.setValue(`${customer.lastName}`);

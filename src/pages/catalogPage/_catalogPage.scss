@@ -8,11 +8,35 @@
   grid-template-columns: minmax(max-content, 310px) 1fr 1fr;
   gap: 22px 50px;
   padding-top: 26px;
+
+  @media (max-width: 1024px) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 }
+
+.filter-menu {
+  display: none;
+  padding: 0;
+  margin: 0;
+  transition: transform 0.3s ease-in-out;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.filter-menu.open {
+  transform: rotate(90deg);
+  transition: transform 0.3s ease-in-out;
+}
+
 .catalog__header {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   grid-area: header;
+  width: 100%;
 }
 
 .catalog__sidebar {
@@ -24,6 +48,7 @@
   padding: 14px 24px 20px 20px;
   // max-width: 310px;
   // width: 100%;
+  transition: all 0.3s ease-in-out;
 }
 
 .catalog__sidebar-title {
@@ -35,4 +60,193 @@
 
 .catalog-cards {
   grid-area: catalog;
+}
+.price-range {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.price-range .range-slider {
+  margin-bottom: 20px;
+}
+
+.price-range {
+  max-width: 226px;
+  width: 100%;
+
+  .range-slider {
+    width: 100%;
+    position: relative;
+    margin: 15px 0 30px 0;
+  }
+  .range-fill {
+    height: 5px;
+    background-color: var(--accent-color);
+    position: absolute;
+    z-index: 1;
+  }
+
+  input[type='range'] {
+    -webkit-appearance: none;
+    width: 100%;
+    background: transparent;
+    position: absolute;
+    left: 0;
+  }
+
+  input[type='range']::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    height: 15px;
+    width: 15px;
+    border-radius: 50%;
+    background: var(--accent-color);
+    cursor: pointer;
+    margin-top: -5px;
+    position: relative;
+    z-index: 1;
+  }
+
+  input[type='range']::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 5px;
+    background: rgba(70, 163, 89, 0.2);
+    border-radius: 3px;
+    border: none;
+  }
+
+  .price-content {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 5px;
+
+    p {
+      font-weight: 700;
+      color: var(--accent-color);
+      font-size: 15px;
+    }
+  }
+}
+
+.price-range__submit {
+  background-color: var(--accent-color);
+  color: var(--on-accent-txt);
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  border-radius: 5px;
+  padding: 8px 25px;
+}
+
+.price-range__btns {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Inline таблица стилей #21 | http://localhost:8080/catalog */
+
+.categories {
+  display: flex;
+  flex-direction: column;
+  padding-left: 10px;
+}
+
+.categories__link {
+  font-size: 15px;
+  margin-bottom: 20px;
+
+  &--active {
+    color: var(--accent-color);
+  }
+}
+
+.catalog__sidebar-title {
+  margin-bottom: 17px;
+}
+
+.price-range .range-slider {
+  margin: 0px 0 30px 0;
+}
+
+.breadcrumbs {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+/* Inline таблица стилей #3 | http://localhost:8080/catalog */
+
+.catalog__header {
+  /* justify-content: flex-end; */
+  justify-content: space-between;
+  gap: 10px;
+}
+
+/* Inline таблица стилей #21 | http://localhost:8080/catalog */
+
+.breadcrumbs__link {
+  font-size: 15px;
+  position: relative;
+  margin-left: 10px;
+}
+
+.breadcrumbs__link::after {
+  content: '/';
+  margin-left: 5px;
+}
+
+@-moz-document url-prefix() {
+  .price-range .range-fill {
+    z-index: 0;
+    top: 9px;
+  }
+}
+
+.no-scroll {
+  overflow: hidden;
+}
+
+@media (max-width: 1024px) {
+  .catalog {
+    grid-template-areas: 'aside header  header ' 'catalog catalog catalog' 'catalog catalog catalog';
+    justify-content: center;
+    align-items: baseline;
+    grid-template-columns: none;
+  }
+
+  .catalog-cards {
+    justify-content: center;
+  }
+  .filter-menu {
+    display: flex;
+    padding: 0;
+    margin: 0;
+  }
+}
+
+@media (max-width: 1024px) {
+  .catalog {
+    grid-template-areas: 'header   header  header ' 'aside aside aside' 'catalog catalog catalog';
+  }
+
+  .catalog__sidebar {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: absolute;
+    left: 0;
+    top: 130px;
+    z-index: 10;
+    width: 100%;
+    padding-left: 40px;
+    height: 100%;
+    justify-content: flex-start;
+    transition: all 0.3;
+  }
+
+  .catalog__sidebar.hidden {
+    left: -100%;
+    transition: all 0.3s ease-in-out;
+  }
 }

@@ -1,13 +1,27 @@
-.detailed-product {
+.detailed-product__inner {
   display: flex;
   gap: 52px;
-  padding-top: 43px;
   margin-bottom: 100px;
-
   @media (max-width: 1024px) {
     flex-direction: column;
     align-items: center;
   }
+}
+
+.detailed-product__header {
+  margin-bottom: 20px;
+}
+
+.detailed-product {
+  flex-direction: column;
+  padding-top: 43px;
+}
+
+.detailed-product {
+  display: flex;
+  // gap: 52px;
+  padding-top: 43px;
+  margin-bottom: 100px;
 }
 
 .product-info {

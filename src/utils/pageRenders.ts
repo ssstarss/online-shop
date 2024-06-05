@@ -16,6 +16,7 @@ import { initSwiperPreview } from '../components/previewMainPage/swiperSlider';
 import getDetailedProduct from './getDetailedProduct';
 import parseDetailedProductData from './parseDetailProductData';
 import { fillCustomerDetails } from '../components/userProfile/accountDetails/accountDetails';
+import { GetProductsParams } from '../interfaces/product';
 
 const registrationPage = new RegistrationPage();
 
@@ -42,17 +43,24 @@ export function renderRegisterPage(): void {
   registerLink.classList.add('login__link--active');
 }
 
-export async function renderCatalogPage() {
+export async function renderCatalogPage(params?: GetProductsParams) {
   mainContainer.innerHTML = '';
-  const catalog = await generateCatalogPage();
+  const catalog = await generateCatalogPage(params);
   mainContainer.append(catalog);
 }
 
 export async function renderCatalogDetailedPage(pageID: string) {
   mainContainer.innerHTML = '';
   const data = await getDetailedProduct(pageID);
-  const parsedParams: [string, string, string, string, string[], string?] =
-    parseDetailedProductData(data);
+  const parsedParams: [
+    string,
+    string,
+    string,
+    string,
+    { name: string; id: string },
+    string[],
+    string?,
+  ] = await parseDetailedProductData(data);
   const detailedPage = generateDetailedProductPage(...parsedParams);
   mainContainer.append(detailedPage);
   initializeSwiper();

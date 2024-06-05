@@ -1,6 +1,7 @@
-import { DetailedProduct, Image } from '../interfaces/product';
+import { DetailedProduct, IdCategory, Image } from '../interfaces/product';
+import getCategoryById from './getCategoryById';
 
-export default function parseDetailedProductData(data: DetailedProduct) {
+export default async function parseDetailedProductData(data: DetailedProduct) {
   const sizes: Record<string, string> = {
     Small: 'S',
     Medium: 'M',
@@ -12,27 +13,45 @@ export default function parseDetailedProductData(data: DetailedProduct) {
   const { images } = product.masterVariant;
   const imagesLinks: string[] = images.map((image: Image) => image.url);
   const description = product.description['en-US'];
-  const sizeOrig: string = product.masterVariant.attributes[0].value;
+  const sizeOrig: string = product.masterVariant.attributes[0].value.label;
   const size = sizes[sizeOrig];
+  const categoryId = product.categories[0].id;
+  const categoryResponse: IdCategory = await getCategoryById(categoryId);
 
   let price = '';
   let prevPrice = '';
 
-  let params: [string, string, string, string, string[], string?] = [
+  let params: [string, string, string, string, { name: string; id: string }, string[], string?] = [
     title,
     price,
     description,
     size,
+    { name: categoryResponse.name['en-US'], id: categoryId },
     imagesLinks,
   ];
 
   if (product.masterVariant.prices[0].discounted !== undefined) {
     price = (product.masterVariant.prices[0].discounted.value.centAmount / 100).toFixed(2);
     prevPrice = (product.masterVariant.prices[0].value.centAmount / 100).toFixed(2);
-    params = [title, price, description, size, imagesLinks, prevPrice];
+    params = [
+      title,
+      price,
+      description,
+      size,
+      { name: categoryResponse.name['en-US'], id: categoryId },
+      imagesLinks,
+      prevPrice,
+    ];
   } else {
     price = (product.masterVariant.prices[0].value.centAmount / 100).toFixed(2);
-    params = [title, price, description, size, imagesLinks];
+    params = [
+      title,
+      price,
+      description,
+      size,
+      { name: categoryResponse.name['en-US'], id: categoryId },
+      imagesLinks,
+    ];
   }
   return params;
 }

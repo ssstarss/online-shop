@@ -1,4 +1,5 @@
 import createElement from '../../helpers/createElement';
+import closeSidebarOnMomile from '../../utils/closeSidebar';
 import generateCatalog, { productParams } from './catalog';
 
 export default function generatePriceRange() {
@@ -92,12 +93,18 @@ export default function generatePriceRange() {
     const maxValue = +maxPriceInput.value * 100;
     productParams.filterPrice = { higherThen: minValue, lowerThen: maxValue };
     generateCatalog(catalogCards, productParams);
+    if (window.innerWidth <= 1024) {
+      closeSidebarOnMomile();
+    }
   });
 
   resetBtn.addEventListener('click', () => {
     const catalogCards = document.querySelector('.catalog-cards') as HTMLElement;
     productParams.filterPrice = undefined;
     generateCatalog(catalogCards, productParams);
+    if (window.innerWidth <= 1024) {
+      closeSidebarOnMomile();
+    }
   });
 
   btnsWrapper.append(submitBtn, resetBtn);
