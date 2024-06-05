@@ -2,6 +2,7 @@ import createElement from '../../helpers/createElement';
 import { basket, login, logoSvg, register, search, userSvg } from '../../assets/icons/index';
 // import generateCatalog from '../catalog/catalog';
 import generateCatalogPage from '../../pages/catalogPage/catalogPage';
+import { productParams } from '../catalog/catalog';
 
 const header = createElement({ tag: 'header', className: 'header container' });
 export const logoLink = createElement({ tag: 'a', className: 'logo__link' });
@@ -47,6 +48,11 @@ searchLinkBtn.addEventListener('click', async () => {
   if (searchInput.value !== '') {
     const main = document.querySelector('main');
     main!.innerHTML = '';
+    productParams.searchText = searchInput.value;
+    productParams.category = undefined;
+    productParams.filterPrice = undefined;
+    productParams.sort = undefined;
+
     const catalog = await generateCatalogPage({ searchText: searchInput.value });
     main?.append(catalog);
   } else {
@@ -148,6 +154,11 @@ mobileSearchBtn.addEventListener('click', async () => {
   if (mobileSearchInput.value !== '') {
     const main = document.querySelector('main');
     main!.innerHTML = '';
+    productParams.searchText = mobileSearchInput.value;
+    productParams.category = undefined;
+    productParams.filterPrice = undefined;
+    productParams.sort = undefined;
+
     const catalog = await generateCatalogPage({ searchText: mobileSearchInput.value });
     main?.append(catalog);
     mobileMenu.classList.remove('active');

@@ -1,10 +1,8 @@
 import { connectionByFetch } from '../app/connectionByFetch';
-// import { ICategories } from '../interfaces/categories';
 
 async function getCategories() {
   try {
-    const response = await connectionByFetch.getMainCategories();
-    console.log(response);
+    const response = await connectionByFetch.getCategories();
 
     return response;
   } catch (error: unknown) {

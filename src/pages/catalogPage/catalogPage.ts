@@ -18,7 +18,7 @@ export default async function generateCatalogPage(productParams?: GetProductsPar
   const catalogCards = createElement({ tag: 'section', className: 'catalog-cards' });
   const catalogInner = await generateCatalog(catalogCards, productParams);
 
-  const sidebar = generateCatalogSidebar();
+  const sidebar = await generateCatalogSidebar();
   const catalogHeader = generateCatalogHeader();
   catalogPage.append(catalogHeader, sidebar, catalogInner);
   return catalogPage;

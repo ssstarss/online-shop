@@ -1,4 +1,4 @@
-// import generateCatalog from '../components/catalog/catalog';
+import generateCatalog, { productParams } from '../components/catalog/catalog';
 import {
   renderMainPage,
   renderLoginPage,
@@ -30,7 +30,6 @@ export default function initRouting() {
           renderRegisterPage();
         }
       },
-      '/catalog': renderCatalogPage,
       '/blogs': renderBlogsPage,
       '/profile': () => {
         if (localStorage.getItem('logged')) {
@@ -47,9 +46,33 @@ export default function initRouting() {
         renderCatalogDetailedPage(id);
       }
     })
-    .on('/catalog/?categories', () => {
-      // const catalogCards = document.querySelector('.catalog-cards') as HTMLElement;
-      // generateCatalog(catalogCards);
+    .on('/catalog', async (params) => {
+      if (params?.params === null) {
+        renderCatalogPage();
+        productParams.category = undefined;
+        productParams.filterPrice = undefined;
+        productParams.searchText = undefined;
+        productParams.sort = undefined;
+      }
+      if (params?.params?.category) {
+        // const category = params?.params?.category;
+        // const categoryId = (params?.params.id).toString();
+        const categoryId = params?.params?.id ? params.params.id.toString() : '';
+        const catalogCards = document.querySelector('.catalog-cards') as HTMLElement;
+        const categoriesLinks = document.querySelectorAll('.categories__link');
+        categoriesLinks.forEach((link) => {
+          link.classList.remove('categories__link--active');
+        });
+        productParams.category = categoryId;
+
+        if (catalogCards) {
+          generateCatalog(catalogCards, { category: categoryId });
+        } else {
+          await renderCatalogPage({ category: categoryId });
+          const activeLink = document.getElementById(categoryId);
+          activeLink?.classList.add('categories__link--active');
+        }
+      }
     })
     .notFound(render404Page)
     .resolve();

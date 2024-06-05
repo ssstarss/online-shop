@@ -6,7 +6,6 @@ export default async function getCustomerData(): Promise<Customer | null> {
   if (id) {
     try {
       const customer: Customer = await connectionByFetch.getCustumerByID(id);
-      console.log(customer);
       return customer;
     } catch (error) {
       console.error('Error while retrieving user data:', error);
