@@ -1,3 +1,4 @@
+// import generateCatalog from '../components/catalog/catalog';
 import {
   renderMainPage,
   renderLoginPage,
@@ -45,6 +46,10 @@ export default function initRouting() {
         const id = obj!.productId;
         renderCatalogDetailedPage(id);
       }
+    })
+    .on('/catalog/?categories', () => {
+      // const catalogCards = document.querySelector('.catalog-cards') as HTMLElement;
+      // generateCatalog(catalogCards);
     })
     .notFound(render404Page)
     .resolve();

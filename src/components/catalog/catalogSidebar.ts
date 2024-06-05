@@ -1,4 +1,5 @@
 import createElement from '../../helpers/createElement';
+import generateCategories from './categories';
 import generatePriceRange from './priceRange';
 
 export default function generateCatalogSidebar() {
@@ -13,7 +14,9 @@ export default function generateCatalogSidebar() {
     className: 'catalog__sidebar-title',
     textContent: 'Price Range',
   });
+  const categories = generateCategories();
   const priceRange = generatePriceRange();
-  sidebar.append(categoriesTitle, priceTitle, priceRange);
+  sidebar.append(categoriesTitle, categories, priceTitle, priceRange);
+
   return sidebar;
 }

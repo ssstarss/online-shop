@@ -90,6 +90,57 @@
   gap: 10px;
 }
 
+/* Inline таблица стилей #21 | http://localhost:8080/catalog */
+
+.categories {
+  display: flex;
+  flex-direction: column;
+  padding-left: 10px;
+}
+
+.categories__link {
+  font-size: 15px;
+  margin-bottom: 20px;
+
+  &--active {
+    color: var(--accent-color);
+  }
+}
+
+.catalog__sidebar-title {
+  margin-bottom: 17px;
+}
+
+.price-range .range-slider {
+  margin: 0px 0 30px 0;
+}
+
+.breadcrumbs {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+/* Inline таблица стилей #3 | http://localhost:8080/catalog */
+
+.catalog__header {
+  /* justify-content: flex-end; */
+  justify-content: space-between;
+  gap: 10px;
+}
+
+/* Inline таблица стилей #21 | http://localhost:8080/catalog */
+
+.breadcrumbs__link {
+  font-size: 15px;
+  position: relative;
+  margin-left: 10px;
+}
+
+.breadcrumbs__link::after {
+  content: '/';
+  margin-left: 5px;
+}
+
 @-moz-document url-prefix() {
   .price-range .range-fill {
     z-index: 0;
