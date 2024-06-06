@@ -2,6 +2,7 @@ import Connection from '../app/connection';
 import generateErrorPopup from '../components/popups/popup';
 import { AuthResponse } from '../interfaces/authResponse';
 import navigate from './navigate';
+import { connectionByFetch } from '../app/connectionByFetch';
 
 async function loginFunc(emailInputClass: string, passwordInputClass: string) {
   const emailInput = document.querySelector(emailInputClass) as HTMLInputElement;

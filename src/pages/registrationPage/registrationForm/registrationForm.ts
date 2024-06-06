@@ -6,10 +6,8 @@ import PopUpMessage from './popUpMessage/popUpMessage';
 import PasswordInput from '../../../components/inputPassword/inputPassword';
 import AdressesBlock from '../../../components/adressesBLock/adressesBlock';
 import countries from '../../../components/adressesBLock/countries';
-
-type Mutable<T extends object> = {
-  -readonly [K in keyof T]: T[K];
-};
+import { connectionByFetch } from '../../../app/connectionByFetch';
+import { Mutable } from '../../../interfaces/customer';
 
 export default class RegistrationForm extends BaseComponent {
   constructor() {

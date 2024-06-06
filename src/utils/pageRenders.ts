@@ -3,15 +3,26 @@ import loginPage from '../pages/loginPage/loginPage';
 import mainPage from '../pages/mainPage/mainPage';
 import { page404 } from '../pages/page404/page404';
 import RegistrationPage from '../pages/registrationPage/registrationPage';
-import catalogPage from '../pages/catalogPage/catalogPage';
+// import catalogPage from '../pages/catalogPage/catalogPage';
+
 import blogsPage from '../pages/blogsPage/blogsPage';
 import loginHeader, { loginLink, registerLink } from '../components/loginHeader/loginHeader';
+import { initializeSwiper } from '../components/productSlider/productSlider';
+import generateCatalogPage from '../pages/catalogPage/catalogPage';
+import userProfilePage from '../pages/userProfilePage/userProfilePage';
+import generateDetailedProductPage from '../pages/detailedProductPage/detailedProductPage';
+import { initSwiperPreview } from '../components/previewMainPage/swiperSlider';
+import getDetailedProduct from './getDetailedProduct';
+import parseDetailedProductData from './parseDetailProductData';
+import { fillCustomerDetails } from '../components/userProfile/accountDetails/accountDetails';
+import { GetProductsParams } from '../interfaces/product';
 
 const registrationPage = new RegistrationPage();
 
 export function renderMainPage(): void {
   mainContainer.innerHTML = '';
   mainContainer.append(mainPage);
+  initSwiperPreview();
 }
 
 export function renderLoginPage(): void {
@@ -28,9 +39,27 @@ export function renderRegisterPage(): void {
   registerLink.classList.add('login__link--active');
 }
 
-export function renderCatalogPage(): void {
+export async function renderCatalogPage(params?: GetProductsParams) {
   mainContainer.innerHTML = '';
-  mainContainer.append(catalogPage);
+  const catalog = await generateCatalogPage(params);
+  mainContainer.append(catalog);
+}
+
+export async function renderCatalogDetailedPage(pageID: string) {
+  mainContainer.innerHTML = '';
+  const data = await getDetailedProduct(pageID);
+  const parsedParams: [
+    string,
+    string,
+    string,
+    string,
+    { name: string; id: string },
+    string[],
+    string?,
+  ] = await parseDetailedProductData(data);
+  const detailedPage = generateDetailedProductPage(...parsedParams);
+  mainContainer.append(detailedPage);
+  initializeSwiper();
 }
 
 export function renderBlogsPage(): void {
