@@ -88,7 +88,33 @@ export default class BaseComponent {
     cssClasses.map((cssClass) => this.element.classList.add(cssClass));
   }
 
+  removeClass(cssClass = '') {
+    this.element.classList.remove(cssClass);
+  }
+
   setTextContent(text = '') {
     this.element.textContent = text;
+  }
+
+  addLabel(text: string) {
+    const label = document.createElement('label');
+    label.textContent = text;
+    this.element.parentNode?.insertBefore(label, this.element);
+  }
+
+  getValue() {
+    return (this.element as HTMLInputElement).value;
+  }
+
+  setValue(value: string) {
+    (this.element as HTMLInputElement).value = value;
+  }
+
+  disable() {
+    (this.element as HTMLInputElement).disabled = true;
+  }
+
+  enable() {
+    (this.element as HTMLInputElement).disabled = false;
   }
 }

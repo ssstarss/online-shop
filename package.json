@@ -9,7 +9,7 @@
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint --ext .ts --fix",
     "format": "prettier **/*.{ts,css} --write",
-    "test": "jest",
+    "test": "jest --coverage",
     "build": "webpack",
     "serve": "webpack serve --open --mode development",
     "watch": "webpack --watch",
@@ -68,6 +68,8 @@
     "@commercetools/sdk-auth": "^4.0.1",
     "@commercetools/sdk-client-v2": "^2.5.0",
     "dotenv": "^16.4.5",
-    "navigo": "^8.11.1"
+    "navigo": "^8.11.1",
+    "nice-select2": "^2.2.0",
+    "swiper": "^11.1.4"
   }
 }

@@ -23,6 +23,7 @@
   position: absolute;
   right: 15px;
   top: 15px;
+  z-index: 10;
 }
 
 .error-popup__container {
@@ -33,4 +34,17 @@
   left: 0;
   top: 0;
   height: 100%;
+}
+
+.error-popup.slider-popup {
+  max-width: 800px;
+  padding: 5px;
+  width: calc(100% - 40px);
+  height: calc(100% - 40px);
+  top: 50%;
+
+  @media (max-width: 1024px) {
+    height: 70vh;
+    top: 43%;
+  }
 }

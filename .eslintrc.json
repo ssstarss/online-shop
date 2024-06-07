@@ -30,6 +30,7 @@
       }
     ],
     "prettier/prettier": ["error", { "endOfLine": "auto" }],
-    "linebreak-style": "off"
+    "linebreak-style": "off", 
+    "import/no-extraneous-dependencies": "off"
   }
 }

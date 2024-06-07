@@ -1,5 +1,6 @@
 import createElement from '../../helpers/createElement';
-import { basket, login, logoSvg, register, search } from '../../assets/icons/index';
+import { basket, login, logoSvg, register, search, userSvg } from '../../assets/icons/index';
+import handleSearch from '../../utils/handleSearch';
 
 const header = createElement({ tag: 'header', className: 'header container' });
 export const logoLink = createElement({ tag: 'a', className: 'logo__link' });
@@ -28,8 +29,29 @@ export const headerLinkBlogs = createElement({
 headerLinksList.append(headerLinkHome, headerLinkCatalog, headerLinkBlogs);
 
 const linkWrap = createElement({ tag: 'div', className: 'header__wrap' });
-export const searchLink = createElement({ tag: 'a', className: 'header__search' });
-searchLink.innerHTML = search;
+export const searchLink = createElement({ tag: 'div', className: 'header__search' });
+const searchLinkBtn = createElement({
+  tag: 'button',
+  className: 'header__search-btn button',
+  type: 'button',
+});
+
+const searchInput = createElement({
+  tag: 'input',
+  className: ['header__search-input'],
+  type: 'search',
+});
+
+searchInput.addEventListener('change', () => {
+  handleSearch(searchInput.value, searchInput);
+});
+
+searchLinkBtn.addEventListener('click', () => {
+  handleSearch(searchInput.value, searchInput);
+});
+
+searchLinkBtn.innerHTML = search;
+searchLink.append(searchInput, searchLinkBtn);
 export const basketLink = createElement({ tag: 'a', className: 'header__basket' });
 basketLink.innerHTML = basket;
 
@@ -69,6 +91,12 @@ const logoutText = createElement({
 });
 logoutButton.append(logoutText);
 
+export const userProfile = createElement({
+  tag: 'a',
+  className: 'header__user-profile button',
+});
+userProfile.innerHTML = userSvg;
+
 // burger
 export const burgerMenu = createElement({ tag: 'button', className: 'burger-menu' });
 const burgerMenuLine = createElement({ tag: 'span', className: 'burger-menu__line' });
@@ -77,8 +105,7 @@ burgerMenu.append(
   burgerMenuLine.cloneNode(),
   burgerMenuLine.cloneNode()
 );
-
-// Creating new elements for the mobile menu
+export const mobileMenu = createElement({ tag: 'div', className: 'mobile-menu' });
 const mobileLinksList = createElement({ tag: 'ul', className: 'mobile__links-list' });
 export const mobileLinkHome = createElement({
   tag: 'li',
@@ -95,11 +122,33 @@ export const mobileLinkBlogs = createElement({
   className: 'mobile__list-item blogs-link',
   textContent: 'Blogs',
 });
+
 export const mobileSearchLink = createElement({
   tag: 'li',
   className: 'mobile__list-item mobile__search',
-  textContent: 'Search',
+  textContent: '',
 });
+const mobileSearchInput = createElement({
+  tag: 'input',
+  className: ['mobile__search-input', 'hidden'],
+  type: 'search',
+});
+const mobileSearchBtn = createElement({
+  tag: 'button',
+  className: 'mobile__search-btn',
+  type: 'button',
+});
+mobileSearchBtn.innerHTML = search;
+
+mobileSearchBtn.addEventListener('click', () => {
+  handleSearch(mobileSearchInput.value, mobileSearchInput).then(() => {
+    mobileMenu.classList.remove('active');
+    burgerMenu.classList.remove('active');
+  });
+});
+
+mobileSearchLink.append(mobileSearchInput, mobileSearchBtn);
+
 export const mobileBasketLink = createElement({
   tag: 'li',
   className: 'mobile__list-item mobile__basket',
@@ -123,21 +172,27 @@ export const mobileLogoutButton = createElement({
   textContent: 'Logout',
 });
 
+export const mobileUserProfileButton = createElement({
+  tag: 'li',
+  className: 'mobile__list-item mobile__user-profile',
+  textContent: 'User Profile',
+});
+
 mobileLinksList.append(
+  mobileSearchLink,
   mobileLinkHome,
   mobileLinkCatalog,
   mobileLinkBlogs,
-  mobileSearchLink,
   mobileBasketLink,
   mobileLoginButton,
   mobileRegisterButton,
-  mobileLogoutButton
+  mobileLogoutButton,
+  mobileUserProfileButton
 );
 
-export const mobileMenu = createElement({ tag: 'div', className: 'mobile-menu' });
 mobileMenu.append(mobileLinksList);
 
-linkWrap.append(searchLink, basketLink, loginButton, registerButton, logoutButton);
+linkWrap.append(searchLink, basketLink, loginButton, registerButton, userProfile, logoutButton);
 header.append(logoLink, headerLinksList, linkWrap, burgerMenu, mobileMenu);
 
 export default header;

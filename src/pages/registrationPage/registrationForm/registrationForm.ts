@@ -1,17 +1,27 @@
 import './registrationForm.css';
 import { CustomerDraft } from '@commercetools/platform-sdk';
 import BaseComponent from '../../../helpers/baseComponent';
-import Connection from '../../../app/connection';
+
 import PopUpMessage from './popUpMessage/popUpMessage';
 import PasswordInput from '../../../components/inputPassword/inputPassword';
 import AdressesBlock from '../../../components/adressesBLock/adressesBlock';
 import countries from '../../../components/adressesBLock/countries';
-
-type Mutable<T extends object> = {
-  -readonly [K in keyof T]: T[K];
-};
+import { connectionByFetch } from '../../../app/connectionByFetch';
+import { Mutable } from '../../../interfaces/customer';
 
 export default class RegistrationForm extends BaseComponent {
+  firstName!: BaseComponent;
+
+  lastName!: BaseComponent;
+
+  dateOfBirth!: BaseComponent;
+
+  emailAdress!: BaseComponent;
+
+  password!: BaseComponent;
+
+  submitButton!: BaseComponent;
+
   constructor() {
     super({
       tag: 'div',
@@ -26,8 +36,8 @@ export default class RegistrationForm extends BaseComponent {
       classNames: ['regFormText'],
       text: 'Enter registration data:',
     });
-    const connection = new Connection();
-    const firstName = new BaseComponent({
+    // const connection = new Connection();
+    this.firstName = new BaseComponent({
       tag: 'input',
       classNames: ['firstName', 'inputField'],
       type: 'text',
@@ -36,7 +46,7 @@ export default class RegistrationForm extends BaseComponent {
       tip: 'Must contain at least one character and no special characters or numbers',
     });
 
-    const lastName = new BaseComponent({
+    this.lastName = new BaseComponent({
       tag: 'input',
       classNames: ['lastName', 'inputField'],
       type: 'text',
@@ -45,7 +55,7 @@ export default class RegistrationForm extends BaseComponent {
       tip: 'Must contain at least one character and no special characters or numbers',
     });
 
-    const emailAdress = new BaseComponent({
+    this.emailAdress = new BaseComponent({
       tag: 'input',
       classNames: ['emailAdress', 'inputField'],
       type: 'text',
@@ -54,9 +64,9 @@ export default class RegistrationForm extends BaseComponent {
       tip: 'Please enter valid e-mail',
     });
 
-    const password = new PasswordInput();
+    const passwordWrapper = new PasswordInput();
 
-    const dateOfBirth = new BaseComponent({
+    this.dateOfBirth = new BaseComponent({
       tag: 'input',
       classNames: ['dateOfBirth', 'inputField'],
       type: 'date',
@@ -69,11 +79,11 @@ export default class RegistrationForm extends BaseComponent {
     this.addElement(adressesBlock);
 
     const inputsForValidation = [
-      firstName,
-      lastName,
-      emailAdress,
-      password,
-      dateOfBirth,
+      this.firstName,
+      this.lastName,
+      this.emailAdress,
+      passwordWrapper.input,
+      this.dateOfBirth,
       adressesBlock.shippingAdress.street,
       adressesBlock.shippingAdress.city,
       adressesBlock.shippingAdress.postalCode,
@@ -93,7 +103,7 @@ export default class RegistrationForm extends BaseComponent {
     const popUpMessage = new PopUpMessage();
     this.addElement(popUpMessage);
 
-    const submitButton = new BaseComponent({
+    this.submitButton = new BaseComponent({
       tag: 'button',
       classNames: ['regFormSubmit'],
       type: 'submit',
@@ -122,19 +132,15 @@ export default class RegistrationForm extends BaseComponent {
         }
 
         if (
-          firstName.isValid &&
-          lastName.isValid &&
-          emailAdress.isValid &&
-          password.input.isValid &&
-          dateOfBirth.isValid &&
+          this.firstName.isValid &&
+          this.lastName.isValid &&
+          this.emailAdress.isValid &&
+          passwordWrapper.input.isValid &&
+          this.dateOfBirth.isValid &&
           adressesBlock.shippingAdress.street.isValid &&
           adressesBlock.shippingAdress.city.isValid &&
           adressesBlock.shippingAdress.postalCode.isValid &&
-          adressesBlock.shippingAdress.country.isValid &&
-          adressesBlock.billingAdress.street.isValid &&
-          adressesBlock.billingAdress.city.isValid &&
-          adressesBlock.billingAdress.postalCode.isValid &&
-          adressesBlock.billingAdress.country.isValid
+          adressesBlock.shippingAdress.country.isValid
         ) {
           const billingCountryCode = countries.find(
             (country) =>
@@ -147,11 +153,11 @@ export default class RegistrationForm extends BaseComponent {
               (adressesBlock.shippingAdress.country.element as HTMLInputElement).value
           )?.ISO;
           const customer: Mutable<CustomerDraft> = {
-            firstName: (firstName.element as HTMLInputElement).value,
-            lastName: (lastName.element as HTMLInputElement).value,
-            email: (emailAdress.element as HTMLInputElement).value,
-            password: (password.input.element as HTMLInputElement).value,
-            dateOfBirth: (dateOfBirth.element as HTMLInputElement).value,
+            firstName: (this.firstName.element as HTMLInputElement).value,
+            lastName: (this.lastName.element as HTMLInputElement).value,
+            email: (this.emailAdress.element as HTMLInputElement).value,
+            password: (passwordWrapper.input.element as HTMLInputElement).value,
+            dateOfBirth: (this.dateOfBirth.element as HTMLInputElement).value,
             addresses: [
               {
                 country: shippingCountryCode || '',
@@ -182,17 +188,24 @@ export default class RegistrationForm extends BaseComponent {
             customer.defaultBillingAddress = temp;
           }
 
-          connection
-            .newCustomer(customer)
-            .then(() => {
-              popUpMessage.showMessage(
-                'Customer succesfully registered. Welcome to green Shop',
-                true
-              );
+          connectionByFetch
+            .signUpCustomer(customer)
+            .then((response) => {
+              if (response.ok)
+                popUpMessage.showMessage(
+                  'Customer succesfully registered. Welcome to green Shop',
+                  true
+                );
               localStorage.setItem('logged', 'true');
+              localStorage.setItem('token', connectionByFetch.bearerToken);
+              response.json().then((result) => {
+                localStorage.setItem('id', result.customer.id);
+                connectionByFetch.currentCustomer.id = result.customer.id;
+                connectionByFetch.currentCustomer.version = result.customer.version;
+              });
               window.dispatchEvent(new Event('storage'));
             })
-            .catch(() => popUpMessage.showMessage('User with this email already exists', false));
+            .catch((error) => popUpMessage.showMessage(error, false));
         } else {
           popUpMessage.showMessage('Please fulfill all fields correctly', false);
           inputsForValidation.forEach((input) => {
@@ -203,15 +216,41 @@ export default class RegistrationForm extends BaseComponent {
       },
     });
 
+    // const connect = new ConnectionByFetch();
+
     this.addElement(
       formHeader,
-      firstName,
-      lastName,
-      emailAdress,
-      password,
-      dateOfBirth,
+      this.firstName,
+      this.lastName,
+      this.emailAdress,
+      passwordWrapper,
+      this.dateOfBirth,
       adressesBlock,
-      submitButton
+      this.submitButton
     );
+  }
+
+  getFirstName() {
+    return this.firstName;
+  }
+
+  getLastName() {
+    return this.lastName;
+  }
+
+  getDateOfBirth() {
+    return this.dateOfBirth;
+  }
+
+  getEmailAdress() {
+    return this.emailAdress;
+  }
+
+  getPassword() {
+    return this.password;
+  }
+
+  getSubmitButton() {
+    return this.submitButton;
   }
 }

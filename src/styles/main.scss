@@ -1,6 +1,25 @@
 @import 'normalize.css';
 @import '../pages/page404/page404';
 @import '../components/header/header';
+@import '../components/previewMainPage/previewSlide';
+@import 'swiper/css';
+@import 'swiper/css/navigation';
+@import 'swiper/css/pagination';
+@import 'swiper/scss/autoplay';
+@import 'swiper/swiper-bundle.css';
+@import '../components/footer/footer';
+@import '../components/userProfile/userProfileMenu/userProfileMenu';
+@import '../components/userProfile/accountDetails/accountDetails';
+@import '../pages/userProfilePage/userProfilePage';
+@import '../components/userProfile/address/address';
+@import '../components/userProfile/buttonWrap/buttonWrap';
+
+@font-face {
+  font-family: 'CeraPro';
+  src: url('../assets/fonts/CeraPro-Black.woff') format('woff');
+  font-weight: 900;
+  font-style: normal;
+}
 
 @font-face {
   font-family: 'CeraPro';
@@ -43,24 +62,47 @@
   --placeholder-txt: #a5a5a5;
   --error: #f03800;
   --popup-bg: #7978787a;
+  --old-price: #cbcbcb;
+  --product-desc-txt: #727272;
+  --text-description: #727272;
+  --bg-section: #fbfbfb;
+}
+html,
+body {
+  height: 100%;
+  margin: 0;
 }
 
 html {
   font-family: 'CeraPro', sans-serif;
   background-color: var(--bg);
   color: var(--base-txt);
-  height: 100%;
 }
 
 body {
-  height: 100%;
   padding: 0 20px;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
 .container {
   max-width: 1200px;
   width: 100%;
   margin: 0 auto;
+}
+main {
+  flex-grow: 1;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+p,
+ul {
+  margin: 0;
 }
 
 a {
