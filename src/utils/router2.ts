@@ -9,6 +9,7 @@ import {
   render404Page,
   renderUserProfilePage,
   renderCatalogDetailedPage,
+  renderCartPage,
 } from './pageRenders';
 import router from './router';
 
@@ -31,6 +32,7 @@ export default function initRouting() {
           renderRegisterPage();
         }
       },
+      '/cart': renderCartPage,
       '/blogs': renderBlogsPage,
       '/profile': () => {
         if (localStorage.getItem('logged')) {
