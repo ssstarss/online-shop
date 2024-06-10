@@ -1,4 +1,10 @@
-import { CustomerDraft, Category, Cart } from '@commercetools/platform-sdk';
+import {
+  CustomerDraft,
+  Category,
+  Cart,
+  DiscountCode,
+  DiscountCodePagedQueryResponse,
+} from '@commercetools/platform-sdk';
 import { IProduct, Idiscount, GetProductsParams } from '../interfaces/product';
 import { Mutable, Customer, CustomerAccauntDetails, CartActions } from '../interfaces/customer';
 
@@ -33,31 +39,25 @@ export class ConnectionByFetch {
       this.currentCustomer.id = id;
     }
 
-    /* let cart = await this.getCart();
-    console.log('myCart:', cart);
+    console.log('myCart:', this.anonymousCart);
 
     this.anonymousCart = await this.upDateCart('708cc579-c0e7-4721-9fe4-7d316b94b6c4', 'plus');
     this.anonymousCart = await this.upDateCart('aa8a6826-1665-42e2-9410-955ec4ba9020', 'plus');
-    if (this.anonymousCart) console.log(this.anonymousCart.lineItems);
-    cart = await this.getCart();
-    console.log('myCart:', cart);
+    console.log('myCart: 1 1', this.anonymousCart);
 
     this.anonymousCart = await this.upDateCart('708cc579-c0e7-4721-9fe4-7d316b94b6c4', 'plus');
     this.anonymousCart = await this.upDateCart('aa8a6826-1665-42e2-9410-955ec4ba9020', 'plus');
-    if (this.anonymousCart) console.log(this.anonymousCart.lineItems);
-    cart = await this.getCart();
-    console.log('myCart:', cart);
+    console.log('myCart:2 2', this.anonymousCart);
+
+    this.anonymousCart = await this.applyDiscountCode('PrettyEyes');
+    console.log('discounted:', this.anonymousCart);
 
     this.anonymousCart = await this.upDateCart('708cc579-c0e7-4721-9fe4-7d316b94b6c4', 'minus');
     this.anonymousCart = await this.upDateCart('aa8a6826-1665-42e2-9410-955ec4ba9020', 'plus');
-    if (this.anonymousCart) console.log(this.anonymousCart.lineItems);
-    cart = await this.getCart();
-    console.log('myCart:', cart);
+    console.log('myCart:1 2', this.anonymousCart);
 
     this.anonymousCart = await this.upDateCart('708cc579-c0e7-4721-9fe4-7d316b94b6c4', 'remove');
-    if (this.anonymousCart) console.log(this.anonymousCart.lineItems);
-    cart = await this.getCart();
-    console.log(cart);
+    console.log('removed: 0 1', this.anonymousCart);
 
     if (id) this.currentCustomer = await this.getCustumerByID(id);
 
@@ -581,6 +581,60 @@ export class ConnectionByFetch {
     }
     return 'Cart is absent';
   }
-}
 
+  async applyDiscountCode(promoCode: string) {
+    if (this.anonymousCart) {
+      const myHeaders = new Headers();
+      myHeaders.append('Content-Type', 'application/json');
+      myHeaders.append('Authorization', `Bearer ${this.bearerToken}`);
+      const discountCodes = await this.getDiscountCodes();
+      const discountCodeID = discountCodes.results.find(
+        (discount: DiscountCode) => discount.code === promoCode
+      );
+      if (discountCodeID) {
+        const request: CartActions = {
+          version: this.anonymousCart.version,
+          actions: [
+            {
+              action: 'addDiscountCode',
+              code: discountCodeID.code,
+            },
+          ],
+        };
+
+        const raw = JSON.stringify(request);
+
+        const requestOptions = {
+          method: 'POST',
+          headers: myHeaders,
+          body: raw,
+        };
+        const url = this.API_URL.concat(`/${this.projectKey}/me/carts/${this.anonymousCart.id}`);
+        return fetch(url, requestOptions).then((response) =>
+          response.json().then((cart: Cart) => {
+            return JSON.parse(JSON.stringify(cart));
+          })
+        );
+      }
+    }
+    return 'Bad code';
+  }
+
+  async getDiscountCodes() {
+    const myHeaders = new Headers();
+    myHeaders.append('Content-Type', 'application/json');
+    myHeaders.append('Authorization', `Bearer ${this.bearerToken}`);
+
+    const requestOptions = {
+      method: 'GET',
+      headers: myHeaders,
+    };
+    const url = this.API_URL.concat(`/${this.projectKey}/discount-codes`);
+    return fetch(url, requestOptions).then((response) =>
+      response.json().then((discountCodes: DiscountCodePagedQueryResponse) => {
+        return JSON.parse(JSON.stringify(discountCodes));
+      })
+    );
+  }
+}
 export const connectionByFetch = new ConnectionByFetch();
