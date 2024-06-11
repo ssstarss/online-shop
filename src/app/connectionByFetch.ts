@@ -53,7 +53,7 @@ export class ConnectionByFetch {
     }
     this.discounts = await this.getDiscountedProducts();
 
-    this.myCart = await this.upDateCart('708cc579-c0e7-4721-9fe4-7d316b94b6c4', 'plus');
+    /* this.myCart = await this.upDateCart('708cc579-c0e7-4721-9fe4-7d316b94b6c4', 'plus');
     this.myCart = await this.upDateCart('aa8a6826-1665-42e2-9410-955ec4ba9020', 'plus');
     console.log('myCart: 1 1', this.myCart);
 
@@ -82,7 +82,7 @@ export class ConnectionByFetch {
     console.log('MainCategories:', mainCategories[2].name);
     const Childcategories = await this.getCategories('21060657-c616-4785-878f-15cef82d822b');
     console.log('ChildCategories:', Childcategories);
-*/
+
     const products = await this.getProducts({
       sort: { param: 'price', direction: 'asc' },
       pagination: { limit: 5, offset: 3 },
