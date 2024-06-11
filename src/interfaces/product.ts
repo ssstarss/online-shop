@@ -4,6 +4,8 @@ export interface GetProductsParams {
   size?: 'Small size' | 'Medium size' | 'Large size';
   searchText?: string;
   category?: string;
+  limit?: number;
+  pagination?: { limit: number; offset: number };
 }
 
 export interface IProduct {

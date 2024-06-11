@@ -43,6 +43,7 @@ import {
   enableAllFieldsShipping,
   enableSubmitButton,
 } from '../components/userProfile/address/address';
+import { connectionByFetch } from '../app/connectionByFetch';
 
 buttonHome.addEventListener('click', () => {
   navigate('/main');
@@ -188,6 +189,7 @@ logoutButton.addEventListener('click', () => {
   localStorage.removeItem('logged');
   localStorage.removeItem('id');
   localStorage.removeItem('token');
+  connectionByFetch.loginAnonymous();
   updateButtonVisibility();
   navigate('/main');
 });
