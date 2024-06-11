@@ -20,13 +20,13 @@ export const headerLinkCatalog = createElement({
   textContent: 'Catalog',
 });
 
-export const headerLinkBlogs = createElement({
+export const headerLinkAboutUs = createElement({
   tag: 'li',
-  className: 'header__list-item blogs-link',
-  textContent: 'Blogs',
+  className: 'header__list-item about-us-link',
+  textContent: 'About Us',
 });
 
-headerLinksList.append(headerLinkHome, headerLinkCatalog, headerLinkBlogs);
+headerLinksList.append(headerLinkHome, headerLinkCatalog, headerLinkAboutUs);
 
 const linkWrap = createElement({ tag: 'div', className: 'header__wrap' });
 export const searchLink = createElement({ tag: 'div', className: 'header__search' });
@@ -117,10 +117,10 @@ export const mobileLinkCatalog = createElement({
   className: 'mobile__list-item catalog-link',
   textContent: 'Catalog',
 });
-export const mobileLinkBlogs = createElement({
+export const mobileLinkAboutUs = createElement({
   tag: 'li',
-  className: 'mobile__list-item blogs-link',
-  textContent: 'Blogs',
+  className: 'mobile__list-item about-us-link',
+  textContent: 'About Us',
 });
 
 export const mobileSearchLink = createElement({
@@ -182,7 +182,7 @@ mobileLinksList.append(
   mobileSearchLink,
   mobileLinkHome,
   mobileLinkCatalog,
-  mobileLinkBlogs,
+  mobileLinkAboutUs,
   mobileBasketLink,
   mobileLoginButton,
   mobileRegisterButton,
