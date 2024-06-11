@@ -5,7 +5,7 @@ import {
   renderLoginPage,
   renderRegisterPage,
   renderCatalogPage,
-  renderBlogsPage,
+  renderAboutUsPage,
   render404Page,
   renderUserProfilePage,
   renderCatalogDetailedPage,
@@ -31,7 +31,7 @@ export default function initRouting() {
           renderRegisterPage();
         }
       },
-      '/blogs': renderBlogsPage,
+      '/about-us': renderAboutUsPage,
       '/profile': () => {
         if (localStorage.getItem('logged')) {
           renderUserProfilePage();

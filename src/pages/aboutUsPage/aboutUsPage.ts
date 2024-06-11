@@ -1,9 +1,9 @@
 import createElement from '../../helpers/createElement';
 
-const blogPage = createElement({
+const aboutUsPage = createElement({
   tag: 'section',
   className: 'blog',
-  textContent: 'BLOG PAGE',
+  textContent: 'ABOUT US PAGE',
 });
 
-export default blogPage;
+export default aboutUsPage;
