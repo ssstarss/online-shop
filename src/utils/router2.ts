@@ -33,7 +33,6 @@ export default function initRouting() {
         }
       },
       '/cart': renderCartPage,
-      '/blogs': renderBlogsPage,
       '/about-us': renderAboutUsPage,
       '/profile': () => {
         if (localStorage.getItem('logged')) {
