@@ -133,6 +133,4 @@ buttonWrap.append(buttonChangeAddress, buttonSubmit.getElement());
 
 addressContainer.append(addressBlock.getElement(), buttonWrap);
 
-document.addEventListener('DOMContentLoaded', fillCustomerData);
-
 export default addressContainer;
