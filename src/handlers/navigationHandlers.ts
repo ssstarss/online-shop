@@ -3,14 +3,14 @@ import { buttonHome } from '../pages/page404/page404';
 import {
   basketLink,
   burgerMenu,
-  headerLinkBlogs,
+  headerLinkAboutUs,
   headerLinkCatalog,
   headerLinkHome,
   loginButton,
   logoLink,
   logoutButton,
   mobileBasketLink,
-  mobileLinkBlogs,
+  mobileLinkAboutUs,
   mobileLinkCatalog,
   mobileLinkHome,
   mobileLoginButton,
@@ -56,7 +56,7 @@ logoLink.addEventListener('click', (event) => {
 headerLinkHome.addEventListener('click', (event) => {
   event.preventDefault();
   headerLinkHome.classList.add('active-header');
-  headerLinkBlogs.classList.remove('active-header');
+  headerLinkAboutUs.classList.remove('active-header');
   headerLinkCatalog.classList.remove('active-header');
   navigate('/main');
 });
@@ -64,17 +64,17 @@ headerLinkHome.addEventListener('click', (event) => {
 headerLinkCatalog.addEventListener('click', (event) => {
   event.preventDefault();
   headerLinkHome.classList.remove('active-header');
-  headerLinkBlogs.classList.remove('active-header');
+  headerLinkAboutUs.classList.remove('active-header');
   headerLinkCatalog.classList.add('active-header');
   navigate('/catalog');
 });
 
-headerLinkBlogs.addEventListener('click', (event) => {
+headerLinkAboutUs.addEventListener('click', (event) => {
   event.preventDefault();
   headerLinkHome.classList.remove('active-header');
-  headerLinkBlogs.classList.add('active-header');
+  headerLinkAboutUs.classList.add('active-header');
   headerLinkCatalog.classList.remove('active-header');
-  navigate('/blogs');
+  navigate('/about-us');
 });
 
 basketLink.addEventListener('click', (event) => {
@@ -131,11 +131,11 @@ mobileLinkCatalog.addEventListener('click', (event) => {
   event.preventDefault();
   navigate('/catalog');
 });
-mobileLinkBlogs.addEventListener('click', (event) => {
+mobileLinkAboutUs.addEventListener('click', (event) => {
   mobileMenu.classList.toggle('active');
   burgerMenu.classList.toggle('active');
   event.preventDefault();
-  navigate('/blogs');
+  navigate('/about-us');
 });
 
 mobileBasketLink.addEventListener('click', (event) => {

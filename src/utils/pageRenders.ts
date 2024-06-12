@@ -4,13 +4,11 @@ import mainPage from '../pages/mainPage/mainPage';
 import { page404 } from '../pages/page404/page404';
 import RegistrationPage from '../pages/registrationPage/registrationPage';
 // import catalogPage from '../pages/catalogPage/catalogPage';
-
-import blogsPage from '../pages/blogsPage/blogsPage';
 import loginHeader, { loginLink, registerLink } from '../components/loginHeader/loginHeader';
 import { initializeSwiper } from '../components/productSlider/productSlider';
 import generateCatalogPage from '../pages/catalogPage/catalogPage';
 import userProfilePage from '../pages/userProfilePage/userProfilePage';
-import { headerLinkBlogs, headerLinkCatalog, headerLinkHome } from '../components/header/header';
+import { headerLinkAboutUs, headerLinkCatalog, headerLinkHome } from '../components/header/header';
 import generateDetailedProductPage from '../pages/detailedProductPage/detailedProductPage';
 import { initSwiperPreview } from '../components/previewMainPage/swiperSlider';
 import getDetailedProduct from './getDetailedProduct';
@@ -18,6 +16,7 @@ import parseDetailedProductData from './parseDetailProductData';
 import { fillCustomerDetails } from '../components/userProfile/accountDetails/accountDetails';
 import { GetProductsParams } from '../interfaces/product';
 import generateCartPage from '../pages/cartPage/cartPage';
+import aboutUsPage from '../pages/aboutUsPage/aboutUsPage';
 
 const registrationPage = new RegistrationPage();
 
@@ -25,7 +24,7 @@ export function renderMainPage(): void {
   mainContainer.innerHTML = '';
   mainContainer.append(mainPage);
   headerLinkHome.classList.add('active-header');
-  headerLinkBlogs.classList.remove('active-header');
+  headerLinkAboutUs.classList.remove('active-header');
   headerLinkCatalog.classList.remove('active-header');
   initSwiperPreview();
 }
@@ -66,14 +65,14 @@ export async function renderCatalogDetailedPage(pageID: string) {
   mainContainer.append(detailedPage);
   initializeSwiper();
   headerLinkCatalog.classList.add('active-header');
-  headerLinkBlogs.classList.remove('active-header');
+  headerLinkAboutUs.classList.remove('active-header');
   headerLinkHome.classList.remove('active-header');
 }
 
-export function renderBlogsPage(): void {
+export function renderAboutUsPage(): void {
   mainContainer.innerHTML = '';
-  mainContainer.append(blogsPage);
-  headerLinkBlogs.classList.add('active-header');
+  mainContainer.append(aboutUsPage);
+  headerLinkAboutUs.classList.add('active-header');
   headerLinkCatalog.classList.remove('active-header');
   headerLinkHome.classList.remove('active-header');
 }
