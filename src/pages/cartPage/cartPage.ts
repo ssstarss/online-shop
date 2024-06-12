@@ -4,6 +4,7 @@ import getCart from '../../utils/getCart';
 import navigate from '../../utils/navigate';
 import { bag } from '../../assets/images';
 import './_cartPage.scss';
+import getCartItems from '../../utils/getCartItems';
 
 export default async function generateBasketPage() {
   const cartResponse = await getCart();
@@ -44,6 +45,7 @@ export default async function generateBasketPage() {
     emptyMessage.append(emptyHeader, emptyTxt, emptyImg);
     cart.append(emptyMessage);
   } else {
+    const cartItems = getCartItems(cartResponse);
     const productsTable = createElement({ tag: 'section', className: 'products-table' });
     const productsTableHead = createElement({ tag: 'header', className: 'products-table__header' });
     const productsTableHeaders = ['Products', 'Price', 'Quantity', 'Total', ''];
@@ -55,14 +57,19 @@ export default async function generateBasketPage() {
       });
       productsTableHead.append(headingElem);
     });
-
-    const product = generateProductItem({
-      img: 'https://www.ikea.com/gb/en/images/products/ficus-elastica-potted-plant-rubber-plant-assorted__0522964_pe643543_s5.jpg?f=xl',
-      name: 'Ficus',
-      price: '10$',
-      quantity: '1',
+    productsTable.append(productsTableHead);
+    cartItems.forEach((cartItem) => {
+      const product = generateProductItem({
+        name: cartItem.name['en-US'],
+        price: `$${(cartItem.price.value.centAmount / 100).toFixed(2)}`,
+        quantity: cartItem.quantity.toString(),
+        totalPrice: `$${(cartItem.totalPrice.centAmount / 100).toFixed(2)}`,
+        id: cartItem.id,
+        img: cartItem.variant.images![0].url,
+      });
+      productsTable.append(product);
     });
-    productsTable.append(productsTableHead, product);
+
     const totals = createElement({ tag: 'section', className: 'totals' });
     cart.append(productsTable, totals);
   }
