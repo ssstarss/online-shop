@@ -579,7 +579,7 @@ export class ConnectionByFetch {
       headers: myHeaders,
     };
 
-    if (this.myCart) {
+    if (this.myCart.id) {
       const url = this.API_URL.concat(`/${this.projectKey}/me/carts/${this.myCart.id}`);
       return fetch(url, requestOptions).then((response) =>
         response.json().then((cart: Cart) => {
