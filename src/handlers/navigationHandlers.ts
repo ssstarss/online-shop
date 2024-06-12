@@ -79,7 +79,7 @@ headerLinkAboutUs.addEventListener('click', (event) => {
 
 basketLink.addEventListener('click', (event) => {
   event.preventDefault();
-  navigate('/main');
+  navigate('/cart');
 });
 
 loginButton.addEventListener('click', (event) => {
@@ -142,7 +142,7 @@ mobileBasketLink.addEventListener('click', (event) => {
   mobileMenu.classList.toggle('active');
   burgerMenu.classList.toggle('active');
   event.preventDefault();
-  navigate('/main');
+  navigate('/cart');
 });
 
 mobileLoginButton.addEventListener('click', (event) => {

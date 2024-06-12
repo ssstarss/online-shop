@@ -1,0 +1,117 @@
+.cart {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 87px;
+
+  &__empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    padding: 40px 20px;
+  }
+
+  &__empty-title {
+    margin-bottom: 16px;
+  }
+
+  &__empty-txt {
+    max-width: 500px;
+    width: 100%;
+    text-align: center;
+    margin-bottom: 16px;
+  }
+  &__empty-link {
+    margin-left: 5px;
+    font-weight: 500;
+    color: var(--accent-color);
+  }
+
+  &__empty-img {
+    max-width: 500px;
+    width: 100%;
+  }
+}
+
+.products-table {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+
+  &__header {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: space-between;
+    padding: 11px 0;
+    border-bottom: 0.3px solid rgba(70, 163, 89, 0.3);
+    margin-bottom: 11px;
+  }
+
+  &__header-item {
+    font-size: 16px;
+    font-weight: 500;
+    margin: 0;
+  }
+}
+
+.product-cart {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  background-color: var(--bg-section);
+  margin-bottom: 10px;
+  padding-right: 26px;
+
+  &__inner {
+    display: flex;
+    align-items: center;
+  }
+
+  &__img {
+    width: 70px;
+    height: 70px;
+    -o-object-fit: cover;
+    object-fit: cover;
+    mix-blend-mode: multiply;
+    margin-right: 14px;
+  }
+
+  &__name {
+    font-size: 16px;
+    font-weight: 500;
+  }
+
+  &__counter {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  &__counter-btn {
+    background-color: var(--accent-color);
+    color: var(--on-accent-txt);
+    width: 22px;
+    height: 25px;
+    border-radius: 50%;
+  }
+
+  &__counter-amount {
+    font-size: 17px;
+  }
+
+  &__total-price {
+    font-weight: 700;
+    color: var(--accent-color);
+  }
+
+  &__delete {
+    width: 24px;
+    height: 24px;
+    background-image: url('data:image/svg+xml,<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="Iconly/Curved/Delete"><g id="Delete"><path id="Stroke 1" d="M18.8892 9.55408C18.8892 17.5731 20.0435 21.1979 12.2797 21.1979C4.5149 21.1979 5.693 17.5731 5.693 9.55408" stroke="%23727272" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path id="Stroke 3" d="M20.3651 6.47979H4.2146" stroke="%23727272" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path id="Stroke 5" d="M15.7148 6.47979C15.7148 6.47979 16.2434 2.71408 12.2891 2.71408C8.33578 2.71408 8.86435 6.47979 8.86435 6.47979" stroke="%23727272" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></g></g></svg>');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+}

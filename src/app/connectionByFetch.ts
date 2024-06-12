@@ -314,18 +314,6 @@ export class ConnectionByFetch {
 
     return fetch(url, requestOptions).then((response) =>
       response.json().then((category) => {
-        console.log(category);
-        // const discountedProduct = JSON.parse(JSON.stringify(product));
-
-        // if (product.masterVariant.prices[0].discounted) {
-        //   const discount = this.discounts.find(
-        //     (item) => item.id === product.masterVariant.prices[0].discounted.discount.id
-        //   );
-        //   discountedProduct.masterVariant.prices[0].discounted.discount = JSON.parse(
-        //     JSON.stringify(discount)
-        //   );
-        // }
-
         return category;
       })
     );

@@ -1,5 +1,6 @@
 import createElement from '../../helpers/createElement';
 import navigate from '../../utils/navigate';
+import updateCart from '../../utils/updateCart';
 import './catalogCards.scss';
 
 export default function createCatalogCard(
@@ -18,8 +19,8 @@ export default function createCatalogCard(
   }
   const cardLink = createElement({ tag: 'a', className: 'card__link', href: productPageLink });
   cardLink.setAttribute('id', id);
+  const linkId = cardLink.getAttribute('id');
   cardLink.addEventListener('click', () => {
-    const linkId = cardLink.getAttribute('id');
     if (linkId !== null) {
       navigate(`catalog/${linkId}`);
     }
@@ -34,6 +35,13 @@ export default function createCatalogCard(
   });
   const cardImg = createElement({ tag: 'img', className: 'catalog__img', src: imgSrc });
   const cartBtn = createElement({ tag: 'button', className: 'card__cart-btn', type: 'button' });
+  cartBtn.addEventListener('click', (event) => {
+    if (linkId !== null) {
+      event.stopPropagation();
+      event.preventDefault();
+      updateCart(linkId, 'plus');
+    }
+  });
   const txtSection = createElement({ tag: 'div', className: 'card__txt-wrapper' });
   const cardTitle = createElement({ tag: 'h3', className: 'card__title', textContent: title });
   const priceWrapper = createElement({ tag: 'div', className: 'card__price-wrapper' });

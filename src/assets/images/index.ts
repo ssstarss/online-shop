@@ -4,5 +4,14 @@ import previewImgSlide3 from './previewImgSlide3.png';
 import themeOneImg from './themeOne.png';
 import themeTwoImg from './themeTwo.png';
 import themeThreeImg from './themeThree.png';
+import bag from './bag.png';
 
-export { previewImg, previewImgSlide2, previewImgSlide3, themeOneImg, themeTwoImg, themeThreeImg };
+export {
+  previewImg,
+  previewImgSlide2,
+  previewImgSlide3,
+  themeOneImg,
+  themeTwoImg,
+  themeThreeImg,
+  bag,
+};
