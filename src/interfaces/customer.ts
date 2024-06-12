@@ -55,6 +55,7 @@ export type CartActions = {
       productId?: string;
       lineItemId?: string;
       quantity?: number;
+      code?: string;
     },
   ];
 };

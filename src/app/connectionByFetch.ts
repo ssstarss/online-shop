@@ -1,4 +1,10 @@
-import { CustomerDraft, Category, Cart } from '@commercetools/platform-sdk';
+import {
+  CustomerDraft,
+  Category,
+  Cart,
+  DiscountCode,
+  DiscountCodePagedQueryResponse,
+} from '@commercetools/platform-sdk';
 import { IProduct, Idiscount, GetProductsParams } from '../interfaces/product';
 import { Mutable, Customer, CustomerAccauntDetails, CartActions } from '../interfaces/customer';
 
@@ -17,47 +23,53 @@ export class ConnectionByFetch {
 
   bearerToken = '';
 
+  tokenExpirationDate = new Date().getTime();
+
   currentCustomer: Customer = Object();
 
   discounts: Idiscount[] = [];
 
-  anonymousCart: Cart | undefined = undefined;
+  myCart: Mutable<Cart> = {} as Cart;
+
+  clientType: 'anonymous' | 'customer' = 'anonymous';
 
   async init() {
-    await this.obtainTokenByCredentials();
-    this.discounts = await this.getDiscountedProducts();
     const id = localStorage.getItem('id');
-    if (!id) await this.loginAnonymous();
+    let tokenExpirationDate = 0;
+
+    const temp = localStorage.getItem('tokenExpirationDate');
+    if (temp) tokenExpirationDate = parseInt(temp, 10);
+    else tokenExpirationDate = 0;
+    if (!id || tokenExpirationDate < new Date().getTime()) await this.loginAnonymous();
     else {
       this.bearerToken = localStorage.getItem('token') || '';
       this.currentCustomer.id = id;
+      this.clientType = 'customer';
+      if (id) this.currentCustomer = await this.getCustumerByID(id);
+      const cartID = localStorage.getItem('cartID');
+      if (cartID) this.myCart.id = cartID;
+
+      this.myCart = await this.getCart();
     }
+    this.discounts = await this.getDiscountedProducts();
 
-    /* let cart = await this.getCart();
-    console.log('myCart:', cart);
+    /* this.myCart = await this.upDateCart('708cc579-c0e7-4721-9fe4-7d316b94b6c4', 'plus');
+    this.myCart = await this.upDateCart('aa8a6826-1665-42e2-9410-955ec4ba9020', 'plus');
+    console.log('myCart: 1 1', this.myCart);
 
-    this.anonymousCart = await this.upDateCart('708cc579-c0e7-4721-9fe4-7d316b94b6c4', 'plus');
-    this.anonymousCart = await this.upDateCart('aa8a6826-1665-42e2-9410-955ec4ba9020', 'plus');
-    if (this.anonymousCart) console.log(this.anonymousCart.lineItems);
-    cart = await this.getCart();
-    console.log('myCart:', cart);
+    this.myCart = await this.upDateCart('708cc579-c0e7-4721-9fe4-7d316b94b6c4', 'plus');
+    this.myCart = await this.upDateCart('aa8a6826-1665-42e2-9410-955ec4ba9020', 'plus');
+    console.log('myCart:2 2', this.myCart);
 
-    this.anonymousCart = await this.upDateCart('708cc579-c0e7-4721-9fe4-7d316b94b6c4', 'plus');
-    this.anonymousCart = await this.upDateCart('aa8a6826-1665-42e2-9410-955ec4ba9020', 'plus');
-    if (this.anonymousCart) console.log(this.anonymousCart.lineItems);
-    cart = await this.getCart();
-    console.log('myCart:', cart);
+    this.myCart = await this.applyDiscountCode('PrettyEyes');
+    console.log('discounted:', this.myCart);
 
-    this.anonymousCart = await this.upDateCart('708cc579-c0e7-4721-9fe4-7d316b94b6c4', 'minus');
-    this.anonymousCart = await this.upDateCart('aa8a6826-1665-42e2-9410-955ec4ba9020', 'plus');
-    if (this.anonymousCart) console.log(this.anonymousCart.lineItems);
-    cart = await this.getCart();
-    console.log('myCart:', cart);
+    this.myCart = await this.upDateCart('708cc579-c0e7-4721-9fe4-7d316b94b6c4', 'minus');
+    this.myCart = await this.upDateCart('aa8a6826-1665-42e2-9410-955ec4ba9020', 'plus');
+    console.log('myCart:1 2', this.myCart);
 
-    this.anonymousCart = await this.upDateCart('708cc579-c0e7-4721-9fe4-7d316b94b6c4', 'remove');
-    if (this.anonymousCart) console.log(this.anonymousCart.lineItems);
-    cart = await this.getCart();
-    console.log(cart);
+    this.myCart = await this.upDateCart('708cc579-c0e7-4721-9fe4-7d316b94b6c4', 'remove');
+    console.log('removed: 0 1', this.myCart);
 
     if (id) this.currentCustomer = await this.getCustumerByID(id);
 
@@ -73,9 +85,15 @@ export class ConnectionByFetch {
 
     const products = await this.getProducts({
       sort: { param: 'price', direction: 'asc' },
-      category: '21060657-c616-4785-878f-15cef82d822b',
+      pagination: { limit: 5, offset: 3 },
     });
     console.log('Products:', products);
+
+    const products1 = await this.getProducts({
+      sort: { param: 'price', direction: 'asc' },
+      pagination: { limit: 3, offset: 0 },
+    });
+    console.log('Products:', products1);
 
     /* const oneProduct = await this.getProductByID('0c8d600a-e4f5-4d55-8639-eefd0c0b09cd');
     console.log(oneProduct);
@@ -106,6 +124,9 @@ export class ConnectionByFetch {
       .then((response) => response.text())
       .then((result) => {
         this.bearerToken = JSON.parse(result).access_token;
+        const now = new Date();
+        this.tokenExpirationDate = now.getTime() + 172800;
+        localStorage.setItem('tokenExpirationDate', this.tokenExpirationDate.toString());
         return this.bearerToken;
       });
     // добавить обработку ошибок
@@ -117,15 +138,24 @@ export class ConnectionByFetch {
       const header = new Headers();
       header.append('Content-Type', 'application/json');
       header.append('Authorization', `Bearer ${this.bearerToken}`);
-      const requestParams = JSON.stringify({
+      let cartID = '';
+      if (this.myCart) cartID = this.myCart.id;
+
+      const requestParams = {
         email,
         password,
-      });
+        anonymousCart: {},
+      };
+      if (this.clientType === 'customer')
+        requestParams.anonymousCart = {
+          id: cartID,
+          typeID: 'cart',
+        };
 
       const options = {
         method: 'POST',
         headers: header,
-        body: requestParams,
+        body: JSON.stringify(requestParams),
       };
       const url = this.API_URL.concat(`/${this.projectKey}/login`);
       fetch(url, options).then((response) => {
@@ -164,33 +194,6 @@ export class ConnectionByFetch {
       });
     // добавить обработку ошибок
     return token;
-  }
-
-  async login(email: string = 's.s.star@mail.ru', password: string = 'Aa!12345') {
-    const header = new Headers();
-    header.append('Content-Type', 'application/json');
-    header.append('Authorization', `Bearer ${this.bearerToken}`);
-    const raw = JSON.stringify({
-      email,
-      password,
-      anonymousCart: {
-        id: '{{cart-id}}',
-        typeId: 'cart',
-      },
-    });
-
-    const options = {
-      method: 'POST',
-      headers: header,
-      body: raw,
-    };
-    const url = this.API_URL.concat(`/${this.projectKey}/me/login`);
-    return fetch(url, options)
-      .then((response) => response.json())
-      .then((result) => {
-        return result;
-      });
-    // добавить обработку ошибок
   }
 
   async loginAnonymous() {
@@ -240,6 +243,10 @@ export class ConnectionByFetch {
           'filter.query',
           `variants.price.centAmount:range(${params.filterPrice.higherThen} to ${params.filterPrice.lowerThen})`
         );
+      if (params.pagination) {
+        requestParams.append('limit', `${params.pagination.limit}`);
+        requestParams.append('offset', `${params.pagination.offset}`);
+      }
     }
     const requestOptions = {
       method: 'GET',
@@ -510,22 +517,23 @@ export class ConnectionByFetch {
     const url = this.API_URL.concat(`/${this.projectKey}/me/carts`);
     return fetch(url, requestOptions).then((response) =>
       response.json().then((cart: Cart) => {
-        this.anonymousCart = JSON.parse(JSON.stringify(cart));
+        this.myCart = JSON.parse(JSON.stringify(cart));
+        if (this.myCart) localStorage.setItem('cartID', this.myCart.id);
         return JSON.parse(JSON.stringify(cart));
       })
     );
   }
 
   async upDateCart(productId: string, action: 'plus' | 'minus' | 'remove') {
-    if (!this.anonymousCart) this.anonymousCart = await this.createCart();
-    if (this.anonymousCart) {
+    if (!this.myCart.id) this.myCart = await this.createCart();
+    if (this.myCart.id) {
       const myHeaders = new Headers();
       myHeaders.append('Content-Type', 'application/json');
       myHeaders.append('Authorization', `Bearer ${this.bearerToken}`);
 
-      const lineItem = this.anonymousCart.lineItems.find((line) => line.productId === productId);
+      const lineItem = this.myCart.lineItems.find((line) => line.productId === productId);
       const request: CartActions = {
-        version: this.anonymousCart.version,
+        version: this.myCart.version,
         actions: [
           {
             action: 'removeLineItem',
@@ -551,7 +559,7 @@ export class ConnectionByFetch {
         body: raw,
       };
 
-      const url = this.API_URL.concat(`/${this.projectKey}/me/carts/${this.anonymousCart.id}`);
+      const url = this.API_URL.concat(`/${this.projectKey}/me/carts/${this.myCart.id}`);
       return fetch(url, requestOptions).then((response) =>
         response.json().then((cart: Cart) => {
           return JSON.parse(JSON.stringify(cart));
@@ -571,8 +579,8 @@ export class ConnectionByFetch {
       headers: myHeaders,
     };
 
-    if (this.anonymousCart) {
-      const url = this.API_URL.concat(`/${this.projectKey}/me/carts/${this.anonymousCart.id}`);
+    if (this.myCart.id) {
+      const url = this.API_URL.concat(`/${this.projectKey}/me/carts/${this.myCart.id}`);
       return fetch(url, requestOptions).then((response) =>
         response.json().then((cart: Cart) => {
           return JSON.parse(JSON.stringify(cart));
@@ -581,6 +589,60 @@ export class ConnectionByFetch {
     }
     return 'Cart is absent';
   }
-}
 
+  async applyDiscountCode(promoCode: string) {
+    if (this.myCart) {
+      const myHeaders = new Headers();
+      myHeaders.append('Content-Type', 'application/json');
+      myHeaders.append('Authorization', `Bearer ${this.bearerToken}`);
+      const discountCodes = await this.getDiscountCodes();
+      const discountCodeID = discountCodes.results.find(
+        (discount: DiscountCode) => discount.code === promoCode
+      );
+      if (discountCodeID) {
+        const request: CartActions = {
+          version: this.myCart.version,
+          actions: [
+            {
+              action: 'addDiscountCode',
+              code: discountCodeID.code,
+            },
+          ],
+        };
+
+        const raw = JSON.stringify(request);
+
+        const requestOptions = {
+          method: 'POST',
+          headers: myHeaders,
+          body: raw,
+        };
+        const url = this.API_URL.concat(`/${this.projectKey}/me/carts/${this.myCart.id}`);
+        return fetch(url, requestOptions).then((response) =>
+          response.json().then((cart: Cart) => {
+            return JSON.parse(JSON.stringify(cart));
+          })
+        );
+      }
+    }
+    return 'Bad code';
+  }
+
+  async getDiscountCodes() {
+    const myHeaders = new Headers();
+    myHeaders.append('Content-Type', 'application/json');
+    myHeaders.append('Authorization', `Bearer ${this.bearerToken}`);
+
+    const requestOptions = {
+      method: 'GET',
+      headers: myHeaders,
+    };
+    const url = this.API_URL.concat(`/${this.projectKey}/discount-codes`);
+    return fetch(url, requestOptions).then((response) =>
+      response.json().then((discountCodes: DiscountCodePagedQueryResponse) => {
+        return JSON.parse(JSON.stringify(discountCodes));
+      })
+    );
+  }
+}
 export const connectionByFetch = new ConnectionByFetch();
