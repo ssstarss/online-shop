@@ -67,7 +67,7 @@ headerLinkCatalog.addEventListener('click', (event) => {
   headerLinkHome.classList.remove('active-header');
   headerLinkAboutUs.classList.remove('active-header');
   headerLinkCatalog.classList.add('active-header');
-  navigate('/catalog');
+  navigate('/catalog&page=1');
 });
 
 headerLinkAboutUs.addEventListener('click', (event) => {
@@ -130,7 +130,7 @@ mobileLinkCatalog.addEventListener('click', (event) => {
   mobileMenu.classList.toggle('active');
   burgerMenu.classList.toggle('active');
   event.preventDefault();
-  navigate('/catalog');
+  navigate('/catalog&page=1');
 });
 mobileLinkAboutUs.addEventListener('click', (event) => {
   mobileMenu.classList.toggle('active');
