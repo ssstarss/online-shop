@@ -189,6 +189,8 @@ logoutButton.addEventListener('click', () => {
   localStorage.removeItem('logged');
   localStorage.removeItem('id');
   localStorage.removeItem('token');
+  localStorage.removeItem('cartID');
+  localStorage.removeItem('tokenExpirationDate');
   connectionByFetch.loginAnonymous();
   updateButtonVisibility();
   navigate('/main');

@@ -35,12 +35,12 @@ export class ConnectionByFetch {
 
   async init() {
     const id = localStorage.getItem('id');
-    let tokenExpirationDate = 0;
+    // let tokenExpirationDate = 0;
 
-    const temp = localStorage.getItem('tokenExpirationDate');
-    if (temp) tokenExpirationDate = parseInt(temp, 10);
-    else tokenExpirationDate = 0;
-    if (!id || tokenExpirationDate < new Date().getTime()) await this.loginAnonymous();
+    // const temp = localStorage.getItem('tokenExpirationDate');
+    // if (temp) tokenExpirationDate = parseInt(temp, 10);
+    // else tokenExpirationDate = 0;
+    if (!id) await this.loginAnonymous();
     else {
       this.bearerToken = localStorage.getItem('token') || '';
       this.currentCustomer.id = id;
@@ -49,57 +49,10 @@ export class ConnectionByFetch {
       const cartID = localStorage.getItem('cartID');
       if (cartID) this.myCart.id = cartID;
 
-      this.myCart = await this.getCart();
+      const myCarts = await this.getCart();
+      console.log(myCarts);
     }
     this.discounts = await this.getDiscountedProducts();
-
-    /* this.myCart = await this.upDateCart('708cc579-c0e7-4721-9fe4-7d316b94b6c4', 'plus');
-    this.myCart = await this.upDateCart('aa8a6826-1665-42e2-9410-955ec4ba9020', 'plus');
-    console.log('myCart: 1 1', this.myCart);
-
-    this.myCart = await this.upDateCart('708cc579-c0e7-4721-9fe4-7d316b94b6c4', 'plus');
-    this.myCart = await this.upDateCart('aa8a6826-1665-42e2-9410-955ec4ba9020', 'plus');
-    console.log('myCart:2 2', this.myCart);
-
-    this.myCart = await this.applyDiscountCode('PrettyEyes');
-    console.log('discounted:', this.myCart);
-
-    this.myCart = await this.upDateCart('708cc579-c0e7-4721-9fe4-7d316b94b6c4', 'minus');
-    this.myCart = await this.upDateCart('aa8a6826-1665-42e2-9410-955ec4ba9020', 'plus');
-    console.log('myCart:1 2', this.myCart);
-
-    this.myCart = await this.upDateCart('708cc579-c0e7-4721-9fe4-7d316b94b6c4', 'remove');
-    console.log('removed: 0 1', this.myCart);
-
-    if (id) this.currentCustomer = await this.getCustumerByID(id);
-
-    /* const mainCategories = await this.getCategories();
-    console.log(
-      'MainCategories:',
-      mainCategories[2].name['en-US'],
-      typeof mainCategories[2].name['en-US']
-    );
-    console.log('MainCategories:', mainCategories[2].name);
-    const Childcategories = await this.getCategories('21060657-c616-4785-878f-15cef82d822b');
-    console.log('ChildCategories:', Childcategories);
-
-    const products = await this.getProducts({
-      sort: { param: 'price', direction: 'asc' },
-      pagination: { limit: 5, offset: 3 },
-    });
-    console.log('Products:', products);
-
-    const products1 = await this.getProducts({
-      sort: { param: 'price', direction: 'asc' },
-      pagination: { limit: 3, offset: 0 },
-    });
-    console.log('Products:', products1);
-
-    /* const oneProduct = await this.getProductByID('0c8d600a-e4f5-4d55-8639-eefd0c0b09cd');
-    console.log(oneProduct);
-
-    /*  if (id) this.currentCustomer = await this.getCustumerByID(id);
-    this.deleteCustomer('00ef4f06-8a8c-483e-9d40-259ac4496c2a'); */
   }
 
   async obtainTokenByPassword(username: string, password: string) {
@@ -120,17 +73,18 @@ export class ConnectionByFetch {
       body: requestParams,
     };
     const url = this.AUTH_URL.concat(`/oauth/${this.projectKey}/customers/token`);
-    const token = fetch(url, options)
+    fetch(url, options)
       .then((response) => response.text())
       .then((result) => {
         this.bearerToken = JSON.parse(result).access_token;
         const now = new Date();
         this.tokenExpirationDate = now.getTime() + 172800;
         localStorage.setItem('tokenExpirationDate', this.tokenExpirationDate.toString());
-        return this.bearerToken;
       });
     // добавить обработку ошибок
-    return token;
+    const carts = await this.getCart();
+    console.log(carts);
+    return this.bearerToken;
   }
 
   async loginByPassword(email: string, password: string): Promise<Response> {
@@ -216,6 +170,8 @@ export class ConnectionByFetch {
       .then((response) => response.json())
       .then((result) => {
         this.bearerToken = result.access_token;
+        this.clientType = 'anonymous';
+        this.myCart = Object();
         return result.access_token;
       });
 
@@ -519,7 +475,7 @@ export class ConnectionByFetch {
       myHeaders.append('Content-Type', 'application/json');
       myHeaders.append('Authorization', `Bearer ${this.bearerToken}`);
 
-      const lineItem = this.myCart.lineItems.find((line) => line.productId === productId);
+      const lineItem = this.myCart.lineItems.find((line) => line.id === productId);
       const request: CartActions = {
         version: this.myCart.version,
         actions: [
@@ -548,11 +504,13 @@ export class ConnectionByFetch {
       };
 
       const url = this.API_URL.concat(`/${this.projectKey}/me/carts/${this.myCart.id}`);
-      return fetch(url, requestOptions).then((response) =>
-        response.json().then((cart: Cart) => {
-          return JSON.parse(JSON.stringify(cart));
+      const cart = await fetch(url, requestOptions).then((response) =>
+        response.json().then((cartR: Cart) => {
+          return JSON.parse(JSON.stringify(cartR));
         })
       );
+      this.myCart = JSON.parse(JSON.stringify(cart));
+      return cart;
     }
     return 'somthing Wrong in upDateCart';
   }
@@ -567,8 +525,9 @@ export class ConnectionByFetch {
       headers: myHeaders,
     };
 
+    let url = this.API_URL.concat(`/${this.projectKey}/me/carts`);
     if (this.myCart.id) {
-      const url = this.API_URL.concat(`/${this.projectKey}/me/carts/${this.myCart.id}`);
+      url = this.API_URL.concat(`/${this.projectKey}/me/carts/${this.myCart.id}`);
       return fetch(url, requestOptions).then((response) =>
         response.json().then((cart: Cart) => {
           return JSON.parse(JSON.stringify(cart));
