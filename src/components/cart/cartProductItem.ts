@@ -1,10 +1,13 @@
 import createElement from '../../helpers/createElement';
+import updateCart from '../../utils/updateCart';
 
 export default function generateProductItem(productData: {
-  img: string;
   name: string;
   price: string;
   quantity: string;
+  totalPrice: string;
+  id: string;
+  img?: string;
 }) {
   const product = createElement({ tag: 'article', className: 'product-cart' });
   const productInner = createElement({ tag: 'div', className: 'product-cart__inner' });
@@ -46,12 +49,17 @@ export default function generateProductItem(productData: {
   const productTotalPrice = createElement({
     tag: 'span',
     className: 'product-cart__total-price',
-    textContent: 'total',
+    textContent: productData.totalPrice,
   });
 
   const productDeleteBtn = createElement({
     tag: 'button',
     className: 'product-cart__delete',
+  });
+
+  productDeleteBtn.addEventListener('click', () => {
+    updateCart(productData.id, 'remove');
+    product.remove();
   });
 
   productCounter.append(productCounterBtnMin, productCounterAmount, productCounterBtnPlus);
