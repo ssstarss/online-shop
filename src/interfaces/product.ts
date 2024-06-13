@@ -107,6 +107,14 @@ export interface IProduct {
   lastModifiedAt: string;
 }
 
+export interface IProducts {
+  limit: number;
+  offset: number;
+  count: number;
+  total: number;
+  results: IProduct[];
+}
+
 export interface Idiscount {
   id: string;
   version: number;
