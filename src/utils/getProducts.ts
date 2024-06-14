@@ -7,6 +7,8 @@ async function getProducts(params?: GetProductsParams) {
   try {
     const response = await connectionByFetch.getProducts(params);
     productState.totalProducts = response.total;
+    console.log('catalog');
+    console.log(response);
     return response;
   } catch (error: unknown) {
     throw new Error(`Failed to get products: ${error}`);

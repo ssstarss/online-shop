@@ -186,7 +186,7 @@ interface MasterVariant {
   assets: [];
 }
 
-interface Price {
+export interface Price {
   id: string;
   value: {
     type: string;

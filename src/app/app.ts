@@ -25,7 +25,7 @@ const App = async () => {
   } finally {
     document.body.append(header, mainContainer, footerContainer);
     initRouting();
-    preloader.classList.add('hidden');
+    preloader.remove();
   }
 };
 
