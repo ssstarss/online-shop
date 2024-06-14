@@ -6,6 +6,7 @@ import createCatalogCard from '../catalogCard/catalogCard';
 import './_catalog.scss';
 
 export const productParams: GetProductsParams = {};
+
 export default async function generateCatalog(
   catalogCardsContainer: HTMLElement,
   getProductParams?: GetProductsParams
