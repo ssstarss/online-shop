@@ -1,4 +1,4 @@
-import { githubSvg } from '../../assets/icons';
+import { githubSvg, rssLogoSvg } from '../../assets/icons';
 import { angelina, angelinaCat, phalm, sveta, svetaCat } from '../../assets/images';
 import createElement from '../../helpers/createElement';
 
@@ -35,7 +35,7 @@ function createUserItem({ image, imageCat, description, githubLink }: User): HTM
   const aboutUsItemContainer = createElement({ tag: 'div', className: 'about-us__item-container' });
   const aboutUsItem = createElement({ tag: 'div', className: 'about-us__item' });
   const itemImg = createElement({ tag: 'img', className: 'item__img image', src: image });
-  const itemImg2 = createElement({ tag: 'img', className: 'item__img', src: imageCat });
+  const itemImg2 = createElement({ tag: 'img', className: 'item__img image2', src: imageCat });
 
   const descriptionElem = createElement({
     tag: 'p',
@@ -72,7 +72,15 @@ const aboutUsPageTitle = createElement({
   className: 'about-us__title',
   textContent: 'About Us',
 });
-aboutUsPageContainer.append(aboutUsPageTitle);
+
+const aboutUsPageRSSlogo = createElement({
+  tag: 'a',
+  className: 'about-us__rss-logo',
+  href: 'https://rs.school/',
+  target: '_blank',
+});
+aboutUsPageRSSlogo.innerHTML = rssLogoSvg;
+aboutUsPageContainer.append(aboutUsPageRSSlogo, aboutUsPageTitle);
 
 users.forEach((user) => {
   const userItem = createUserItem(user);
