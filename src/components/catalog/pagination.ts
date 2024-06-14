@@ -12,9 +12,16 @@ export default function generatePagination(pagLength: number) {
     });
     pagItem.addEventListener('click', () => {
       const currLocation = window.location.href;
+      const clearPageRegex = /[?&]page=\d+/g;
       const urlPart = currLocation.replace(/.*(\/catalog.*)/, '$1');
-      const cleanedUrl = urlPart.replace(/&page=\d+/, '');
-      const newAddress = `${cleanedUrl}&page=${i} `;
+      const cleanedUrl = urlPart.replace(clearPageRegex, '');
+      let newAddress;
+      if (!cleanedUrl.includes('?')) {
+        newAddress = `${cleanedUrl}?page=${i} `;
+      } else {
+        newAddress = `${cleanedUrl}&page=${i} `;
+      }
+
       navigate(newAddress);
     });
 
