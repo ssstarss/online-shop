@@ -5,9 +5,9 @@
   background-color: var(--bg-section);
   display: flex;
   justify-content: center;
-  background-position: right;
+  background-position: top;
   background-repeat: no-repeat;
-  background-size: cover;
+  background-size: contain;
 
   .about-us__container {
     padding: 20px;

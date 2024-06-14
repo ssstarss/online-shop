@@ -7,6 +7,8 @@ import themeThreeImg from './themeThree.png';
 import phalm from './phalm.png';
 import angelina from './angelina.jpg';
 import angelinaCat from './angelinaCat.jpg';
+import sveta from './sveta.jpg';
+import svetaCat from './svetaCat.jpg';
 
 export {
   previewImg,
@@ -18,4 +20,6 @@ export {
   phalm,
   angelina,
   angelinaCat,
+  sveta,
+  svetaCat,
 };

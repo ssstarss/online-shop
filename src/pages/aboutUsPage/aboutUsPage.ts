@@ -1,5 +1,5 @@
 import { githubSvg } from '../../assets/icons';
-import { angelina, angelinaCat, phalm } from '../../assets/images';
+import { angelina, angelinaCat, phalm, sveta, svetaCat } from '../../assets/images';
 import createElement from '../../helpers/createElement';
 
 interface User {
@@ -22,6 +22,13 @@ const users: User[] = [
     imageCat: angelinaCat,
     githubLink: 'https://github.com/gerlinda137',
   },
+  {
+    name: 'Svetlana',
+    description: `&nbsp&nbspMy name is Svetlana, I am 30 years old. I was born and have lived my entire life in Zhlobin, Belarus.\n&nbsp&nbspI have a very cute cat named Buusinka, who always stays close to me when I'm studying for my courses. I started getting interested in web development back in school, but I chose to pursue an artistic path in my higher education. Years later, I returned to my dream of becoming a developer and completed courses at TeachMeSkills, where we studied HTML, CSS, JavaScript, and React.js. I successfully completed the courses and defended my final project.\n&nbsp&nbspAfterwards, I found a job, but unfortunately, the project I was working on got frozen, and I didn't stay there long. However, I enjoyed the experience and started applying for positions at other companies. Although I lacked some skills and knowledge, I decided to enroll in the RSSchool course on the recommendation of friends. I completed the zero stage, and I am currently on stage 2, which I'm attempting for the third time. Various factors prevented me from finishing it the first two times, but now I'm here, working on the final project with a great team.\n&nbsp&nbspOn our current project, I've been mostly responsible for setting up the environment, routing, navigation, styling the header, footer, and menu, as well as handling redirects and working on the profile and about us pages.\n`,
+    image: sveta,
+    imageCat: svetaCat,
+    githubLink: 'https://github.com/sviatlana-vilchynskaya',
+  },
 ];
 
 function createUserItem({ image, imageCat, description, githubLink }: User): HTMLElement {
@@ -40,6 +47,7 @@ function createUserItem({ image, imageCat, description, githubLink }: User): HTM
     tag: 'a',
     className: 'item__link',
     href: githubLink,
+    target: '_blank',
   });
   gitHubLinkElem.innerHTML = githubSvg;
 
@@ -64,10 +72,11 @@ const aboutUsPageTitle = createElement({
   className: 'about-us__title',
   textContent: 'About Us',
 });
+aboutUsPageContainer.append(aboutUsPageTitle);
 
 users.forEach((user) => {
   const userItem = createUserItem(user);
-  aboutUsPageContainer.append(aboutUsPageTitle, userItem);
+  aboutUsPageContainer.append(userItem);
 });
 
 aboutUsPage.append(aboutUsPageContainer);
