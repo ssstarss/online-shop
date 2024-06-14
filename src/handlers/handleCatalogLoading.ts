@@ -1,6 +1,8 @@
 import { Match } from 'navigo';
 import generateCatalog, { productParams } from '../components/catalog/catalog';
+import generatePagination from '../components/catalog/pagination';
 import createElement from '../helpers/createElement';
+import { productState } from '../utils/getProducts';
 import { renderCatalogPage } from '../utils/pageRenders';
 
 function resetProductParams() {
@@ -9,6 +11,16 @@ function resetProductParams() {
   productParams.searchText = undefined;
   productParams.sort = undefined;
   productParams.pagination = undefined;
+}
+
+function updatePagination() {
+  const existingPag = document.querySelector('.pagination');
+  if (existingPag) {
+    existingPag.remove();
+  }
+  const catalogWrapper = document.querySelector('.catalog-wrapper');
+  const pagination = generatePagination(Math.ceil(productState.totalProducts / 6));
+  catalogWrapper?.append(pagination);
 }
 
 function updateActiveLink(categoryId: string) {
@@ -35,6 +47,7 @@ export default async function handleCatalogLoading(match: Match | undefined) {
     try {
       await renderCatalogPage({ pagination: { limit, offset: 0 } });
       updateActivePagination(1);
+      updatePagination();
     } catch (error) {
       console.error('Error rendering catalog page:', error);
     }
@@ -45,7 +58,7 @@ export default async function handleCatalogLoading(match: Match | undefined) {
   const categoryId = match.params.id ? match.params.id.toString() : '';
   productParams.category = categoryId;
 
-  const pageNum = match.params.page ? +match.params.page.trim() : 1;
+  const pageNum = match.params.page ? Number(match.params.page.trim()) : 1;
   const pagination = { limit, offset: (pageNum - 1) * limit };
   productParams.pagination = pagination;
 
@@ -53,10 +66,12 @@ export default async function handleCatalogLoading(match: Match | undefined) {
   try {
     if (catalogCards) {
       await generateCatalog(catalogCards, productParams);
+      updatePagination();
       updateActiveLink(categoryId);
       updateActivePagination(pageNum);
     } else {
       await renderCatalogPage(productParams);
+      updatePagination();
       updateActiveLink(categoryId);
       updateActivePagination(pageNum);
     }
