@@ -5,7 +5,7 @@ import {
   DiscountCode,
   DiscountCodePagedQueryResponse,
 } from '@commercetools/platform-sdk';
-import { IProduct, Idiscount, GetProductsParams } from '../interfaces/product';
+import { IProduct, Idiscount, GetProductsParams, IProducts } from '../interfaces/product';
 import { Mutable, Customer, CustomerAccauntDetails, CartActions } from '../interfaces/customer';
 
 export class ConnectionByFetch {
@@ -216,20 +216,26 @@ export class ConnectionByFetch {
     );
 
     return fetch(url, requestOptions).then((response) =>
-      response.json().then((products) => {
-        const newArr: IProduct[] = [];
-        products.results.forEach((product: IProduct, index: number) => {
-          newArr[index] = JSON.parse(JSON.stringify(product)) as typeof product;
+      response.json().then((result: IProducts) => {
+        const products: IProducts = Object();
+        products.results = [];
+        products.count = result.count;
+        products.limit = result.limit;
+        products.offset = result.offset;
+        products.total = result.total;
+
+        result.results.forEach((product: IProduct, index: number) => {
+          products.results[index] = JSON.parse(JSON.stringify(product)) as IProduct;
           if (product.masterVariant.prices[0].discounted) {
             const discount = this.discounts.find(
               (item) => item.id === product.masterVariant.prices[0].discounted.discount.id
             );
-            newArr[index].masterVariant.prices[0].discounted.discount = JSON.parse(
+            products.results[index].masterVariant.prices[0].discounted.discount = JSON.parse(
               JSON.stringify(discount)
             );
           }
         });
-        return newArr;
+        return JSON.parse(JSON.stringify(products));
       })
     );
   }
