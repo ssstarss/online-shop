@@ -1,6 +1,8 @@
 import createElement from '../../helpers/createElement';
+import getCart from '../../utils/getCart';
 import navigate from '../../utils/navigate';
 import updateCart from '../../utils/updateCart';
+import updateCartInHeader from '../../utils/updateCartInHeader';
 import './catalogCards.scss';
 
 export default function createCatalogCard(
@@ -35,11 +37,18 @@ export default function createCatalogCard(
   });
   const cardImg = createElement({ tag: 'img', className: 'catalog__img', src: imgSrc });
   const cartBtn = createElement({ tag: 'button', className: 'card__cart-btn', type: 'button' });
-  cartBtn.addEventListener('click', (event) => {
+  cartBtn.addEventListener('click', async (event) => {
     if (linkId !== null) {
       event.stopPropagation();
       event.preventDefault();
-      updateCart(linkId, 'plus');
+      try {
+        await updateCart(linkId, 'plus');
+        const cartResponse = await getCart();
+        const totalItemsInCart = cartResponse.totalLineItemQuantity;
+        updateCartInHeader(totalItemsInCart);
+      } catch (error) {
+        console.error('Error updating cart:', error);
+      }
     }
   });
   const txtSection = createElement({ tag: 'div', className: 'card__txt-wrapper' });

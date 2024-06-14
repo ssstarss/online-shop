@@ -10,6 +10,7 @@ import userSvg from './User.svg';
 import supportSvg from './support.svg';
 import logoutSvg from './Logout.svg';
 import shoppingSvg from './shopping.svg';
+import cart from './cart.svg';
 
 export {
   logoSvg,
@@ -24,4 +25,5 @@ export {
   supportSvg,
   logoutSvg,
   shoppingSvg,
+  cart,
 };

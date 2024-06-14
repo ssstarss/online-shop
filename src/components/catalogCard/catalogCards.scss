@@ -83,6 +83,11 @@
   transition:
     transform 0.3s ease-in-out,
     opacity 0.3s ease-in-out;
+
+  @media (max-width: 1024px) {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
 }
 
 .card__cart-btn:hover {

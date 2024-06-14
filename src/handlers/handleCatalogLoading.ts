@@ -46,8 +46,8 @@ export default async function handleCatalogLoading(match: Match | undefined) {
 
     try {
       await renderCatalogPage({ pagination: { limit, offset: 0 } });
-      updateActivePagination(1);
       updatePagination();
+      updateActivePagination(1);
     } catch (error) {
       console.error('Error rendering catalog page:', error);
     }
