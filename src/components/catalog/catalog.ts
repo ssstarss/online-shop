@@ -1,5 +1,5 @@
 import createElement from '../../helpers/createElement';
-import { GetProductsParams, IProduct } from '../../interfaces/product';
+import { GetProductsParams, IProduct, IProducts } from '../../interfaces/product';
 import calculateDiscountedRate from '../../utils/calcDiscountedRate';
 import getProducts from '../../utils/getProducts';
 import createCatalogCard from '../catalogCard/catalogCard';
@@ -12,8 +12,8 @@ export default async function generateCatalog(
 ) {
   const cardsContainer = catalogCardsContainer;
   cardsContainer.innerHTML = '';
-  const products = await getProducts(getProductParams);
-  if (getProductParams?.searchText && products.length === 0) {
+  const products: IProducts = await getProducts(getProductParams);
+  if (getProductParams?.searchText && products.results.length === 0) {
     const nothingFoundMessage = createElement({
       tag: 'p',
       className: 'nothing-found',
@@ -22,7 +22,7 @@ export default async function generateCatalog(
     return nothingFoundMessage;
   }
 
-  products?.forEach((product: IProduct) => {
+  products?.results.forEach((product: IProduct) => {
     const name = product.name['en-US'];
     const image = product.masterVariant.images[0].url;
     const id = product.id.toString();
