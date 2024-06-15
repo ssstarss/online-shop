@@ -17,7 +17,7 @@ const users: User[] = [
     &nbsp&nbspI have a very cute and funny cat, Geralt, who was named after the Witcher. However, the cat didn't inherit the bravery and wit of Geralt of Rivia, but that doesn't stop me from loving him with all my heart.\n
     &nbsp&nbspI got a degree in English Philology, and for a long time, I worked as a tutor for adults and children. I started my journey in IT a long time ago, even before COVID-19, when I first took a course in manual testing. However, after the training, I wanted to change my focus within IT to find the perfect combination of creativity and development, which I found in front-end development.\n
     &nbsp&nbspAfter a year of studying through courses and on my own, I still lacked the confidence to apply for a front-end developer position, so I began applying for positions as an HTML-developer. This is how I got a job at MCArt, where we developed internal portals for large companies based on Bitrix. However, after a year of work, I realized that my tasks were far from full-fledged front-end development, so I quit with the desire to continue my education and finally become a true front-end developer. That’s how I ended up in RSSchool!\n
-    &nbsp  On my current project, I worked on the implementation of the login page, cart, catalog, and product detail page from the front-end side.`,
+    &nbsp  On our current project, I worked on the implementation of the login page, cart, catalog, and product detail page from the front-end side.`,
     image: angelina,
     imageCat: angelinaCat,
     githubLink: 'https://github.com/gerlinda137',
