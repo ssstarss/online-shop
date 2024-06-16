@@ -1,8 +1,16 @@
-import { Price } from '@commercetools/platform-sdk';
+import { Cart, Price } from '@commercetools/platform-sdk';
 import createElement from '../../helpers/createElement';
 import getCart from '../../utils/getCart';
 import updateCart from '../../utils/updateCart';
 import updateCartInHeader from '../../utils/updateCartInHeader';
+
+function updateTotalPrice(cartResponse: Cart) {
+  const totalPriceElement = document.querySelector('.total__price');
+  if (totalPriceElement) {
+    const calcTotalPrice = (cartResponse.totalPrice.centAmount / 100).toFixed(2);
+    totalPriceElement.textContent = `$${calcTotalPrice}`;
+  }
+}
 
 export default function generateProductItem(productData: {
   name: string;
@@ -83,6 +91,7 @@ export default function generateProductItem(productData: {
     try {
       await updateCart(productData.id, 'minus');
       const cartResponse = await getCart();
+      updateTotalPrice(cartResponse);
       const totalItemsInCart = cartResponse.totalLineItemQuantity;
       updateCartInHeader(totalItemsInCart);
       const prevCount = Number(productCounterAmount.textContent);
@@ -100,6 +109,7 @@ export default function generateProductItem(productData: {
     try {
       await updateCart(productData.productId, 'plus');
       const cartResponse = await getCart();
+      updateTotalPrice(cartResponse);
       const totalItemsInCart = cartResponse.totalLineItemQuantity;
       updateCartInHeader(totalItemsInCart);
       const prevCount = Number(productCounterAmount.textContent);
@@ -120,6 +130,7 @@ export default function generateProductItem(productData: {
     try {
       await updateCart(productData.id, 'remove');
       const cartResponse = await getCart();
+      updateTotalPrice(cartResponse);
       const totalItemsInCart = cartResponse.totalLineItemQuantity;
       updateCartInHeader(totalItemsInCart);
     } catch (error) {

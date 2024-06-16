@@ -45,6 +45,83 @@ export default async function generateBasketPage() {
       });
 
       const totals = createElement({ tag: 'section', className: 'totals' });
+      const cartTotalTitle = createElement({
+        tag: 'h2',
+        className: 'totals__title',
+        textContent: 'Cart Totals',
+      });
+      const coupon = createElement({ tag: 'div', className: 'coupon' });
+      const couponLabel = createElement({
+        tag: 'label',
+        className: 'coupon__label',
+        for: 'coupon-input',
+        textContent: 'Coupon Apply',
+      });
+      const couponInner = createElement({ tag: 'div', className: 'coupon__inner' });
+      const couponInput = createElement({
+        tag: 'input',
+        className: 'coupon__input',
+        type: 'text',
+        id: 'coupon-input',
+        placeholder: 'Enter coupon code here...',
+      });
+      const couponBtn = createElement({
+        tag: 'button',
+        className: 'coupon__btn',
+        textContent: 'Apply',
+        type: 'button',
+      });
+
+      const couponDiscount = createElement({ tag: 'div', className: 'coupon__discount-wrapper' });
+      const couponDiscountSubtitle = createElement({
+        tag: 'span',
+        className: 'coupon__discount-title',
+        textContent: 'Coupon Discount',
+      });
+      const couponDiscountAmount = createElement({
+        tag: 'span',
+        className: 'coupon__discount-amount',
+        textContent: '(-) 00.00',
+      });
+
+      const total = createElement({ tag: 'div', className: 'totals__total' });
+      const totalTitle = createElement({
+        tag: 'h3',
+        className: 'total__title',
+        textContent: 'Total',
+      });
+      const totalPrice = createElement({
+        tag: 'span',
+        className: 'total__price',
+        textContent: `$${(cartResponse.totalPrice.centAmount / 100).toFixed(2)}`,
+      });
+
+      const continueShoppingBtn = createElement({
+        tag: 'button',
+        className: 'totals__continue-btn',
+        textContent: 'Continue Shopping',
+        type: 'button',
+      });
+
+      const clearCartBtn = createElement({
+        tag: 'button',
+        className: 'totals__clear-cart',
+        textContent: 'Clear Cart',
+        type: 'button',
+      });
+
+      total.append(totalTitle, totalPrice);
+      couponInner.append(couponInput, couponBtn);
+      coupon.append(couponLabel, couponInner);
+      couponDiscount.append(couponDiscountSubtitle, couponDiscountAmount);
+      totals.append(
+        cartTotalTitle,
+        coupon,
+        couponDiscount,
+        total,
+        continueShoppingBtn,
+        clearCartBtn
+      );
       cart.append(productsTable, totals);
     }
   } catch (error) {
