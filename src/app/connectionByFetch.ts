@@ -46,11 +46,9 @@ export class ConnectionByFetch {
       this.currentCustomer.id = id;
       this.clientType = 'customer';
       if (id) this.currentCustomer = await this.getCustumerByID(id);
-      const cartID = localStorage.getItem('cartID');
-      if (cartID) this.myCart.id = cartID;
 
       const myCarts = await this.getCart();
-      console.log(myCarts);
+      console.log('Cartd on init', myCarts);
     }
     this.discounts = await this.getDiscountedProducts();
   }
@@ -73,36 +71,37 @@ export class ConnectionByFetch {
       body: requestParams,
     };
     const url = this.AUTH_URL.concat(`/oauth/${this.projectKey}/customers/token`);
-    fetch(url, options)
+    await fetch(url, options)
       .then((response) => response.text())
       .then((result) => {
         this.bearerToken = JSON.parse(result).access_token;
         const now = new Date();
         this.tokenExpirationDate = now.getTime() + 172800;
         localStorage.setItem('tokenExpirationDate', this.tokenExpirationDate.toString());
+        localStorage.setItem('token', this.bearerToken);
       });
     // добавить обработку ошибок
-    const carts = await this.getCart();
-    console.log(carts);
+
     return this.bearerToken;
   }
 
   async loginByPassword(email: string, password: string): Promise<Response> {
+    const currenCart = await this.getCart();
+
     return new Promise((resolve, reject) => {
       const header = new Headers();
       header.append('Content-Type', 'application/json');
       header.append('Authorization', `Bearer ${this.bearerToken}`);
-      let cartID = '';
-      if (this.myCart) cartID = this.myCart.id;
 
       const requestParams = {
         email,
         password,
         anonymousCart: {},
+        anonymousCartSignInMode: 'UseAsNewActiveCustomerCart',
       };
-      if (this.clientType === 'customer')
+      if (currenCart.id)
         requestParams.anonymousCart = {
-          id: cartID,
+          id: currenCart.id,
           typeID: 'cart',
         };
 
@@ -125,7 +124,7 @@ export class ConnectionByFetch {
     });
   }
 
-  obtainTokenByCredentials() {
+  /* obtainTokenByCredentials() {
     const header = new Headers();
     header.append(
       'Authorization',
@@ -148,7 +147,7 @@ export class ConnectionByFetch {
       });
     // добавить обработку ошибок
     return token;
-  }
+  } */
 
   async loginAnonymous() {
     const header = new Headers();
@@ -475,6 +474,7 @@ export class ConnectionByFetch {
   }
 
   async upDateCart(productId: string, action: 'plus' | 'minus' | 'remove') {
+    this.myCart = await this.getCart();
     if (!this.myCart.id) this.myCart = await this.createCart();
     if (this.myCart.id) {
       const myHeaders = new Headers();
@@ -531,16 +531,37 @@ export class ConnectionByFetch {
       headers: myHeaders,
     };
 
-    let url = this.API_URL.concat(`/${this.projectKey}/me/carts`);
-    if (this.myCart.id) {
-      url = this.API_URL.concat(`/${this.projectKey}/me/carts/${this.myCart.id}`);
-      return fetch(url, requestOptions).then((response) =>
-        response.json().then((cart: Cart) => {
-          return JSON.parse(JSON.stringify(cart));
-        })
+    const url = this.API_URL.concat(`/${this.projectKey}/me/carts`);
+
+    return fetch(url, requestOptions).then((response) =>
+      response.json().then((carts) => {
+        if (carts.results && carts.results.length > 0)
+          return carts.results[carts.results.length - 1];
+        return 'Cart is absent';
+      })
+    );
+  }
+
+  async deleteCart() {
+    let cart = await this.getCart();
+    while (cart.id) {
+      const myHeaders = new Headers();
+      myHeaders.append('Content-Type', 'application/json');
+      myHeaders.append('Authorization', `Bearer ${this.bearerToken}`);
+
+      const requestOptions = {
+        method: 'DELETE',
+        headers: myHeaders,
+      };
+
+      const url = this.API_URL.concat(
+        `/${this.projectKey}/me/carts/${cart.id}?version=${cart.version}`
       );
+      // eslint-disable-next-line no-await-in-loop
+      await fetch(url, requestOptions);
+      // eslint-disable-next-line no-await-in-loop
+      cart = await this.getCart();
     }
-    return 'Cart is absent';
   }
 
   async applyDiscountCode(promoCode: string) {
