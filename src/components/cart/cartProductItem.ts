@@ -1,10 +1,32 @@
 import { Cart, Price } from '@commercetools/platform-sdk';
+import { connectionByFetch } from '../../app/connectionByFetch';
 import createElement from '../../helpers/createElement';
 import getCart from '../../utils/getCart';
 import updateCart from '../../utils/updateCart';
 import updateCartInHeader from '../../utils/updateCartInHeader';
+import generatePreloader from '../loader/loader';
+import generateEmptyCartMessage from './emptyCartMessage';
 
-function updateTotalPrice(cartResponse: Cart) {
+export async function deleteCart(popup?: HTMLElement) {
+  const preloader = generatePreloader();
+  document.body.append(preloader);
+  try {
+    await connectionByFetch.deleteCart();
+    updateCartInHeader(0);
+    const emptyCartMessage = generateEmptyCartMessage();
+    const cart = document.querySelector('.cart');
+    if (cart) {
+      cart.innerHTML = '';
+      cart.append(emptyCartMessage);
+      popup?.remove();
+    }
+    preloader.remove();
+  } catch (error) {
+    console.log(`Error in clearing cart:${error}`);
+  }
+}
+
+export function updateTotalPrice(cartResponse: Cart) {
   const totalPriceElement = document.querySelector('.total__price');
   if (totalPriceElement) {
     const calcTotalPrice = (cartResponse.totalPrice.centAmount / 100).toFixed(2);
@@ -91,9 +113,9 @@ export default function generateProductItem(productData: {
     try {
       await updateCart(productData.id, 'minus');
       const cartResponse = await getCart();
-      updateTotalPrice(cartResponse);
       const totalItemsInCart = cartResponse.totalLineItemQuantity;
       updateCartInHeader(totalItemsInCart);
+      updateTotalPrice(cartResponse);
       const prevCount = Number(productCounterAmount.textContent);
       productCounterAmount.textContent = (prevCount - 1).toString();
       productTotalPrice.textContent = `$${(currentProductTotalPrice -= productPriceData).toFixed(2)}`;
@@ -133,6 +155,9 @@ export default function generateProductItem(productData: {
       updateTotalPrice(cartResponse);
       const totalItemsInCart = cartResponse.totalLineItemQuantity;
       updateCartInHeader(totalItemsInCart);
+      if (!totalItemsInCart) {
+        await deleteCart();
+      }
     } catch (error) {
       console.error('Error deleting cart:', error);
     }

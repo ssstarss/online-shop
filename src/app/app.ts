@@ -8,6 +8,7 @@ import updateCartInHeader from '../utils/updateCartInHeader';
 import { connectionByFetch } from './connectionByFetch';
 
 const connectionByFetchInit = connectionByFetch;
+let totalItemsInCart: number;
 
 const App = async () => {
   const preloader = generatePreloader();
@@ -18,12 +19,12 @@ const App = async () => {
 
     const [cartResponse] = await Promise.all([getCart()]);
 
-    const totalItemsInCart = cartResponse.totalLineItemQuantity;
-    updateCartInHeader(totalItemsInCart);
+    totalItemsInCart = cartResponse.totalLineItemQuantity;
   } catch (error) {
     console.error('Error during initialization:', error);
   } finally {
     document.body.append(header, mainContainer, footerContainer);
+    updateCartInHeader(totalItemsInCart);
     initRouting();
     preloader.remove();
   }
