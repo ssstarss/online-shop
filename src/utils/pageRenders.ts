@@ -52,8 +52,6 @@ export async function renderCatalogPage(params?: GetProductsParams) {
 export async function renderCatalogDetailedPage(pageID: string) {
   mainContainer.innerHTML = '';
   const data = await getDetailedProduct(pageID);
-  console.log('detailedProduct');
-  console.log(data);
   const parsedParams: [
     string,
     string,

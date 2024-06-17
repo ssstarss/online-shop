@@ -5,6 +5,7 @@ import getCart from '../../utils/getCart';
 import updateCart from '../../utils/updateCart';
 import updateCartInHeader from '../../utils/updateCartInHeader';
 import generatePreloader from '../loader/loader';
+import generateErrorPopup from '../popups/popup';
 import generateEmptyCartMessage from './emptyCartMessage';
 
 export async function deleteCart(popup?: HTMLElement) {
@@ -22,7 +23,9 @@ export async function deleteCart(popup?: HTMLElement) {
     }
     preloader.remove();
   } catch (error) {
-    console.log(`Error in clearing cart:${error}`);
+    console.log(`Error in clearing cart`);
+    preloader.remove();
+    generateErrorPopup('Error in clearing cart');
   }
 }
 
@@ -107,40 +110,42 @@ export default function generateProductItem(productData: {
   }
 
   productCounterBtnMin.addEventListener('click', async () => {
-    if (productCounterAmount.textContent === '2') {
-      productCounterBtnMin.setAttribute('disabled', 'true');
-    } else {
-      productCounterBtnMin.removeAttribute('disabled');
-    }
     try {
       await updateCart(productData.productId, 'minus');
       const cartResponse = await getCart();
       const totalItemsInCart = cartResponse.totalLineItemQuantity;
       updateCartInHeader(totalItemsInCart);
       updateTotalPrice(cartResponse);
+      if (productCounterAmount.textContent === '2') {
+        productCounterBtnMin.setAttribute('disabled', 'true');
+      } else {
+        productCounterBtnMin.removeAttribute('disabled');
+      }
       const prevCount = Number(productCounterAmount.textContent);
       productCounterAmount.textContent = (prevCount - 1).toString();
       productTotalPrice.textContent = `$${(currentProductTotalPrice -= productPriceData).toFixed(2)}`;
     } catch (error) {
       console.error('Error updating cart:', error);
+      generateErrorPopup(`Error in updating cart, please try later!`);
     }
   });
 
   productCounterBtnPlus.addEventListener('click', async () => {
-    if (productCounterAmount.textContent === '1') {
-      productCounterBtnMin.removeAttribute('disabled');
-    }
     try {
       await updateCart(productData.productId, 'plus');
       const cartResponse = await getCart();
       updateTotalPrice(cartResponse);
       const totalItemsInCart = cartResponse.totalLineItemQuantity;
       updateCartInHeader(totalItemsInCart);
+      if (productCounterAmount.textContent === '1') {
+        productCounterBtnMin.removeAttribute('disabled');
+      }
       const prevCount = Number(productCounterAmount.textContent);
       productCounterAmount.textContent = (prevCount + 1).toString();
       productTotalPrice.textContent = `$${(currentProductTotalPrice += productPriceData).toFixed(2)}`;
     } catch (error) {
       console.error('Error updating cart:', error);
+      generateErrorPopup(`Error in updating cart, please try later!`);
     }
   });
 
@@ -150,7 +155,6 @@ export default function generateProductItem(productData: {
   });
 
   productDeleteBtn.addEventListener('click', async () => {
-    product.remove();
     try {
       await updateCart(productData.productId, 'remove');
       const cartResponse = await getCart();
@@ -160,8 +164,10 @@ export default function generateProductItem(productData: {
       if (!totalItemsInCart) {
         await deleteCart();
       }
+      product.remove();
     } catch (error) {
-      console.error('Error deleting cart:', error);
+      console.error('Error in deleting product from cart:', error);
+      generateErrorPopup(`Error in deleting product from cart, please try later!`);
     }
   });
 

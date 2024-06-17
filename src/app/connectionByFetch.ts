@@ -552,11 +552,11 @@ export class ConnectionByFetch {
       throw new Error('Something went wrong in updateCart: Cart ID is missing');
     } catch (error) {
       if (error instanceof Error) {
-        console.error('Error in updateCart:', error.message);
-        return { error: 'Something went wrong in updateCart', details: error.message };
+        // console.error('Error in updateCart:', error.message);
+        throw new Error(`Something went wrong in updateCart:  ${error.message}`);
       }
-      console.error('Unknown error in updateCart:', error);
-      return { error: 'Unknown error occurred in updateCart' };
+      throw new Error(`Unknown error in updating cart:  ${error}`);
+      // return Error;
     }
   }
 
@@ -588,33 +588,74 @@ export class ConnectionByFetch {
       return 'Cart is absent';
     } catch (error) {
       if (error instanceof Error) {
-        console.error('Error in getCart:', error.message);
-        return { error: 'Something went wrong in getCart', details: error.message };
+        // console.error('Error in getCart:', error.message);
+        throw new Error(`Error in getting cart: ${error.message}`);
       }
-      console.error('Unknown error in getCart:', error);
-      return { error: 'Unknown error occurred in getCart' };
+      // console.error('Unknown error in getCart:', error);
+      throw new Error(`Unknown error in getting cart: ${error}`);
     }
   }
 
   async deleteCart() {
-    let cart = await this.getCart();
+    try {
+      let cart = await this.getCart();
 
-    const myHeaders = new Headers();
-    myHeaders.append('Content-Type', 'application/json');
-    myHeaders.append('Authorization', `Bearer ${this.bearerToken}`);
+      if (!cart.id) {
+        throw new Error('No cart found to delete');
+      }
 
-    const requestOptions = {
-      method: 'DELETE',
-      headers: myHeaders,
-    };
+      const myHeaders = new Headers();
+      myHeaders.append('Content-Type', 'application/json');
+      myHeaders.append('Authorization', `Bearer ${this.bearerToken}`);
 
-    const url = this.API_URL.concat(
-      `/${this.projectKey}/me/carts/${cart.id}?version=${cart.version}`
-    );
-    await fetch(url, requestOptions);
-    cart = await this.getCart();
-    if (cart.id) this.deleteCart();
+      const requestOptions = {
+        method: 'DELETE',
+        headers: myHeaders,
+      };
+
+      const url = this.API_URL.concat(
+        `/${this.projectKey}/me/carts/${cart.id}?version=${cart.version}`
+      );
+
+      const response = await fetch(url, requestOptions);
+
+      if (!response.ok) {
+        throw new Error(`Error: ${response.status} ${response.statusText}`);
+      }
+
+      cart = await this.getCart();
+
+      if (cart.id) {
+        await this.deleteCart();
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        throw new Error(`Error in deleting cart: ${error.message}`);
+      } else {
+        throw new Error(`Failed to delete the cart: ${error}`);
+      }
+    }
   }
+
+  // async deleteCart() {
+  //   let cart = await this.getCart();
+
+  //   const myHeaders = new Headers();
+  //   myHeaders.append('Content-Type', 'application/json');
+  //   myHeaders.append('Authorization', `Bearer ${this.bearerToken}`);
+
+  //   const requestOptions = {
+  //     method: 'DELETE',
+  //     headers: myHeaders,
+  //   };
+
+  //   const url = this.API_URL.concat(
+  //     `/${this.projectKey}/me/carts/${cart.id}?version=${cart.version}`
+  //   );
+  //   await fetch(url, requestOptions);
+  //   cart = await this.getCart();
+  //   if (cart.id) this.deleteCart();
+  // }
 
   async applyDiscountCode(promoCode: string) {
     this.myCart = await this.getCart();

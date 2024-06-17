@@ -5,6 +5,7 @@ import navigate from '../../utils/navigate';
 import getCart from '../../utils/getCart';
 import updateCart from '../../utils/updateCart';
 import updateCartInHeader from '../../utils/updateCartInHeader';
+import generateErrorPopup from '../../components/popups/popup';
 
 export default function generateDetailedProductPage(
   title: string,
@@ -117,7 +118,8 @@ export default function generateDetailedProductPage(
       removeFromCartBtn.remove();
       updateCartInHeader(totalItemsInCart);
     } catch (error) {
-      console.error('Error removing item from cart:', error);
+      console.error('Error in removing item from cart:', error);
+      generateErrorPopup(`Error in removing item from cart, please try later!`);
     }
   });
 
@@ -139,7 +141,8 @@ export default function generateDetailedProductPage(
       productBuyBtns.append(removeFromCartBtn);
       updateCartInHeader(totalItemsInCart);
     } catch (error) {
-      console.error('Error updating cart:', error);
+      console.error('Error in adding item to cart:', error);
+      generateErrorPopup(`Error in adding item from cart, please try later!`);
     }
   });
 

@@ -7,11 +7,11 @@ import getCart from '../../utils/getCart';
 import './_cartPage.scss';
 import getCartItems from '../../utils/getCartItems';
 import generateEmptyCartMessage from '../../components/cart/emptyCartMessage';
-import { generateClearCartPopup } from '../../components/popups/popup';
 import navigate from '../../utils/navigate';
 import generateDiscountBanner from '../../components/banner/dicountBanner';
 import getDiscounts from '../../utils/getDiscounts';
 import { connectionByFetch } from '../../app/connectionByFetch';
+import generateClearCartPopup from '../../components/popups/generateClearCartPopup';
 
 export default async function generateBasketPage() {
   const cart = createElement({ tag: 'section', className: 'cart' });
@@ -148,7 +148,7 @@ export default async function generateBasketPage() {
         couponStatusMessage.classList.add('success');
         prevPrice.classList.remove('hidden');
         couponInput.setAttribute('disabled', '');
-        couponInput.value = promo.code;
+        couponInput.value = promo;
         couponBtn.setAttribute('disabled', '');
         const newTotal = cartResponse.totalPrice.centAmount / 100;
         const discountedAmount =

@@ -6,6 +6,8 @@ async function updateCart(productId: string, action: 'plus' | 'minus' | 'remove'
     return response;
   } catch (error: unknown) {
     throw new Error(`Failed to update cart: ${error}`);
+
+    // return new Error(`Failed to update cart: ${error}`);
   }
 }
 
