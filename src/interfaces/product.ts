@@ -11,6 +11,7 @@ export interface GetProductsParams {
 export interface IProduct {
   id: string;
   version: number;
+  inCart: boolean;
   productType: {
     typeId: string;
     id: string;

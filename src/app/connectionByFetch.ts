@@ -41,14 +41,15 @@ export class ConnectionByFetch {
     // if (temp) tokenExpirationDate = parseInt(temp, 10);
     // else tokenExpirationDate = 0;
     if (!id) await this.loginAnonymous();
-    else {
+
+    if (id === 'anonymous') {
       this.bearerToken = localStorage.getItem('token') || '';
-      this.currentCustomer.id = id;
+      this.clientType = 'anonymous';
+    } else {
+      this.bearerToken = localStorage.getItem('token') || '';
+      if (id) this.currentCustomer.id = id;
       this.clientType = 'customer';
       if (id) this.currentCustomer = await this.getCustumerByID(id);
-
-      const myCarts = await this.getCart();
-      console.log('Cartd on init', myCarts);
     }
     this.discounts = await this.getDiscountedProducts();
   }
@@ -81,7 +82,6 @@ export class ConnectionByFetch {
         localStorage.setItem('token', this.bearerToken);
       });
     // добавить обработку ошибок
-
     return this.bearerToken;
   }
 
@@ -170,6 +170,8 @@ export class ConnectionByFetch {
       .then((result) => {
         this.bearerToken = result.access_token;
         this.clientType = 'anonymous';
+        localStorage.setItem('token', this.bearerToken);
+        localStorage.setItem('id', 'anonymous');
         this.myCart = Object();
         return result.access_token;
       });
@@ -177,7 +179,8 @@ export class ConnectionByFetch {
     // добавить обработку ошибок
   }
 
-  getProducts(params?: GetProductsParams) {
+  async getProducts(params?: GetProductsParams) {
+    this.myCart = await this.getCart();
     const myHeaders = new Headers();
     myHeaders.append('Content-Type', 'application/json');
     myHeaders.append('Authorization', `Bearer ${this.bearerToken}`);
@@ -232,6 +235,12 @@ export class ConnectionByFetch {
             products.results[index].masterVariant.prices[0].discounted.discount = JSON.parse(
               JSON.stringify(discount)
             );
+          }
+          products.results[index].inCart = false;
+          if (this.myCart.id) {
+            if (this.myCart.lineItems.findIndex((line) => line.productId === product.id) >= 0) {
+              products.results[index].inCart = true;
+            }
           }
         });
         return JSON.parse(JSON.stringify(products));
@@ -544,24 +553,22 @@ export class ConnectionByFetch {
 
   async deleteCart() {
     let cart = await this.getCart();
-    while (cart.id) {
-      const myHeaders = new Headers();
-      myHeaders.append('Content-Type', 'application/json');
-      myHeaders.append('Authorization', `Bearer ${this.bearerToken}`);
 
-      const requestOptions = {
-        method: 'DELETE',
-        headers: myHeaders,
-      };
+    const myHeaders = new Headers();
+    myHeaders.append('Content-Type', 'application/json');
+    myHeaders.append('Authorization', `Bearer ${this.bearerToken}`);
 
-      const url = this.API_URL.concat(
-        `/${this.projectKey}/me/carts/${cart.id}?version=${cart.version}`
-      );
-      // eslint-disable-next-line no-await-in-loop
-      await fetch(url, requestOptions);
-      // eslint-disable-next-line no-await-in-loop
-      cart = await this.getCart();
-    }
+    const requestOptions = {
+      method: 'DELETE',
+      headers: myHeaders,
+    };
+
+    const url = this.API_URL.concat(
+      `/${this.projectKey}/me/carts/${cart.id}?version=${cart.version}`
+    );
+    await fetch(url, requestOptions);
+    cart = await this.getCart();
+    if (cart.id) this.deleteCart();
   }
 
   async applyDiscountCode(promoCode: string) {
