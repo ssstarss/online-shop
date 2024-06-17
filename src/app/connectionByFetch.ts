@@ -485,52 +485,79 @@ export class ConnectionByFetch {
     );
   }
 
-  async upDateCart(productId: string, action: 'plus' | 'minus' | 'remove') {
-    this.myCart = await this.getCart();
-    if (!this.myCart.id) this.myCart = await this.createCart();
-    if (this.myCart.id) {
-      const myHeaders = new Headers();
-      myHeaders.append('Content-Type', 'application/json');
-      myHeaders.append('Authorization', `Bearer ${this.bearerToken}`);
+  async updateCart(productId: string, action: 'plus' | 'minus' | 'remove') {
+    try {
+      // Fetch the cart or create a new one if it doesn't exist
+      this.myCart = await this.getCart();
+      if (!this.myCart.id) this.myCart = await this.createCart();
 
-      const lineItem = this.myCart.lineItems.find((line) => line.productId === productId);
-      const request: CartActions = {
-        version: this.myCart.version,
-        actions: [
-          {
-            action: 'removeLineItem',
-            lineItemId: lineItem?.id,
-          },
-        ],
-      };
+      if (this.myCart.id) {
+        const myHeaders = new Headers();
+        myHeaders.append('Content-Type', 'application/json');
+        myHeaders.append('Authorization', `Bearer ${this.bearerToken}`);
 
-      if (action === 'minus') {
-        if (lineItem?.id) request.actions[0].lineItemId = lineItem?.id;
-        request.actions[0].quantity = 1;
+        // Find the line item in the cart
+        const lineItem = this.myCart.lineItems.find((line) => line.productId === productId);
+
+        // Prepare the request object
+        const request: CartActions = {
+          version: this.myCart.version,
+          actions: [
+            {
+              action: 'removeLineItem',
+              lineItemId: lineItem?.id,
+            },
+          ],
+        };
+
+        if (action === 'minus') {
+          if (lineItem?.id) request.actions[0].lineItemId = lineItem.id;
+          request.actions[0].quantity = 1;
+        }
+
+        if (action === 'plus') {
+          request.actions[0].action = 'addLineItem';
+          request.actions[0].quantity = 1;
+          request.actions[0].productId = productId;
+        }
+
+        const raw = JSON.stringify(request);
+
+        const requestOptions = {
+          method: 'POST',
+          headers: myHeaders,
+          body: raw,
+        };
+
+        // Make the API request to update the cart
+        const url = this.API_URL.concat(`/${this.projectKey}/me/carts/${this.myCart.id}`);
+
+        try {
+          const response = await fetch(url, requestOptions);
+
+          if (!response.ok) {
+            throw new Error(`Error: ${response.status} ${response.statusText}`);
+          }
+
+          const cartR = await response.json();
+          const cart = JSON.parse(JSON.stringify(cartR));
+          this.myCart = cart;
+          return cart;
+        } catch (fetchError) {
+          console.error('Error fetching or updating the cart:', fetchError);
+          throw fetchError; // Re-throw the error to be handled by the outer try-catch
+        }
       }
-      if (action === 'plus') {
-        request.actions[0].action = 'addLineItem';
-        request.actions[0].quantity = 1;
-        request.actions[0].productId = productId;
+
+      throw new Error('Something went wrong in updateCart: Cart ID is missing');
+    } catch (error) {
+      if (error instanceof Error) {
+        console.error('Error in updateCart:', error.message);
+        return { error: 'Something went wrong in updateCart', details: error.message };
       }
-      const raw = JSON.stringify(request);
-
-      const requestOptions = {
-        method: 'POST',
-        headers: myHeaders,
-        body: raw,
-      };
-
-      const url = this.API_URL.concat(`/${this.projectKey}/me/carts/${this.myCart.id}`);
-      const cart = await fetch(url, requestOptions).then((response) =>
-        response.json().then((cartR: Cart) => {
-          return JSON.parse(JSON.stringify(cartR));
-        })
-      );
-      this.myCart = JSON.parse(JSON.stringify(cart));
-      return cart;
+      console.error('Unknown error in updateCart:', error);
+      return { error: 'Unknown error occurred in updateCart' };
     }
-    return 'somthing Wrong in upDateCart';
   }
 
   async getCart() {
@@ -545,13 +572,28 @@ export class ConnectionByFetch {
 
     const url = this.API_URL.concat(`/${this.projectKey}/me/carts`);
 
-    return fetch(url, requestOptions).then((response) =>
-      response.json().then((carts) => {
-        if (carts.results && carts.results.length > 0)
-          return carts.results[carts.results.length - 1];
-        return 'Cart is absent';
-      })
-    );
+    try {
+      const response = await fetch(url, requestOptions);
+
+      if (!response.ok) {
+        throw new Error(`Error: ${response.status} ${response.statusText}`);
+      }
+
+      const carts = await response.json();
+
+      if (carts.results && carts.results.length > 0) {
+        return carts.results[carts.results.length - 1];
+      }
+
+      return 'Cart is absent';
+    } catch (error) {
+      if (error instanceof Error) {
+        console.error('Error in getCart:', error.message);
+        return { error: 'Something went wrong in getCart', details: error.message };
+      }
+      console.error('Unknown error in getCart:', error);
+      return { error: 'Unknown error occurred in getCart' };
+    }
   }
 
   async deleteCart() {
