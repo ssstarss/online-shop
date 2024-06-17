@@ -176,6 +176,28 @@
     margin-bottom: 14px;
   }
 
+  &__prev {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    opacity: 0.5;
+    margin-bottom: 10px;
+
+    &.hidden {
+      display: none;
+    }
+  }
+
+  &__prev-title {
+    font-size: 14px;
+  }
+
+  &__prev-amount {
+    font-size: 14px;
+    text-decoration: line-through;
+    font-weight: 700;
+  }
+
   &__clear-cart {
     color: var(--accent-color);
     position: relative;

@@ -29,9 +29,11 @@ export async function deleteCart(popup?: HTMLElement) {
 export function updateTotalPrice(cartResponse: Cart) {
   const totalPriceElement = document.querySelector('.total__price');
   if (totalPriceElement) {
-    const calcTotalPrice = (cartResponse.totalPrice.centAmount / 100).toFixed(2);
-    totalPriceElement.textContent = `$${calcTotalPrice}`;
+    const calcTotalPrice = cartResponse.totalPrice.centAmount / 100;
+    totalPriceElement.textContent = `$${calcTotalPrice.toFixed(2)}`;
+    return calcTotalPrice;
   }
+  return null;
 }
 
 export default function generateProductItem(productData: {

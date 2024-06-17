@@ -87,6 +87,17 @@ export default async function generateBasketPage() {
       });
 
       const couponStatusMessage = createElement({ tag: 'span', className: 'coupon__status' });
+      const prevPrice = createElement({ tag: 'div', className: ['totals__prev', 'hidden'] });
+      const previousPriceTitle = createElement({
+        tag: 'h4',
+        className: 'totals__prev-title',
+        textContent: 'Original price:',
+      });
+      const previousPriceAmount = createElement({
+        tag: 'span',
+        className: 'totals__prev-amount',
+        textContent: `$${2}`,
+      });
 
       couponBtn.addEventListener('click', async () => {
         const { value } = couponInput;
@@ -94,16 +105,25 @@ export default async function generateBasketPage() {
           const promoResponse = await connectionByFetch.applyDiscountCode(value);
           if (promoResponse === 'Bad code') {
             couponStatusMessage.textContent = 'Wrong promocode';
+            couponStatusMessage.classList.remove('success');
             couponStatusMessage.classList.add('error');
             couponBtn.removeAttribute('disabled');
             couponInput.removeAttribute('disabled');
           } else {
             couponStatusMessage.textContent = 'Promo code has been successfully applied';
+            couponStatusMessage.classList.remove('error');
             couponStatusMessage.classList.add('success');
+            prevPrice.classList.remove('hidden');
             couponInput.setAttribute('disabled', '');
             couponBtn.setAttribute('disabled', '');
             const cartResponse2 = await getCart();
-            updateTotalPrice(cartResponse2);
+            const newTotal = updateTotalPrice(cartResponse2);
+            if (newTotal) {
+              const discountedAmount =
+                cartResponse2.discountOnTotalPrice.discountedAmount.centAmount / 100;
+              const prevPriceCalced = newTotal + discountedAmount;
+              previousPriceAmount.textContent = `$${prevPriceCalced.toFixed(2)}`;
+            }
           }
         } catch (error) {
           console.log(`Error in applying promo:${error}`);
@@ -144,10 +164,12 @@ export default async function generateBasketPage() {
         generateClearCartPopup();
       });
 
+      prevPrice.append(previousPriceTitle, previousPriceAmount);
+
       total.append(totalTitle, totalPrice);
       couponInner.append(couponInput, couponBtn);
       coupon.append(couponLabel, couponInner, couponStatusMessage);
-      totals.append(cartTotalTitle, coupon, total, continueShoppingBtn, clearCartBtn);
+      totals.append(cartTotalTitle, coupon, prevPrice, total, continueShoppingBtn, clearCartBtn);
       cartInner.append(productsTable, totals);
       cart.append(cartInner);
     }
