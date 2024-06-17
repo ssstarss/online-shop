@@ -44,6 +44,7 @@ import {
   enableSubmitButton,
 } from '../components/userProfile/address/address';
 import { connectionByFetch } from '../app/connectionByFetch';
+import updateCartInHeader from '../utils/updateCartInHeader';
 
 buttonHome.addEventListener('click', () => {
   navigate('/main');
@@ -193,6 +194,7 @@ logoutButton.addEventListener('click', () => {
   localStorage.removeItem('tokenExpirationDate');
   connectionByFetch.loginAnonymous();
   updateButtonVisibility();
+  updateCartInHeader(0);
   navigate('/main');
 });
 
