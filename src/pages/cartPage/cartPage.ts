@@ -1,21 +1,35 @@
-import generateProductItem from '../../components/cart/cartProductItem';
+import generateProductItem, {
+  deleteCart,
+  updateTotalPrice,
+} from '../../components/cart/cartProductItem';
 import createElement from '../../helpers/createElement';
 import getCart from '../../utils/getCart';
 import './_cartPage.scss';
 import getCartItems from '../../utils/getCartItems';
 import generateEmptyCartMessage from '../../components/cart/emptyCartMessage';
+import { generateClearCartPopup } from '../../components/popups/popup';
+import navigate from '../../utils/navigate';
+import generateDiscountBanner from '../../components/banner/dicountBanner';
+import getDiscounts from '../../utils/getDiscounts';
+import { connectionByFetch } from '../../app/connectionByFetch';
 
 export default async function generateBasketPage() {
   const cart = createElement({ tag: 'section', className: 'cart' });
+  const cartInner = createElement({ tag: 'div', className: 'cart__inner' });
   try {
     const cartResponse = await getCart();
+    const promo = await getDiscounts();
+    if (promo) {
+      const banner = generateDiscountBanner(promo);
+      cart.append(banner);
+    }
     if (cartResponse === 'Cart is absent') {
       const emptyMessage = generateEmptyCartMessage();
       cart.append(emptyMessage);
+    } else if (!cartResponse.totalLineItemQuantity) {
+      deleteCart();
     } else {
       const cartItems = getCartItems(cartResponse);
-      console.log('cart items');
-      console.log(cartItems);
       const productsTable = createElement({ tag: 'section', className: 'products-table' });
       const productsTableHead = createElement({
         tag: 'header',
@@ -72,16 +86,16 @@ export default async function generateBasketPage() {
         type: 'button',
       });
 
-      const couponDiscount = createElement({ tag: 'div', className: 'coupon__discount-wrapper' });
-      const couponDiscountSubtitle = createElement({
-        tag: 'span',
-        className: 'coupon__discount-title',
-        textContent: 'Coupon Discount',
-      });
-      const couponDiscountAmount = createElement({
-        tag: 'span',
-        className: 'coupon__discount-amount',
-        textContent: '(-) 00.00',
+      couponBtn.addEventListener('click', async () => {
+        const { value } = couponInput;
+        try {
+          const applyResp = await connectionByFetch.applyDiscountCode(value);
+          console.log(applyResp);
+          const cartResponse2 = await getCart();
+          updateTotalPrice(cartResponse2);
+        } catch (error) {
+          console.log(`Error in applying promo:${error}`);
+        }
       });
 
       const total = createElement({ tag: 'div', className: 'totals__total' });
@@ -110,19 +124,20 @@ export default async function generateBasketPage() {
         type: 'button',
       });
 
+      continueShoppingBtn.addEventListener('click', () => {
+        navigate('/catalog');
+      });
+
+      clearCartBtn.addEventListener('click', async () => {
+        generateClearCartPopup();
+      });
+
       total.append(totalTitle, totalPrice);
       couponInner.append(couponInput, couponBtn);
       coupon.append(couponLabel, couponInner);
-      couponDiscount.append(couponDiscountSubtitle, couponDiscountAmount);
-      totals.append(
-        cartTotalTitle,
-        coupon,
-        couponDiscount,
-        total,
-        continueShoppingBtn,
-        clearCartBtn
-      );
-      cart.append(productsTable, totals);
+      totals.append(cartTotalTitle, coupon, total, continueShoppingBtn, clearCartBtn);
+      cartInner.append(productsTable, totals);
+      cart.append(cartInner);
     }
   } catch (error) {
     console.log('Error in generating cart:', error);

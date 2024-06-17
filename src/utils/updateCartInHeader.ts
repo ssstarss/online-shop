@@ -18,5 +18,10 @@ export default function updateCartInHeader(productsAmountInCart: number) {
       productCounter.textContent = productsAmountInCart.toString();
       svg.append(productCounter);
     }
+  } else {
+    const productCounterExisting = document.getElementById('cart-counter');
+    if (productCounterExisting) {
+      productCounterExisting.textContent = '';
+    }
   }
 }
