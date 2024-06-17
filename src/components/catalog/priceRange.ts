@@ -89,8 +89,8 @@ export default function generatePriceRange() {
 
   submitBtn.addEventListener('click', () => {
     const catalogCards = document.querySelector('.catalog-cards') as HTMLElement;
-    const minValue = +minPriceInput.value * 100;
-    const maxValue = +maxPriceInput.value * 100;
+    const minValue = Number(minPriceInput.value) * 100;
+    const maxValue = Number(maxPriceInput.value) * 100;
     productParams.filterPrice = { higherThen: minValue, lowerThen: maxValue };
     generateCatalog(catalogCards, productParams);
     if (window.innerWidth <= 1024) {

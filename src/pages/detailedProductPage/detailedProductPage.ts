@@ -2,6 +2,9 @@ import './_detailedProductPage.scss';
 import { generateProductSlider } from '../../components/productSlider/productSlider';
 import createElement from '../../helpers/createElement';
 import navigate from '../../utils/navigate';
+import getCart from '../../utils/getCart';
+import updateCart from '../../utils/updateCart';
+import updateCartInHeader from '../../utils/updateCartInHeader';
 
 export default function generateDetailedProductPage(
   title: string,
@@ -13,6 +16,7 @@ export default function generateDetailedProductPage(
     id: string;
   },
   images: string[],
+  id: string,
   prevPrice?: string
 ) {
   const detailedSection = createElement({ tag: 'section', className: 'detailed-product' });
@@ -87,22 +91,27 @@ export default function generateDetailedProductPage(
     textContent: size,
   });
   const productBuyBtns = createElement({ tag: 'div', className: 'product-info__btns' });
-  const butBtn = createElement({
-    tag: 'button',
-    className: 'product-info__buy-btn',
-    type: 'button',
-    textContent: 'But now',
-  });
   const addToCartBtn = createElement({
     tag: 'button',
-    className: 'product-info__add-btn',
+    className: 'product-info__buy-btn',
     type: 'button',
     textContent: 'Add to cart',
   });
 
+  addToCartBtn.addEventListener('click', async () => {
+    try {
+      await updateCart(id, 'plus');
+      const cartResponse = await getCart();
+      const totalItemsInCart = cartResponse.totalLineItemQuantity;
+      updateCartInHeader(totalItemsInCart);
+    } catch (error) {
+      console.error('Error updating cart:', error);
+    }
+  });
+
   productPriceWrapper.append(productPrice, productPricePrev);
   productHeader.append(productTitle, productPriceWrapper);
-  productBuyBtns.append(butBtn, addToCartBtn);
+  productBuyBtns.append(addToCartBtn);
   productInfoSection.append(
     productHeader,
     productSubtitle,

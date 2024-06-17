@@ -11,6 +11,7 @@ import sveta from './sveta.jpg';
 import svetaCat from './svetaCat.jpg';
 import sergey from './sergey.jpg';
 import sergeyCat from './sergeyCat.jpg';
+import bag from './bag.png';
 
 export {
   previewImg,
@@ -26,4 +27,5 @@ export {
   svetaCat,
   sergey,
   sergeyCat,
+  bag,
 };

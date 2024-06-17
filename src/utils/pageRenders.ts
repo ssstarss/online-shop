@@ -3,7 +3,6 @@ import loginPage from '../pages/loginPage/loginPage';
 import mainPage from '../pages/mainPage/mainPage';
 import { page404 } from '../pages/page404/page404';
 import RegistrationPage from '../pages/registrationPage/registrationPage';
-// import catalogPage from '../pages/catalogPage/catalogPage';
 import loginHeader, { loginLink, registerLink } from '../components/loginHeader/loginHeader';
 import { initializeSwiper } from '../components/productSlider/productSlider';
 import generateCatalogPage from '../pages/catalogPage/catalogPage';
@@ -15,6 +14,7 @@ import getDetailedProduct from './getDetailedProduct';
 import parseDetailedProductData from './parseDetailProductData';
 import { fillCustomerDetails } from '../components/userProfile/accountDetails/accountDetails';
 import { GetProductsParams } from '../interfaces/product';
+import generateCartPage from '../pages/cartPage/cartPage';
 import aboutUsPage from '../pages/aboutUsPage/aboutUsPage';
 
 const registrationPage = new RegistrationPage();
@@ -58,6 +58,7 @@ export async function renderCatalogDetailedPage(pageID: string) {
     string,
     { name: string; id: string },
     string[],
+    string,
     string?,
   ] = await parseDetailedProductData(data);
   const detailedPage = generateDetailedProductPage(...parsedParams);
@@ -85,4 +86,9 @@ export function renderUserProfilePage(): void {
   mainContainer.innerHTML = '';
   mainContainer.append(userProfilePage);
   fillCustomerDetails();
+}
+export async function renderCartPage() {
+  mainContainer.innerHTML = '';
+  const cartPage = await generateCartPage();
+  mainContainer.append(cartPage);
 }

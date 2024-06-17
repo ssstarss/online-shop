@@ -12,6 +12,7 @@ import logoutSvg from './Logout.svg';
 import shoppingSvg from './shopping.svg';
 import rssLogoSvg from './rsschool-logo.svg';
 import githubSvg from './github.svg';
+import cart from './cart.svg';
 
 export {
   logoSvg,
@@ -28,4 +29,5 @@ export {
   shoppingSvg,
   rssLogoSvg,
   githubSvg,
+  cart,
 };

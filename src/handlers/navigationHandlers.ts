@@ -43,6 +43,7 @@ import {
   enableAllFieldsShipping,
   enableSubmitButton,
 } from '../components/userProfile/address/address';
+import { connectionByFetch } from '../app/connectionByFetch';
 
 buttonHome.addEventListener('click', () => {
   navigate('/main');
@@ -79,7 +80,7 @@ headerLinkAboutUs.addEventListener('click', (event) => {
 
 basketLink.addEventListener('click', (event) => {
   event.preventDefault();
-  navigate('/main');
+  navigate('/cart');
 });
 
 loginButton.addEventListener('click', (event) => {
@@ -142,7 +143,7 @@ mobileBasketLink.addEventListener('click', (event) => {
   mobileMenu.classList.toggle('active');
   burgerMenu.classList.toggle('active');
   event.preventDefault();
-  navigate('/main');
+  navigate('/cart');
 });
 
 mobileLoginButton.addEventListener('click', (event) => {
@@ -188,6 +189,9 @@ logoutButton.addEventListener('click', () => {
   localStorage.removeItem('logged');
   localStorage.removeItem('id');
   localStorage.removeItem('token');
+  localStorage.removeItem('cartID');
+  localStorage.removeItem('tokenExpirationDate');
+  connectionByFetch.loginAnonymous();
   updateButtonVisibility();
   navigate('/main');
 });
