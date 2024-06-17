@@ -170,6 +170,7 @@ export interface DetailedProduct {
   priceMode: string;
   createdAt: string;
   lastModifiedAt: string;
+  inCart: boolean;
 }
 
 interface Category {

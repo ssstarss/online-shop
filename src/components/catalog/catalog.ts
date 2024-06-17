@@ -33,15 +33,16 @@ export default async function generateCatalog(
       const image = product.masterVariant.images[0].url;
       const id = product.id.toString();
       const price = product.masterVariant.prices[0].value.centAmount / 100;
-
       let discount = false;
-      let params: [string, string, string, string, boolean, string, string?, string?] = [
+      const { inCart } = product;
+      let params: [string, string, string, string, boolean, string, boolean, string?, string?] = [
         image,
         '#',
         id,
         name,
         discount,
         price.toFixed(2),
+        inCart,
       ];
 
       const productDiscount = product.masterVariant.prices[0].discounted;
@@ -57,11 +58,12 @@ export default async function generateCatalog(
           name,
           discount,
           newPrice.toFixed(2),
+          inCart,
           price.toFixed(2),
           discountRate.toString(),
         ];
       } else {
-        params = [image, '#', id, name, discount, price.toFixed(2)];
+        params = [image, '#', id, name, discount, price.toFixed(2), inCart];
       }
       const card = createCatalogCard(...params);
       cardsContainer.append(card);

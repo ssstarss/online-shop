@@ -59,6 +59,7 @@ export async function renderCatalogDetailedPage(pageID: string) {
     { name: string; id: string },
     string[],
     string,
+    boolean,
     string?,
   ] = await parseDetailedProductData(data);
   const detailedPage = generateDetailedProductPage(...parsedParams);

@@ -28,7 +28,7 @@
 
 .error-popup__container {
   background-color: var(--popup-bg);
-  z-index: 100;
+  z-index: 102;
   position: fixed;
   width: 100%;
   left: 0;
@@ -56,6 +56,10 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  &__container {
+    z-index: 100;
+  }
 
   &__txt {
     font-size: 20px;

@@ -12,6 +12,7 @@ export default function createCatalogCard(
   title: string,
   discount: boolean,
   price: string,
+  inCart: boolean,
   previousPrice?: string,
   saleRate?: string
 ) {
@@ -35,8 +36,20 @@ export default function createCatalogCard(
     className: 'card__sale-tag',
     textContent: `${saleRate}% OFF`,
   });
+
+  // const inCartTag = createElement({
+  //   tag: 'span',
+  //   className: 'card__cart-tag',
+  //   textContent: `in cart`,
+  // });
+
   const cardImg = createElement({ tag: 'img', className: 'catalog__img', src: imgSrc });
   const cartBtn = createElement({ tag: 'button', className: 'card__cart-btn', type: 'button' });
+
+  if (inCart) {
+    cardLink.classList.add('in-cart');
+    cartBtn.setAttribute('disabled', '');
+  }
   cartBtn.addEventListener('click', async (event) => {
     if (linkId !== null) {
       event.stopPropagation();
@@ -46,6 +59,9 @@ export default function createCatalogCard(
         const cartResponse = await getCart();
         const totalItemsInCart = cartResponse.totalLineItemQuantity;
         updateCartInHeader(totalItemsInCart);
+        cardLink.classList.add('in-cart');
+        cartBtn.setAttribute('disabled', '');
+        // imgWrapper.append(inCartTag);
       } catch (error) {
         console.error('Error updating cart:', error);
       }

@@ -114,8 +114,6 @@
   font-weight: 500;
 }
 
-/* Inline таблица стилей #12 | http://localhost:8080/catalog */
-
 .product-info__prev-price {
   text-decoration: line-through;
 }
@@ -161,6 +159,7 @@
 .product-info__btns {
   display: flex;
   align-items: center;
+  gap: 10px;
 }
 
 .product-info__btns button {
@@ -173,9 +172,14 @@
 .product-info__buy-btn {
   background-color: var(--accent-color);
   color: var(--on-accent-txt);
+
+  &:disabled {
+    cursor: auto;
+    opacity: 0.5;
+  }
 }
 
-.product-info__add-btn {
+.product-info__remove-btn {
   border: 1px solid var(--accent-color);
   margin-left: 10px;
   color: var(--accent-color);
