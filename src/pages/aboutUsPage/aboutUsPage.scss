@@ -8,6 +8,17 @@
   background-position: top;
   background-repeat: no-repeat;
   background-size: contain;
+  .collaboration-container {
+    padding: 20px;
+    background: linear-gradient(to right, var(--accent-color-opacity), var(--bg-section-opacity));
+    border-radius: 5px;
+    .collaboration {
+      background-color: var(--bg-section-opacity);
+      padding: 5px;
+      border-radius: 5px;
+      text-align: left;
+    }
+  }
 
   .about-us__container {
     padding: 20px;

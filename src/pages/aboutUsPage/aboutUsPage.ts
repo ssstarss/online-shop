@@ -95,6 +95,16 @@ const aboutUsPageRSSlogo = createElement({
   target: '_blank',
 });
 aboutUsPageRSSlogo.innerHTML = rssLogoSvg;
+
+const collaborationContainer = createElement({ tag: 'div', className: 'collaboration-container' });
+
+const collaboration = createElement({ tag: 'div', className: 'collaboration' });
+collaboration.innerHTML = `Collaboration 🤝:\n
+&nbsp&nbspTo ensure effective collaboration, we assigned Sergey to handle the API, providing the team with well-documented interfaces. We maintained constant communication through chat and regular video calls, discussing task progress, challenges, and offering support. This approach kept everyone aligned and enabled quick problem-solving. Using collaborative tools, we tracked our tasks and deadlines, ensuring transparency and accountability. Our teamwork, open communication, and structured task management were key to achieving a successful project outcome 🎉.`.replace(
+  /\n/g,
+  '<br>'
+);
+collaborationContainer.append(collaboration);
 aboutUsPageContainer.append(aboutUsPageRSSlogo, aboutUsPageTitle);
 
 users.forEach((user) => {
@@ -102,6 +112,7 @@ users.forEach((user) => {
   aboutUsPageContainer.append(userItem);
 });
 
+aboutUsPageContainer.append(collaborationContainer);
 aboutUsPage.append(aboutUsPageContainer);
 
 export default aboutUsPage;
