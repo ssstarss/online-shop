@@ -493,7 +493,7 @@ export class ConnectionByFetch {
       myHeaders.append('Content-Type', 'application/json');
       myHeaders.append('Authorization', `Bearer ${this.bearerToken}`);
 
-      const lineItem = this.myCart.lineItems.find((line) => line.id === productId);
+      const lineItem = this.myCart.lineItems.find((line) => line.productId === productId);
       const request: CartActions = {
         version: this.myCart.version,
         actions: [
