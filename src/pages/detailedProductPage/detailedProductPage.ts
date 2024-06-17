@@ -17,6 +17,7 @@ export default function generateDetailedProductPage(
   },
   images: string[],
   id: string,
+  inCart: boolean,
   prevPrice?: string
 ) {
   const detailedSection = createElement({ tag: 'section', className: 'detailed-product' });
@@ -97,12 +98,45 @@ export default function generateDetailedProductPage(
     type: 'button',
     textContent: 'Add to cart',
   });
+  productBuyBtns.append(addToCartBtn);
+  const removeFromCartBtn = createElement({
+    tag: 'button',
+    className: ['product-info__remove-btn'],
+    type: 'button',
+    textContent: 'Remove from cart',
+  });
+
+  removeFromCartBtn.addEventListener('click', async () => {
+    try {
+      await updateCart(id, 'remove');
+      const cartResponse = await getCart();
+      const totalItemsInCart = cartResponse.totalLineItemQuantity;
+      addToCartBtn.textContent = 'Add to cart';
+      addToCartBtn.classList.remove('in-cart');
+      addToCartBtn.removeAttribute('disabled');
+      removeFromCartBtn.remove();
+      updateCartInHeader(totalItemsInCart);
+    } catch (error) {
+      console.error('Error removing item from cart:', error);
+    }
+  });
+
+  if (inCart) {
+    addToCartBtn.textContent = 'In cart';
+    addToCartBtn.classList.add('in-cart');
+    addToCartBtn.setAttribute('disabled', '');
+    productBuyBtns.append(removeFromCartBtn);
+  }
 
   addToCartBtn.addEventListener('click', async () => {
     try {
       await updateCart(id, 'plus');
       const cartResponse = await getCart();
       const totalItemsInCart = cartResponse.totalLineItemQuantity;
+      addToCartBtn.textContent = 'In cart';
+      addToCartBtn.classList.add('in-cart');
+      addToCartBtn.setAttribute('disabled', '');
+      productBuyBtns.append(removeFromCartBtn);
       updateCartInHeader(totalItemsInCart);
     } catch (error) {
       console.error('Error updating cart:', error);
@@ -111,7 +145,6 @@ export default function generateDetailedProductPage(
 
   productPriceWrapper.append(productPrice, productPricePrev);
   productHeader.append(productTitle, productPriceWrapper);
-  productBuyBtns.append(addToCartBtn);
   productInfoSection.append(
     productHeader,
     productSubtitle,

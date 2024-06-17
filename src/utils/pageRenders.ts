@@ -52,6 +52,8 @@ export async function renderCatalogPage(params?: GetProductsParams) {
 export async function renderCatalogDetailedPage(pageID: string) {
   mainContainer.innerHTML = '';
   const data = await getDetailedProduct(pageID);
+  console.log('detailedProduct');
+  console.log(data);
   const parsedParams: [
     string,
     string,
@@ -60,6 +62,7 @@ export async function renderCatalogDetailedPage(pageID: string) {
     { name: string; id: string },
     string[],
     string,
+    boolean,
     string?,
   ] = await parseDetailedProductData(data);
   const detailedPage = generateDetailedProductPage(...parsedParams);

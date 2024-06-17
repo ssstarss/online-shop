@@ -18,6 +18,7 @@ export default async function parseDetailedProductData(data: DetailedProduct) {
   const categoryId = product.categories[0].id;
   const categoryResponse: IdCategory = await getCategoryById(categoryId);
   const productId = product.id;
+  const { inCart } = product;
 
   let price = '';
   let prevPrice = '';
@@ -30,6 +31,7 @@ export default async function parseDetailedProductData(data: DetailedProduct) {
     { name: string; id: string },
     string[],
     string,
+    boolean,
     string?,
   ] = [
     title,
@@ -39,6 +41,7 @@ export default async function parseDetailedProductData(data: DetailedProduct) {
     { name: categoryResponse.name['en-US'], id: categoryId },
     imagesLinks,
     productId,
+    inCart,
   ];
 
   if (product.masterVariant.prices[0].discounted !== undefined) {
@@ -52,6 +55,7 @@ export default async function parseDetailedProductData(data: DetailedProduct) {
       { name: categoryResponse.name['en-US'], id: categoryId },
       imagesLinks,
       productId,
+      inCart,
       prevPrice,
     ];
   } else {
@@ -64,6 +68,7 @@ export default async function parseDetailedProductData(data: DetailedProduct) {
       { name: categoryResponse.name['en-US'], id: categoryId },
       imagesLinks,
       productId,
+      inCart,
     ];
   }
   return params;
