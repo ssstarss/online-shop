@@ -113,7 +113,7 @@ export default function generateProductItem(productData: {
       productCounterBtnMin.removeAttribute('disabled');
     }
     try {
-      await updateCart(productData.id, 'minus');
+      await updateCart(productData.productId, 'minus');
       const cartResponse = await getCart();
       const totalItemsInCart = cartResponse.totalLineItemQuantity;
       updateCartInHeader(totalItemsInCart);
@@ -152,7 +152,7 @@ export default function generateProductItem(productData: {
   productDeleteBtn.addEventListener('click', async () => {
     product.remove();
     try {
-      await updateCart(productData.id, 'remove');
+      await updateCart(productData.productId, 'remove');
       const cartResponse = await getCart();
       updateTotalPrice(cartResponse);
       const totalItemsInCart = cartResponse.totalLineItemQuantity;
