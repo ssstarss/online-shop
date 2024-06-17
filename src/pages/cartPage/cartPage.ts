@@ -86,13 +86,25 @@ export default async function generateBasketPage() {
         type: 'button',
       });
 
+      const couponStatusMessage = createElement({ tag: 'span', className: 'coupon__status' });
+
       couponBtn.addEventListener('click', async () => {
         const { value } = couponInput;
         try {
-          const applyResp = await connectionByFetch.applyDiscountCode(value);
-          console.log(applyResp);
-          const cartResponse2 = await getCart();
-          updateTotalPrice(cartResponse2);
+          const promoResponse = await connectionByFetch.applyDiscountCode(value);
+          if (promoResponse === 'Bad code') {
+            couponStatusMessage.textContent = 'Wrong promocode';
+            couponStatusMessage.classList.add('error');
+            couponBtn.removeAttribute('disabled');
+            couponInput.removeAttribute('disabled');
+          } else {
+            couponStatusMessage.textContent = 'Promo code has been successfully applied';
+            couponStatusMessage.classList.add('success');
+            couponInput.setAttribute('disabled', '');
+            couponBtn.setAttribute('disabled', '');
+            const cartResponse2 = await getCart();
+            updateTotalPrice(cartResponse2);
+          }
         } catch (error) {
           console.log(`Error in applying promo:${error}`);
         }
@@ -134,7 +146,7 @@ export default async function generateBasketPage() {
 
       total.append(totalTitle, totalPrice);
       couponInner.append(couponInput, couponBtn);
-      coupon.append(couponLabel, couponInner);
+      coupon.append(couponLabel, couponInner, couponStatusMessage);
       totals.append(cartTotalTitle, coupon, total, continueShoppingBtn, clearCartBtn);
       cartInner.append(productsTable, totals);
       cart.append(cartInner);
