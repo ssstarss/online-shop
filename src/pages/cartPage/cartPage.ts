@@ -96,7 +96,7 @@ export default async function generateBasketPage() {
       const previousPriceAmount = createElement({
         tag: 'span',
         className: 'totals__prev-amount',
-        textContent: `$${2}`,
+        textContent: `$${0.0}`,
       });
 
       couponBtn.addEventListener('click', async () => {
@@ -141,6 +141,21 @@ export default async function generateBasketPage() {
         className: 'total__price',
         textContent: `$${(cartResponse.totalPrice.centAmount / 100).toFixed(2)}`,
       });
+
+      if (cartResponse.discountOnTotalPrice) {
+        couponStatusMessage.textContent = 'Promo code has been successfully applied';
+        couponStatusMessage.classList.remove('error');
+        couponStatusMessage.classList.add('success');
+        prevPrice.classList.remove('hidden');
+        couponInput.setAttribute('disabled', '');
+        couponInput.value = promo.code;
+        couponBtn.setAttribute('disabled', '');
+        const newTotal = cartResponse.totalPrice.centAmount / 100;
+        const discountedAmount =
+          cartResponse.discountOnTotalPrice.discountedAmount.centAmount / 100;
+        const prevPriceCalced = newTotal + discountedAmount;
+        previousPriceAmount.textContent = `$${prevPriceCalced.toFixed(2)}`;
+      }
 
       const continueShoppingBtn = createElement({
         tag: 'button',

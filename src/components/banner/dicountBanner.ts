@@ -2,8 +2,6 @@ import { DiscountCode } from '@commercetools/platform-sdk';
 import createElement from '../../helpers/createElement';
 
 export default function generateDiscountBanner(discountsData: DiscountCode) {
-  console.log('dicountsData');
-  console.log(discountsData);
   const banner = createElement({ tag: 'article', className: 'discount-banner' });
   const promocode = createElement({
     tag: 'span',
