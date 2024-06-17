@@ -249,6 +249,7 @@ export class ConnectionByFetch {
   }
 
   async getProductByID(id: string) {
+    this.myCart = await this.getCart();
     const myHeaders = new Headers();
     myHeaders.append('Content-Type', 'application/json');
     myHeaders.append('Authorization', `Bearer ${this.bearerToken}`);
@@ -271,7 +272,9 @@ export class ConnectionByFetch {
             JSON.stringify(discount)
           );
         }
-
+        discountedProduct.inCart = false;
+        if (this.myCart.lineItems.findIndex((line) => line.productId === product.id) >= 0)
+          discountedProduct.inCart = true;
         return discountedProduct;
       })
     );
@@ -572,6 +575,7 @@ export class ConnectionByFetch {
   }
 
   async applyDiscountCode(promoCode: string) {
+    this.myCart = await this.getCart();
     if (this.myCart) {
       const myHeaders = new Headers();
       myHeaders.append('Content-Type', 'application/json');
