@@ -1,4 +1,3 @@
-// import Swiper from 'swiper';
 import Swiper from 'swiper';
 import { Thumbs, Navigation, Pagination, Zoom } from 'swiper/modules';
 import 'swiper/css/bundle';
@@ -99,7 +98,6 @@ export function generateProductSlider(images: string[]) {
       const popupSlider = generatePopupSwiper(imageSources);
       generateSliderPopup(popupSlider);
 
-      // eslint-disable-next-line
       const swiper3 = new Swiper('.swiperPopup', {
         loop: true,
         spaceBetween: 16,
@@ -114,10 +112,8 @@ export function generateProductSlider(images: string[]) {
         zoom: {
           maxRatio: 5,
         },
-        thumbs: {
-          // slideThumbActiveClass: ,
-        },
       });
+      swiper3.init();
     });
     swiperWrapper1.appendChild(slide);
   });
@@ -156,14 +152,11 @@ export function generateProductSlider(images: string[]) {
 
   swipersContainer.append(swiper1, swiper2);
 
-  //
-
   return swipersContainer;
 }
 export default generateProductSlider;
 
 export function initializeSwiper() {
-  // eslint-disable-next-line no-new
   const swiper = new Swiper('.mySwiper', {
     loop: true,
     spaceBetween: 16,
@@ -172,8 +165,8 @@ export function initializeSwiper() {
     watchSlidesProgress: true,
     direction: 'vertical',
   });
-  // eslint-disable-next-line
-  let swiper2 = new Swiper('.mySwiper2', {
+
+  const swiper2 = new Swiper('.mySwiper2', {
     direction: 'vertical',
     loop: true,
     spaceBetween: 16,
@@ -185,4 +178,5 @@ export function initializeSwiper() {
       swiper,
     },
   });
+  swiper2.init();
 }

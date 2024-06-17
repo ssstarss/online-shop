@@ -3,7 +3,6 @@ import loginPage from '../pages/loginPage/loginPage';
 import mainPage from '../pages/mainPage/mainPage';
 import { page404 } from '../pages/page404/page404';
 import RegistrationPage from '../pages/registrationPage/registrationPage';
-// import catalogPage from '../pages/catalogPage/catalogPage';
 import loginHeader, { loginLink, registerLink } from '../components/loginHeader/loginHeader';
 import { initializeSwiper } from '../components/productSlider/productSlider';
 import generateCatalogPage from '../pages/catalogPage/catalogPage';

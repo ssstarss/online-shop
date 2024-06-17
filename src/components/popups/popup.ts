@@ -43,7 +43,12 @@ export function generateSliderPopup(slider: HTMLElement) {
     type: 'button',
   });
 
-  const { body } = document;
+  let { body } = document;
+
+  if (!body) {
+    body = document.createElement('body');
+    document.append(body);
+  }
 
   closeBtn.addEventListener('click', () => {
     popupContainer.remove();
