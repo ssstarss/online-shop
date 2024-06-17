@@ -1,5 +1,13 @@
 import { githubSvg, rssLogoSvg } from '../../assets/icons';
-import { angelina, angelinaCat, phalm, sveta, svetaCat } from '../../assets/images';
+import {
+  angelina,
+  angelinaCat,
+  phalm,
+  sergey,
+  sergeyCat,
+  sveta,
+  svetaCat,
+} from '../../assets/images';
 import createElement from '../../helpers/createElement';
 
 interface User {
@@ -11,6 +19,13 @@ interface User {
 }
 
 const users: User[] = [
+  {
+    name: 'Sergey',
+    description: `&nbsp&nbspMy name is Sergey. I live in Barnaul, Altai region.I studied  first at  Physics and Mathematics school and then at Rubtsovsk Industrial Institute at Applied mathematics faculty.\n\n &nbsp&nbsp My first experience as a programmer was in far 1990 I \`ve been creating programs for programmable calculator which has only 105 bytes for program. Studying in Institute I created programs on Assembler, C, Pascal. Since then whole my life I work with computers and everything connected to them. My second love is football. I play it all my life. So this days Im very busy watching Euro 2024.\n\n &nbsp&nbspDuring the current online shop task from RSSchool I created Page for registration of new customers and everything connected to API calls to CommercTools`,
+    image: sergey,
+    imageCat: sergeyCat,
+    githubLink: 'https://github.com/ssstarss',
+  },
   {
     name: 'Angelina',
     description: `&nbsp&nbspMy name is Angelina, I am 27 years old. I was born and lived most of my life in Saint Petersburg, but for the past two years, I have been living in Yerevan, Armenia.\n
@@ -24,7 +39,7 @@ const users: User[] = [
   },
   {
     name: 'Svetlana',
-    description: `&nbsp&nbspMy name is Svetlana, I am 30 years old. I was born and have lived my entire life in Zhlobin, Belarus.\n&nbsp&nbspI have a very cute cat named Buusinka, who always stays close to me when I'm studying for my courses. I started getting interested in web development back in school, but I chose to pursue an artistic path in my higher education. Years later, I returned to my dream of becoming a developer and completed courses at TeachMeSkills, where we studied HTML, CSS, JavaScript, and React.js. I successfully completed the courses and defended my final project.\n&nbsp&nbspAfterwards, I found a job, but unfortunately, the project I was working on got frozen, and I didn't stay there long. However, I enjoyed the experience and started applying for positions at other companies. Although I lacked some skills and knowledge, I decided to enroll in the RSSchool course on the recommendation of friends. I completed the zero stage, and I am currently on stage 2, which I'm attempting for the third time. Various factors prevented me from finishing it the first two times, but now I'm here, working on the final project with a great team.\n&nbsp&nbspOn our current project, I've been mostly responsible for setting up the environment, routing, navigation, styling the header, footer, and menu, as well as handling redirects and working on the profile and about us pages.\n`,
+    description: `&nbsp&nbspMy name is Svetlana, I am 30 years old. I was born and have lived my entire life in Zhlobin, Belarus.\n&nbsp&nbspI have a very cute cat named Buusinka, who always stays close to me when I'm studying for my courses. I started getting interested in web development back in school, but I chose to pursue an artistic path in my higher education. Years later, I returned to my dream of becoming a developer and completed courses at TeachMeSkills, where we studied HTML, CSS, JavaScript, and React.js. I successfully completed the courses and defended my final project.\n\n&nbsp&nbspAfterwards, I found a job, but unfortunately, the project I was working on got frozen, and I didn't stay there long. However, I enjoyed the experience and started applying for positions at other companies. Although I lacked some skills and knowledge, I decided to enroll in the RSSchool course on the recommendation of friends. I completed the zero stage, and I am currently on stage 2, which I'm attempting for the third time. Various factors prevented me from finishing it the first two times, but now I'm here, working on the final project with a great team.\n\n&nbsp&nbspOn our current project, I've been mostly responsible for setting up the environment, routing, navigation, styling the header, footer, and menu, as well as handling redirects and working on the profile and about us pages.\n`,
     image: sveta,
     imageCat: svetaCat,
     githubLink: 'https://github.com/sviatlana-vilchynskaya',

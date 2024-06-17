@@ -9,6 +9,8 @@ import angelina from './angelina.jpg';
 import angelinaCat from './angelinaCat.jpg';
 import sveta from './sveta.jpg';
 import svetaCat from './svetaCat.jpg';
+import sergey from './sergey.jpg';
+import sergeyCat from './sergeyCat.jpg';
 
 export {
   previewImg,
@@ -22,4 +24,6 @@ export {
   angelinaCat,
   sveta,
   svetaCat,
+  sergey,
+  sergeyCat,
 };
