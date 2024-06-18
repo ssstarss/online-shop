@@ -51,7 +51,11 @@ export class ConnectionByFetch {
       this.clientType = 'customer';
       if (id) this.currentCustomer = await this.getCustumerByID(id);
     }
-    this.discounts = await this.getDiscountedProducts();
+    try {
+      this.discounts = await this.getDiscountedProducts();
+    } catch (e) {
+      await this.loginAnonymous();
+    }
   }
 
   async obtainTokenByPassword(username: string, password: string) {
@@ -123,31 +127,6 @@ export class ConnectionByFetch {
       });
     });
   }
-
-  /* obtainTokenByCredentials() {
-    const header = new Headers();
-    header.append(
-      'Authorization',
-      `Basic ${btoa(this.ADMIN_CLIENT_ID.concat(':', this.ADMIN_CLIENT_SECRET))}`
-    );
-    const requestParams = new URLSearchParams();
-    requestParams.append('grant_type', 'client_credentials');
-    requestParams.append('scopes', `${this.SCOPES}`);
-    const options = {
-      method: 'POST',
-      headers: header,
-      body: requestParams,
-    };
-    const url = this.AUTH_URL.concat(`/oauth/token?`);
-    const token = fetch(url, options)
-      .then((response) => response.text())
-      .then((result) => {
-        this.bearerToken = JSON.parse(result).access_token;
-        return this.bearerToken;
-      });
-    // добавить обработку ошибок
-    return token;
-  } */
 
   async loginAnonymous() {
     const header = new Headers();
@@ -311,12 +290,10 @@ export class ConnectionByFetch {
       headers: myHeaders,
     };
     const url = this.API_URL.concat('/', this.projectKey, `/product-discounts/`);
-    return fetch(url, requestOptions).then((response) =>
-      response.json().then((result) => {
-        return result.results;
-      })
-    );
-    // добавить обработку ошибок
+    const response = await fetch(url, requestOptions);
+    if (!response.ok) throw new Error(response.status.toString());
+    const result = await response.json();
+    return result.results;
   }
 
   async signUpCustomer(customer: Mutable<CustomerDraft>): Promise<Response> {
@@ -636,26 +613,6 @@ export class ConnectionByFetch {
       }
     }
   }
-
-  // async deleteCart() {
-  //   let cart = await this.getCart();
-
-  //   const myHeaders = new Headers();
-  //   myHeaders.append('Content-Type', 'application/json');
-  //   myHeaders.append('Authorization', `Bearer ${this.bearerToken}`);
-
-  //   const requestOptions = {
-  //     method: 'DELETE',
-  //     headers: myHeaders,
-  //   };
-
-  //   const url = this.API_URL.concat(
-  //     `/${this.projectKey}/me/carts/${cart.id}?version=${cart.version}`
-  //   );
-  //   await fetch(url, requestOptions);
-  //   cart = await this.getCart();
-  //   if (cart.id) this.deleteCart();
-  // }
 
   async applyDiscountCode(promoCode: string) {
     this.myCart = await this.getCart();
