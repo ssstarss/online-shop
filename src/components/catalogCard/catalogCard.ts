@@ -3,6 +3,7 @@ import getCart from '../../utils/getCart';
 import navigate from '../../utils/navigate';
 import updateCart from '../../utils/updateCart';
 import updateCartInHeader from '../../utils/updateCartInHeader';
+import { addToCartLoader } from '../loader/loader';
 import './catalogCards.scss';
 
 export default function createCatalogCard(
@@ -37,12 +38,6 @@ export default function createCatalogCard(
     textContent: `${saleRate}% OFF`,
   });
 
-  // const inCartTag = createElement({
-  //   tag: 'span',
-  //   className: 'card__cart-tag',
-  //   textContent: `in cart`,
-  // });
-
   const cardImg = createElement({ tag: 'img', className: 'catalog__img', src: imgSrc });
   const cartBtn = createElement({ tag: 'button', className: 'card__cart-btn', type: 'button' });
 
@@ -54,15 +49,19 @@ export default function createCatalogCard(
     if (linkId !== null) {
       event.stopPropagation();
       event.preventDefault();
+      const cartPreloader = addToCartLoader();
+      cardLink.append(cartPreloader);
       try {
         await updateCart(linkId, 'plus');
         const cartResponse = await getCart();
         const totalItemsInCart = cartResponse.totalLineItemQuantity;
         updateCartInHeader(totalItemsInCart);
+
+        cartPreloader.remove();
         cardLink.classList.add('in-cart');
         cartBtn.setAttribute('disabled', '');
-        // imgWrapper.append(inCartTag);
       } catch (error) {
+        cartPreloader.remove();
         console.error('Error updating cart:', error);
       }
     }

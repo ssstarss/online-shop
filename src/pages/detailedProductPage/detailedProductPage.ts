@@ -6,6 +6,7 @@ import getCart from '../../utils/getCart';
 import updateCart from '../../utils/updateCart';
 import updateCartInHeader from '../../utils/updateCartInHeader';
 import generateErrorPopup from '../../components/popups/popup';
+import { addToCartLoader } from '../../components/loader/loader';
 
 export default function generateDetailedProductPage(
   title: string,
@@ -131,16 +132,20 @@ export default function generateDetailedProductPage(
   }
 
   addToCartBtn.addEventListener('click', async () => {
+    const cartPreloader = addToCartLoader();
+    detailedSection.append(cartPreloader);
     try {
       await updateCart(id, 'plus');
       const cartResponse = await getCart();
       const totalItemsInCart = cartResponse.totalLineItemQuantity;
+      cartPreloader.remove();
       addToCartBtn.textContent = 'In cart';
       addToCartBtn.classList.add('in-cart');
       addToCartBtn.setAttribute('disabled', '');
       productBuyBtns.append(removeFromCartBtn);
       updateCartInHeader(totalItemsInCart);
     } catch (error) {
+      cartPreloader.remove();
       console.error('Error in adding item to cart:', error);
       generateErrorPopup(`Error in adding item from cart, please try later!`);
     }
