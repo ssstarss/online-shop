@@ -55,6 +55,7 @@ export class ConnectionByFetch {
       this.discounts = await this.getDiscountedProducts();
     } catch (e) {
       await this.loginAnonymous();
+      this.discounts = await this.getDiscountedProducts();
     }
   }
 
