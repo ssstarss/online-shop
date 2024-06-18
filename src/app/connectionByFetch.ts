@@ -282,19 +282,29 @@ export class ConnectionByFetch {
   ///
 
   async getDiscountedProducts() {
-    const myHeaders = new Headers();
-    myHeaders.append('Content-Type', 'application/json');
-    myHeaders.append('Authorization', `Bearer ${this.bearerToken}`);
+    try {
+      const myHeaders = new Headers();
+      myHeaders.append('Content-Type', 'application/json');
+      myHeaders.append('Authorization', `Bearer ${this.bearerToken}`);
 
-    const requestOptions = {
-      method: 'GET',
-      headers: myHeaders,
-    };
-    const url = this.API_URL.concat('/', this.projectKey, `/product-discounts/`);
-    const response = await fetch(url, requestOptions);
-    if (!response.ok) throw new Error(response.status.toString());
-    const result = await response.json();
-    return result.results;
+      const requestOptions = {
+        method: 'GET',
+        headers: myHeaders,
+      };
+      const url = this.API_URL.concat('/', this.projectKey, `/product-discounts/`);
+      const response = await fetch(url, requestOptions);
+      if (!response.ok) throw new Error(`Error: ${response.status} ${response.statusText}`);
+      const result = await response.json();
+      return result.results;
+    } catch (error) {
+      if (error instanceof Error) {
+        console.error('Error fetching discounted products:', error.message);
+        throw new Error(`Failed to fetch discounted products: ${error.message}`);
+      } else {
+        console.error('Unknown error:', error);
+        throw new Error('An unknown error occurred while fetching discounted products');
+      }
+    }
   }
 
   async signUpCustomer(customer: Mutable<CustomerDraft>): Promise<Response> {
