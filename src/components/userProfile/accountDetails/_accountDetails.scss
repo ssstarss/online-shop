@@ -1,0 +1,18 @@
+.account-details {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  .account-details__title {
+    margin-bottom: 10px;
+    font-size: 16px;
+    font-weight: 500;
+  }
+  .inputField {
+    font-weight: 400;
+    font-size: 15px;
+  }
+  input:focus {
+    outline-style: solid var(--accent-color);
+    border-color: var(--accent-color);
+  }
+}

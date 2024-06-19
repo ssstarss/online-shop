@@ -1,0 +1,21 @@
+.sort-select {
+  display: flex;
+  align-items: center;
+}
+
+.sort-select__label {
+  font-size: 15px;
+  font-weight: 400;
+
+  @media (max-width: 768px) {
+    display: none;
+  }
+}
+
+.sort-select__select {
+  font-size: 15px;
+  font-weight: 400;
+  background-color: var(--bg);
+  border: none;
+  text-align: end;
+}

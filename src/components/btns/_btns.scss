@@ -1,0 +1,11 @@
+.login-btn {
+  width: 100%;
+  background-color: var(--accent-color);
+  color: var(--on-accent-txt);
+  padding: 16px 0 13px 0;
+  border-radius: 5px;
+}
+.login-btn:disabled {
+  cursor: auto;
+  opacity: 0.5;
+}

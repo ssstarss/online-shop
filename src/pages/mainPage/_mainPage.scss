@@ -1,0 +1,12 @@
+.links-list {
+  display: flex;
+  flex-direction: column;
+  padding-top: 1rem;
+
+  &__link {
+    margin-bottom: 1rem;
+    &:hover {
+      color: var(--accent-color);
+    }
+  }
+}
