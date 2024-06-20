@@ -20,6 +20,8 @@ Welcome to our online plant shop repository! We offer a wide range of cheap and 
 - **ESLint**: ESLint ensures code consistency and helps identify potential errors or code smells.
 - **Prettier**: Prettier is used for code formatting, ensuring a consistent code style across the project.
 - **Jest**: Jest is our testing framework of choice for unit and integration testing.
+- **Navigo**: Navigo is used for routing, enabling smooth and efficient navigation within our single-page application.
+- **Swiper.js**: Swiper.js is used for implementing sliders, providing a modern and touch-friendly slider interface for our web application.
 
 ## Additional Information
 
@@ -82,4 +84,10 @@ npm run watch
 ```
 
 Runs Webpack in watch mode to automatically rebuild the project whenever changes are detected.
+
+```
+npm run deploy
+```
+
+Runs Webpack build and deploys it automatically to netlify.
 
