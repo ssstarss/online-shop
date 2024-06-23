@@ -46,3 +46,16 @@ export type CustomerAccauntDetails = {
   email: string;
   dateOfBirth: string;
 };
+
+export type CartActions = {
+  version: number;
+  actions: [
+    {
+      action: string;
+      productId?: string;
+      lineItemId?: string;
+      quantity?: number;
+      code?: string;
+    },
+  ];
+};

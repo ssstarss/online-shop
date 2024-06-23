@@ -17,17 +17,31 @@ export default async function parseDetailedProductData(data: DetailedProduct) {
   const size = sizes[sizeOrig];
   const categoryId = product.categories[0].id;
   const categoryResponse: IdCategory = await getCategoryById(categoryId);
+  const productId = product.id;
+  const { inCart } = product;
 
   let price = '';
   let prevPrice = '';
 
-  let params: [string, string, string, string, { name: string; id: string }, string[], string?] = [
+  let params: [
+    string,
+    string,
+    string,
+    string,
+    { name: string; id: string },
+    string[],
+    string,
+    boolean,
+    string?,
+  ] = [
     title,
     price,
     description,
     size,
     { name: categoryResponse.name['en-US'], id: categoryId },
     imagesLinks,
+    productId,
+    inCart,
   ];
 
   if (product.masterVariant.prices[0].discounted !== undefined) {
@@ -40,6 +54,8 @@ export default async function parseDetailedProductData(data: DetailedProduct) {
       size,
       { name: categoryResponse.name['en-US'], id: categoryId },
       imagesLinks,
+      productId,
+      inCart,
       prevPrice,
     ];
   } else {
@@ -51,6 +67,8 @@ export default async function parseDetailedProductData(data: DetailedProduct) {
       size,
       { name: categoryResponse.name['en-US'], id: categoryId },
       imagesLinks,
+      productId,
+      inCart,
     ];
   }
   return params;

@@ -28,7 +28,7 @@
 
 .error-popup__container {
   background-color: var(--popup-bg);
-  z-index: 100;
+  z-index: 102;
   position: fixed;
   width: 100%;
   left: 0;
@@ -46,5 +46,44 @@
   @media (max-width: 1024px) {
     height: 70vh;
     top: 43%;
+  }
+}
+
+.clear-cart-popup {
+  padding: 50px 60px;
+  max-width: 700px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  &__container {
+    z-index: 100;
+  }
+
+  &__txt {
+    font-size: 20px;
+    color: var(--base-txt);
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  &__btns {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+
+    button {
+      padding: 8px 16px;
+      border-radius: 3px;
+      width: 120px;
+      border: 1px solid var(--accent-color);
+    }
+  }
+
+  &__clear-btn {
+    background-color: var(--accent-color);
+    color: var(--on-accent-txt);
   }
 }

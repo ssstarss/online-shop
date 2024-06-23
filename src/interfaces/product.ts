@@ -4,11 +4,14 @@ export interface GetProductsParams {
   size?: 'Small size' | 'Medium size' | 'Large size';
   searchText?: string;
   category?: string;
+  limit?: number;
+  pagination?: { limit: number; offset: number };
 }
 
 export interface IProduct {
   id: string;
   version: number;
+  inCart: boolean;
   productType: {
     typeId: string;
     id: string;
@@ -105,6 +108,14 @@ export interface IProduct {
   lastModifiedAt: string;
 }
 
+export interface IProducts {
+  limit: number;
+  offset: number;
+  count: number;
+  total: number;
+  results: IProduct[];
+}
+
 export interface Idiscount {
   id: string;
   version: number;
@@ -159,6 +170,7 @@ export interface DetailedProduct {
   priceMode: string;
   createdAt: string;
   lastModifiedAt: string;
+  inCart: boolean;
 }
 
 interface Category {
@@ -176,7 +188,7 @@ interface MasterVariant {
   assets: [];
 }
 
-interface Price {
+export interface Price {
   id: string;
   value: {
     type: string;

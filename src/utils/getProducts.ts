@@ -1,13 +1,15 @@
 import { connectionByFetch } from '../app/connectionByFetch';
 import { GetProductsParams } from '../interfaces/product';
 
+export const productState = { totalProducts: 0 };
+
 async function getProducts(params?: GetProductsParams) {
   try {
     const response = await connectionByFetch.getProducts(params);
-
+    productState.totalProducts = response.total;
     return response;
   } catch (error: unknown) {
-    throw new Error(`Failed to get product: ${error}`);
+    throw new Error(`Failed to get products: ${error}`);
   }
 }
 

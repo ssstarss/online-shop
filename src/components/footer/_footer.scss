@@ -170,11 +170,11 @@
       .footer__contacts-img {
         display: flex;
         align-items: center;
+        gap: 10px;
 
         svg {
           width: 20px;
           height: 20px;
-          margin-right: 10px;
           stroke: var(--accent-color);
         }
       }

@@ -3,14 +3,14 @@ import { buttonHome } from '../pages/page404/page404';
 import {
   basketLink,
   burgerMenu,
-  headerLinkBlogs,
+  headerLinkAboutUs,
   headerLinkCatalog,
   headerLinkHome,
   loginButton,
   logoLink,
   logoutButton,
   mobileBasketLink,
-  mobileLinkBlogs,
+  mobileLinkAboutUs,
   mobileLinkCatalog,
   mobileLinkHome,
   mobileLoginButton,
@@ -43,6 +43,8 @@ import {
   enableAllFieldsShipping,
   enableSubmitButton,
 } from '../components/userProfile/address/address';
+import { connectionByFetch } from '../app/connectionByFetch';
+import updateCartInHeader from '../utils/updateCartInHeader';
 
 buttonHome.addEventListener('click', () => {
   navigate('/main');
@@ -56,7 +58,7 @@ logoLink.addEventListener('click', (event) => {
 headerLinkHome.addEventListener('click', (event) => {
   event.preventDefault();
   headerLinkHome.classList.add('active-header');
-  headerLinkBlogs.classList.remove('active-header');
+  headerLinkAboutUs.classList.remove('active-header');
   headerLinkCatalog.classList.remove('active-header');
   navigate('/main');
 });
@@ -64,22 +66,22 @@ headerLinkHome.addEventListener('click', (event) => {
 headerLinkCatalog.addEventListener('click', (event) => {
   event.preventDefault();
   headerLinkHome.classList.remove('active-header');
-  headerLinkBlogs.classList.remove('active-header');
+  headerLinkAboutUs.classList.remove('active-header');
   headerLinkCatalog.classList.add('active-header');
   navigate('/catalog');
 });
 
-headerLinkBlogs.addEventListener('click', (event) => {
+headerLinkAboutUs.addEventListener('click', (event) => {
   event.preventDefault();
   headerLinkHome.classList.remove('active-header');
-  headerLinkBlogs.classList.add('active-header');
+  headerLinkAboutUs.classList.add('active-header');
   headerLinkCatalog.classList.remove('active-header');
-  navigate('/blogs');
+  navigate('/about-us');
 });
 
 basketLink.addEventListener('click', (event) => {
   event.preventDefault();
-  navigate('/main');
+  navigate('/cart');
 });
 
 loginButton.addEventListener('click', (event) => {
@@ -131,18 +133,18 @@ mobileLinkCatalog.addEventListener('click', (event) => {
   event.preventDefault();
   navigate('/catalog');
 });
-mobileLinkBlogs.addEventListener('click', (event) => {
+mobileLinkAboutUs.addEventListener('click', (event) => {
   mobileMenu.classList.toggle('active');
   burgerMenu.classList.toggle('active');
   event.preventDefault();
-  navigate('/blogs');
+  navigate('/about-us');
 });
 
 mobileBasketLink.addEventListener('click', (event) => {
   mobileMenu.classList.toggle('active');
   burgerMenu.classList.toggle('active');
   event.preventDefault();
-  navigate('/main');
+  navigate('/cart');
 });
 
 mobileLoginButton.addEventListener('click', (event) => {
@@ -188,7 +190,11 @@ logoutButton.addEventListener('click', () => {
   localStorage.removeItem('logged');
   localStorage.removeItem('id');
   localStorage.removeItem('token');
+  localStorage.removeItem('cartID');
+  localStorage.removeItem('tokenExpirationDate');
+  connectionByFetch.loginAnonymous();
   updateButtonVisibility();
+  updateCartInHeader(0);
   navigate('/main');
 });
 

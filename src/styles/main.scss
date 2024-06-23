@@ -13,6 +13,7 @@
 @import '../pages/userProfilePage/userProfilePage';
 @import '../components/userProfile/address/address';
 @import '../components/userProfile/buttonWrap/buttonWrap';
+@import '../pages/aboutUsPage/aboutUsPage.scss';
 
 @font-face {
   font-family: 'CeraPro';
@@ -58,6 +59,7 @@
   --base-txt: #3d3d3d;
   --on-accent-txt: #fff;
   --accent-color: #46a358;
+  --accent-color-opacity: #46a3596c;
   --input-border: #eaeaea;
   --placeholder-txt: #a5a5a5;
   --error: #f03800;
@@ -66,6 +68,7 @@
   --product-desc-txt: #727272;
   --text-description: #727272;
   --bg-section: #fbfbfb;
+  --bg-section-opacity: #fbfbfb80;
 }
 html,
 body {

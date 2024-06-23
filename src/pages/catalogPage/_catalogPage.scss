@@ -46,8 +46,6 @@
   height: -moz-fit-content;
   height: fit-content;
   padding: 14px 24px 20px 20px;
-  // max-width: 310px;
-  // width: 100%;
   transition: all 0.3s ease-in-out;
 }
 
@@ -58,9 +56,10 @@
   margin-bottom: 7px;
 }
 
-.catalog-cards {
+.catalog-wrapper {
   grid-area: catalog;
 }
+
 .price-range {
   display: flex;
   flex-direction: column;
@@ -145,8 +144,6 @@
   gap: 10px;
 }
 
-/* Inline таблица стилей #21 | http://localhost:8080/catalog */
-
 .categories {
   display: flex;
   flex-direction: column;
@@ -175,15 +172,11 @@
   align-items: center;
   flex-wrap: wrap;
 }
-/* Inline таблица стилей #3 | http://localhost:8080/catalog */
 
 .catalog__header {
-  /* justify-content: flex-end; */
   justify-content: space-between;
   gap: 10px;
 }
-
-/* Inline таблица стилей #21 | http://localhost:8080/catalog */
 
 .breadcrumbs__link {
   font-size: 15px;
@@ -205,6 +198,35 @@
 
 .no-scroll {
   overflow: hidden;
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  gap: 10px;
+  padding-bottom: 94px;
+
+  &__item {
+    width: 35px;
+    height: 35px;
+    border: 1px solid var(--input-border);
+    border-radius: 4px;
+    font-size: 18px;
+    font-weight: 300;
+  }
+
+  &__item:not(.active):hover {
+    background-color: var(--accent-color);
+    color: var(--on-accent-txt);
+  }
+
+  &__item.active {
+    background-color: var(--accent-color);
+    color: var(--on-accent-txt);
+    font-weight: 600;
+    font-size: 18px;
+  }
 }
 
 @media (max-width: 1024px) {

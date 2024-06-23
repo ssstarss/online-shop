@@ -2,6 +2,11 @@ import './_detailedProductPage.scss';
 import { generateProductSlider } from '../../components/productSlider/productSlider';
 import createElement from '../../helpers/createElement';
 import navigate from '../../utils/navigate';
+import getCart from '../../utils/getCart';
+import updateCart from '../../utils/updateCart';
+import updateCartInHeader from '../../utils/updateCartInHeader';
+import generateErrorPopup from '../../components/popups/popup';
+import { addToCartLoader } from '../../components/loader/loader';
 
 export default function generateDetailedProductPage(
   title: string,
@@ -13,6 +18,8 @@ export default function generateDetailedProductPage(
     id: string;
   },
   images: string[],
+  id: string,
+  inCart: boolean,
   prevPrice?: string
 ) {
   const detailedSection = createElement({ tag: 'section', className: 'detailed-product' });
@@ -87,22 +94,65 @@ export default function generateDetailedProductPage(
     textContent: size,
   });
   const productBuyBtns = createElement({ tag: 'div', className: 'product-info__btns' });
-  const butBtn = createElement({
+  const addToCartBtn = createElement({
     tag: 'button',
     className: 'product-info__buy-btn',
     type: 'button',
-    textContent: 'But now',
-  });
-  const addToCartBtn = createElement({
-    tag: 'button',
-    className: 'product-info__add-btn',
-    type: 'button',
     textContent: 'Add to cart',
+  });
+  productBuyBtns.append(addToCartBtn);
+  const removeFromCartBtn = createElement({
+    tag: 'button',
+    className: ['product-info__remove-btn'],
+    type: 'button',
+    textContent: 'Remove from cart',
+  });
+
+  removeFromCartBtn.addEventListener('click', async () => {
+    try {
+      await updateCart(id, 'remove');
+      const cartResponse = await getCart();
+      const totalItemsInCart = cartResponse.totalLineItemQuantity;
+      addToCartBtn.textContent = 'Add to cart';
+      addToCartBtn.classList.remove('in-cart');
+      addToCartBtn.removeAttribute('disabled');
+      removeFromCartBtn.remove();
+      updateCartInHeader(totalItemsInCart);
+    } catch (error) {
+      console.error('Error in removing item from cart:', error);
+      generateErrorPopup(`Error in removing item from cart, please try later!`);
+    }
+  });
+
+  if (inCart) {
+    addToCartBtn.textContent = 'In cart';
+    addToCartBtn.classList.add('in-cart');
+    addToCartBtn.setAttribute('disabled', '');
+    productBuyBtns.append(removeFromCartBtn);
+  }
+
+  addToCartBtn.addEventListener('click', async () => {
+    const cartPreloader = addToCartLoader();
+    detailedSection.append(cartPreloader);
+    try {
+      await updateCart(id, 'plus');
+      const cartResponse = await getCart();
+      const totalItemsInCart = cartResponse.totalLineItemQuantity;
+      cartPreloader.remove();
+      addToCartBtn.textContent = 'In cart';
+      addToCartBtn.classList.add('in-cart');
+      addToCartBtn.setAttribute('disabled', '');
+      productBuyBtns.append(removeFromCartBtn);
+      updateCartInHeader(totalItemsInCart);
+    } catch (error) {
+      cartPreloader.remove();
+      console.error('Error in adding item to cart:', error);
+      generateErrorPopup(`Error in adding item from cart, please try later!`);
+    }
   });
 
   productPriceWrapper.append(productPrice, productPricePrev);
   productHeader.append(productTitle, productPriceWrapper);
-  productBuyBtns.append(butBtn, addToCartBtn);
   productInfoSection.append(
     productHeader,
     productSubtitle,

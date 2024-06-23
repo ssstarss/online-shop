@@ -11,6 +11,7 @@ export default async function generateCatalogPage(productParams?: GetProductsPar
     className: 'catalog',
   });
   const catalogHeader = generateCatalogHeader();
+  const catalogWrapper = createElement({ tag: 'section', className: 'catalog-wrapper' });
   const catalogCards = createElement({ tag: 'section', className: 'catalog-cards' });
   const catalogInner = await generateCatalog(catalogCards, productParams);
 
@@ -26,7 +27,9 @@ export default async function generateCatalogPage(productParams?: GetProductsPar
       sidebar.classList.remove('hidden');
     }
   });
-  catalogPage.append(catalogHeader, sidebar, catalogInner);
+
+  catalogWrapper.append(catalogInner);
+  catalogPage.append(catalogHeader, sidebar, catalogWrapper);
 
   return catalogPage;
 }
